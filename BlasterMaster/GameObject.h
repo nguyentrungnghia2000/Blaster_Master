@@ -7,6 +7,8 @@
 #include "Sprites.h"
 #include "Animations.h"
 
+#include "Timer.h"
+
 
 using namespace std;
 
@@ -93,7 +95,7 @@ public:
 	virtual void Render() = 0;
 	//virtual void Render_Current_Frame() = 0;
 	virtual void SetState(int state) { this->state = state; }
-
+	virtual float GetDistance(LPGAMEOBJECT);
 
 	~CGameObject();
 };

@@ -1,0 +1,26 @@
+﻿  Animations.cpp
+C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\Animations.cpp(66,71): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\Animations.cpp(78,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  Brick.cpp
+  Car.cpp
+  Game.cpp
+C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\Game.cpp(131,35): error C2065: 'GWL_HINSTANCE': undeclared identifier
+  GameObject.cpp
+  Goomba.cpp
+  KeyEventHandler.cpp
+  Koopas.cpp
+  main.cpp
+  Mario.cpp
+  PlayScence.cpp
+C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\PlayScence.cpp(137,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\PlayScence.cpp(138,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\PlayScence.cpp(175,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\PlayScence.cpp(176,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  Portal.cpp
+C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\Portal.cpp(9,16): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\Portal.cpp(10,17): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Scence.cpp
+  Sprites.cpp
+  Textures.cpp
+  Utils.cpp
+  Generating Code...
