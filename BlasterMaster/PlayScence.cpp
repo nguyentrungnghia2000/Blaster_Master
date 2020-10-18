@@ -8,6 +8,10 @@
 #include "Portal.h"
 #include "Brick.h"
 #include "Car.h"
+#include "Bug.h"
+#include "Robot.h"
+#include "Bee.h"
+#include "MayBug.h"
 
 using namespace std;
 
@@ -34,6 +38,10 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_GOOMBA	2
 #define OBJECT_TYPE_KOOPAS	3
 #define OBJECT_TYPE_CAR		5
+#define OBJECT_TYPE_BUG		7
+#define OBJECT_TYPE_ROBOT	8
+#define OBJECT_TYPE_BEE		9
+#define OBJECT_TYPE_MAYBUG	10
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -170,6 +178,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
 	case OBJECT_TYPE_KOOPAS: obj = new CKoopas(); break;
+	case OBJECT_TYPE_BUG: obj = new Bug(player); break;
+	case OBJECT_TYPE_ROBOT: obj = new Robot(player); break;
+	case OBJECT_TYPE_BEE: obj = new Bee(player); break;
+	case OBJECT_TYPE_MAYBUG: obj = new MayBug(player); break;
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = atof(tokens[4].c_str());

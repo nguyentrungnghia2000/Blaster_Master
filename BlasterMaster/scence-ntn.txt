@@ -4,6 +4,7 @@
 10	textures\cars.png	255	0	255
 20	textures\misc.png	176	224	248
 30	textures\map.png	0	0	0
+40	textures\enemies.png	255	255	255
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -68,6 +69,40 @@
 40004	355	117	370	133	20
 40005	408	225	424	241	20
 
+#BUG
+#Walk left
+114	64	412	82	422	40
+115	46	412	62	422	40	
+#Walk right
+116	172	412	190	422	40	
+117	191	412	208	422	40	
+
+#ROBOT
+#walk left
+101	108	1	122	27	40
+102	91	2	104	27	40
+#walk right
+103	132	1	146	27	40
+104	150	2	163	27	40
+
+#BEE
+#Fly left
+105	104	530	122	548	40
+106	84	533	102	548	40
+#Fly right
+107	132	530	150	548	40
+108	152	533	170	548	40
+
+#MAYBUG
+#FLy left
+109	98	387	116	405	40
+#Fly right
+110	138	387	156	405	40
+#Roll
+111	78	387	96	405	40
+112	118	387	136	405	40		
+113	158	387	176	405	40
+
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
 # ==== CAR =========
@@ -110,6 +145,36 @@
 
 603	40005	100
 
+# ==== BUG =====
+#walk left
+809	114	100	115	100
+#walk right
+810	116	100	117	100
+
+# ==== ROBOT =========
+#walk left
+800	101	600	102	600
+#walk right
+801	103	600	104	600
+#jump left
+802	102	100
+#jump right
+803	104	100
+
+# ==== BEE =========
+#fly left
+804	105	100	106	100
+#fly right
+805	107	100	108	100
+
+# ==== MAYBUG =======
+#fly left
+806	109	100
+#fly right
+807	110	100
+#roll
+808	111	50	112	50	113	50
+
 #
 # id	ani1	ani2	ani3
 #
@@ -119,11 +184,35 @@
 # QUESTION BRICK 
 22	603
 
+#Bug
+7	809	810
+
+# ROBOT
+8	800	801	802	803
+
+# BEE
+9	804	805
+
+#MayBug
+10	806	807	808
+
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
-# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 5 = car
+# type: 1 = Brick, 2 = Goomba, 3 = Koopas, 5 = car 
 # CAR
 5	17	100	5
+
+#BUG
+#7	30	120	7
+
+#ROBOT
+#8	130	70	8
+
+#BEE
+#9	210	30	9
+
+#MAYBUG
+10	140	120	10
 
 # BRICK 
 1	0	135	22

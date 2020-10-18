@@ -133,6 +133,11 @@ void CGameObject::RenderBoundingBox()
 }
 
 
+float CGameObject::GetDistance(LPGAMEOBJECT player)
+{
+	return (float)sqrt(pow(this->x - player->x, 2) + pow(this->y - player->y, 2));
+}
+
 CGameObject::~CGameObject()
 {
 
