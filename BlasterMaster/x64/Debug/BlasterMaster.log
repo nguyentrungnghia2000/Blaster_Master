@@ -1,0 +1,31 @@
+﻿  Animations.cpp
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Animations.h(3,10): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  Brick.cpp
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\GameObject.h(4,10): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  Car.cpp
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\GameObject.h(4,10): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  Game.cpp
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Game.h(7,10): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  GameObject.cpp
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\GameObject.cpp(1,10): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  Goomba.cpp
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\GameObject.h(4,10): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  KeyEventHandler.cpp
+  Koopas.cpp
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\GameObject.h(4,10): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  main.cpp
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\main.cpp(16,10): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  Mario.cpp
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\GameObject.h(4,10): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  PlayScence.cpp
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Game.h(7,10): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  Portal.cpp
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\GameObject.h(4,10): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  Scence.cpp
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Scence.h(3,10): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  Sprites.cpp
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Sprites.h(3,10): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  Textures.cpp
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Textures.cpp(4,10): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  Utils.cpp
+  Generating Code...

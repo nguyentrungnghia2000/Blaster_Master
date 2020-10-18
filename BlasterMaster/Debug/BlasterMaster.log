@@ -9,20 +9,20 @@
   main.cpp
   Mario.cpp
   PlayScence.cpp
-D:\UIT\GAME\BlasterMasterGame\BlasterMaster\BlasterMaster\PlayScence.cpp(92,20): warning C4018: '<': signed/unsigned mismatch
-D:\UIT\GAME\BlasterMasterGame\BlasterMaster\BlasterMaster\PlayScence.cpp(114,20): warning C4018: '<': signed/unsigned mismatch
-D:\UIT\GAME\BlasterMasterGame\BlasterMaster\BlasterMaster\PlayScence.cpp(137,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\UIT\GAME\BlasterMasterGame\BlasterMaster\BlasterMaster\PlayScence.cpp(138,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\UIT\GAME\BlasterMasterGame\BlasterMaster\BlasterMaster\PlayScence.cpp(175,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\UIT\GAME\BlasterMasterGame\BlasterMaster\BlasterMaster\PlayScence.cpp(176,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\UIT\GAME\BlasterMasterGame\BlasterMaster\BlasterMaster\PlayScence.cpp(279,20): warning C4018: '<': signed/unsigned mismatch
-D:\UIT\GAME\BlasterMasterGame\BlasterMaster\BlasterMaster\PlayScence.cpp(288,20): warning C4018: '<': signed/unsigned mismatch
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(92,20): warning C4018: '<': signed/unsigned mismatch
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(114,20): warning C4018: '<': signed/unsigned mismatch
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(137,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(138,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(175,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(176,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(279,20): warning C4018: '<': signed/unsigned mismatch
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(288,20): warning C4018: '<': signed/unsigned mismatch
   Portal.cpp
-D:\UIT\GAME\BlasterMasterGame\BlasterMaster\BlasterMaster\Portal.cpp(9,16): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\UIT\GAME\BlasterMasterGame\BlasterMaster\BlasterMaster\Portal.cpp(10,17): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Portal.cpp(9,16): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Portal.cpp(10,17): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
   Scence.cpp
   Sprites.cpp
   Textures.cpp
   Utils.cpp
   Generating Code...
-  BlasterMaster.vcxproj -> D:\UIT\GAME\BlasterMasterGame\BlasterMaster\Debug\BlasterMaster.exe
+  BlasterMaster.vcxproj -> D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\Debug\BlasterMaster.exe
