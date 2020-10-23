@@ -144,7 +144,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	int object_type = atoi(tokens[0].c_str());
 	float x = atof(tokens[1].c_str());
 	float y = atof(tokens[2].c_str());
-
+	float w, h;
 	int ani_set_id = atoi(tokens[3].c_str());
 
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
@@ -175,9 +175,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
-	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(); break;
-	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
-	case OBJECT_TYPE_KOOPAS: obj = new CKoopas(); break;
+	case OBJECT_TYPE_BRICK: 
+		w = atof(tokens[4].c_str());
+		h = atof(tokens[5].c_str());
+		obj = new CBrick(w, h);
+		break;
 	case OBJECT_TYPE_BUG: obj = new Bug(player); break;
 	case OBJECT_TYPE_ROBOT: obj = new Robot(player); break;
 	case OBJECT_TYPE_BEE: obj = new Bee(player); break;
@@ -194,6 +196,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
 	}
+
+	//set id of the map
+	maptextures = CTextures::GetInstance()->Get(40);
 
 	// General object setup
 	obj->SetPosition(x, y);
@@ -288,6 +293,7 @@ void CPlayScene::Update(DWORD dt)
 
 void CPlayScene::Render()
 {
+	CGame::GetInstance()->Draw(-135, -10, maptextures, 0, 0, mapWidth, mapHeight);
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
 }

@@ -21,23 +21,27 @@
 
 
 #define CAR_ANI_IDLE_RIGHT	0
-#define CAR_ANI_IDLE_LEFT	1
-#define CAR_ANI_WALKING_RIGHT		2
-#define CAR_ANI_WALKING_LEFT		3
-#define CAR_ANI_UP_RIGHT 4
-#define CAR_ANI_UP_LEFT 5
-#define CAR_ANI_WALKING_UP_RIGHT 6
-#define CAR_ANI_WALKING_UP_LEFT 7
-#define CAR_ANI_DIE		8
+#define CAR_ANI_IDLE_LEFT		1
+#define CAR_ANI_WALKING_RIGHT	2
+#define CAR_ANI_WALKING_LEFT	3
+#define CAR_ANI_UP_RIGHT	4
+#define CAR_ANI_UP_RIGHT_2	5
+#define CAR_ANI_UP_RIGHT_3	6
+#define CAR_ANI_UP_RIGHT_4	7
+#define CAR_ANI_UP_LEFT		8
+#define CAR_ANI_UP_LEFT_2	9
+#define CAR_ANI_UP_LEFT_3	10
+#define CAR_ANI_UP_LEFT_4	11
+#define CAR_ANI_WALKING_UP_RIGHT 12
+#define CAR_ANI_WALKING_UP_LEFT 13
+#define CAR_ANI_JUMP_RIGHT	14
+#define CAR_ANI_JUMP_LEFT	15
+#define CAR_ANI_DIE		16
 
-
-#define	MARIO_LEVEL_SMALL	1
-#define	MARIO_LEVEL_BIG		2
-
-#define CAR_BBOX_WIDTH  26
+#define CAR_BBOX_WIDTH  30
 #define CAR_BBOX_HEIGHT 18
-#define CAR_UP_BBOX_WIDTH 26
 #define CAR_UP_BBOX_HEIGHT 34
+#define CAR_JUMP_BBOX_HEIGHT 21
 
 #define CAR_SMALL_BBOX_WIDTH  13
 #define CAR_SMALL_BBOX_HEIGHT 15
@@ -54,9 +58,10 @@ class CCar : public CGameObject
 	float start_x;			// initial position of Mario at scene
 	float start_y;
 public:
+	int ani = -1;
 	int current_frame;
 	bool flag = true;
-	bool IsJump = false;
+	bool IsJumping;
 	bool PressKeyUp = false;
 
 	CCar(float x = 0.0f, float y = 0.0f);

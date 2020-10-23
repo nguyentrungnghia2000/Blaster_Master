@@ -3,14 +3,12 @@
 #include "Utils.h"
 
 #include "Car.h"
+#include "Brick.h"
 #include "Game.h"
-
-#include "Goomba.h"
 #include "Portal.h"
 
 CCar::CCar(float x, float y) : CGameObject()
 {
-	level = MARIO_LEVEL_BIG;
 	untouchable = 0;
 	SetState(CAR_STATE_IDLE);
 
@@ -28,19 +26,20 @@ void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// Simple fall down
 	vy += CAR_GRAVITY * dt;
 
-#pragma region reset render car up
+#pragma region reset render
 	if (PressKeyUp == false) {
-		/*animation_set->at(CAR_ANI_IDLE_RIGHT_1)->ResetCurrentFrame();
-		animation_set->at(CAR_ANI_IDLE_RIGHT_2)->ResetCurrentFrame();
-		animation_set->at(CAR_ANI_IDLE_RIGHT_3)->ResetCurrentFrame();
-		animation_set->at(CAR_ANI_IDLE_RIGHT_4)->ResetCurrentFrame();
-		animation_set->at(CAR_ANI_IDLE_LEFT_1)->ResetCurrentFrame();
-		animation_set->at(CAR_ANI_IDLE_LEFT_2)->ResetCurrentFrame();
-		animation_set->at(CAR_ANI_IDLE_LEFT_3)->ResetCurrentFrame();
-		animation_set->at(CAR_ANI_IDLE_LEFT_4)->ResetCurrentFrame();*/
 		animation_set->at(CAR_ANI_UP_LEFT)->ResetCurrentFrame();
+		animation_set->at(CAR_ANI_UP_LEFT_2)->ResetCurrentFrame();
+		animation_set->at(CAR_ANI_UP_LEFT_3)->ResetCurrentFrame();
+		animation_set->at(CAR_ANI_UP_LEFT_4)->ResetCurrentFrame();
 		animation_set->at(CAR_ANI_UP_RIGHT)->ResetCurrentFrame();
+		animation_set->at(CAR_ANI_UP_RIGHT_2)->ResetCurrentFrame();
+		animation_set->at(CAR_ANI_UP_RIGHT_3)->ResetCurrentFrame();
+		animation_set->at(CAR_ANI_UP_RIGHT_4)->ResetCurrentFrame();
 	}
+	/*if (IsJumping == true) {
+		IsJumping = false;
+	}*/
 #pragma endregion
 
 #pragma region Xử lý va chạm (collision)
@@ -51,7 +50,7 @@ void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	// turn off collision when die 
 	//if (state != CAR_STATE_IDLE)
-		CalcPotentialCollisions(coObjects, coEvents);
+	CalcPotentialCollisions(coObjects, coEvents);
 
 	// reset untouchable timer if untouchable time has passed
 	if (GetTickCount() - untouchable_start > CAR_UNTOUCHABLE_TIME)
@@ -81,12 +80,12 @@ void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		//	x += nx*abs(rdx); 
 
 		// block every object first!
-		x += min_tx * dx + nx * 0.4f;
+
+		/*x += min_tx * dx + nx * 0.4f;
 		y += min_ty * dy + ny * 0.4f;
 
 		if (nx != 0) vx = 0;
-		if (ny != 0) vy = 0;
-
+		if (ny != 0) vy = 0;*/
 
 		//
 		// Collision logic with other objects
@@ -95,30 +94,16 @@ void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
-			if (dynamic_cast<CGoomba*>(e->obj)) // if e->obj is Goomba 
-			{
-				CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+			if (dynamic_cast<CBrick*>(e->obj)) {
+				x += min_tx * dx + nx * 0.4f;
+				y += min_ty * dy + ny * 0.4f;
 
-				// jump on top >> kill Goomba and deflect a bit 
-				if (e->ny < 0)
-				{
-					if (goomba->GetState() != GOOMBA_STATE_DIE)
-					{
-						goomba->SetState(GOOMBA_STATE_DIE);
-						vy = -CAR_DIE_DEFLECT_SPEED;
-					}
+				if (e->nx != 0) vx = 0;
+				if (e->ny != 0) {
+					vy = 0;
+					IsJumping = true;
 				}
-				else if (e->nx != 0)
-				{
-					if (untouchable == 0)
-					{
-						if (goomba->GetState() != GOOMBA_STATE_DIE)
-						{
-							SetState(CAR_STATE_DIE);
-						}
-					}
-				}
-			} // if Goomba
+			}
 			else if (dynamic_cast<CPortal*>(e->obj))
 			{
 				CPortal* p = dynamic_cast<CPortal*>(e->obj);
@@ -134,34 +119,64 @@ void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CCar::Render()
 {
-	int ani = -1;
-	
 
 	int alpha = 255;
 	if (untouchable) alpha = 128;
-	//RenderBoundingBox();
+	RenderBoundingBox();
 	if (state == CAR_STATE_DIE)
 		ani = CAR_ANI_DIE;
 	else
 	{
 		switch (state) {
 		case CAR_STATE_WALKING_RIGHT:
-			flag = true;
 			ani = CAR_ANI_WALKING_RIGHT;
 			animation_set->at(ani)->Render(x, y, alpha);
 			break;
 		case CAR_STATE_WALKING_LEFT:
-			flag = true;
 			ani = CAR_ANI_WALKING_LEFT;
 			animation_set->at(ani)->Render(x, y, alpha);
 			break;
 		case CAR_STATE_UP:
 			if (vx == 0) {
 				if (nx < 0) {
-					ani = CAR_ANI_UP_LEFT;
+					current_frame = animation_set->at(CAR_ANI_WALKING_LEFT)->GetCurrentFrame();
+					switch (current_frame) {
+					case CAR_STOP_MOVING_SPRITE1:
+						ani = CAR_ANI_UP_LEFT_2;
+						break;
+					case CAR_STOP_MOVING_SPRITE2:
+						ani = CAR_ANI_UP_LEFT_3;
+						break;
+					case CAR_STOP_MOVING_SPRITE3:
+						ani = CAR_ANI_UP_LEFT_4;
+						break;
+					case CAR_STOP_MOVING_SPRITE4:
+						ani = CAR_ANI_UP_LEFT;
+						break;
+					default:
+						ani = CAR_ANI_UP_LEFT;
+						break;
+					}
 				}
 				else {
-					ani = CAR_ANI_UP_RIGHT;
+					current_frame = animation_set->at(CAR_ANI_WALKING_RIGHT)->GetCurrentFrame();
+					switch (current_frame) {
+					case CAR_STOP_MOVING_SPRITE1:
+						ani = CAR_ANI_UP_RIGHT_2;
+						break;
+					case CAR_STOP_MOVING_SPRITE2:
+						ani = CAR_ANI_UP_RIGHT_3;
+						break;
+					case CAR_STOP_MOVING_SPRITE3:
+						ani = CAR_ANI_UP_RIGHT_4;
+						break;
+					case CAR_STOP_MOVING_SPRITE4:
+						ani = CAR_ANI_UP_RIGHT;
+						break;
+					default:
+						ani = CAR_ANI_UP_RIGHT;
+						break;
+					}
 				}
 				animation_set->at(ani)->RenderCarUp(x, y, alpha);
 				PressKeyUp = false;
@@ -176,19 +191,27 @@ void CCar::Render()
 				animation_set->at(ani)->Render(x, y, alpha);
 				PressKeyUp = false;
 			}
-			
-		break;
+
+			break;
+		case CAR_STATE_JUMP:
+			if (vx > 0 || (vx > 0 && vy != 0))
+				ani = CAR_ANI_JUMP_RIGHT;
+			else if (vx <= 0 || (vx <= 0 && vy != 0))
+				ani = CAR_ANI_JUMP_LEFT;
+			animation_set->at(ani)->Render(x, y, alpha);
+			break;
 		default:
 			PressKeyUp = false;
 			if (nx > 0) {
 				ani = CAR_ANI_WALKING_RIGHT;
+				DebugOut(L"right : %d\n", ani);
 				current_frame = animation_set->at(ani)->GetCurrentFrame();
 			}
-			else if (nx < 0){
+			else if (nx < 0) {
 				ani = CAR_ANI_WALKING_LEFT;
 				current_frame = animation_set->at(CAR_ANI_WALKING_LEFT)->GetCurrentFrame();
 			}
-			animation_set->at(ani)->RenderCurrentFrame(current_frame , x, y, alpha);
+			animation_set->at(ani)->RenderCurrentFrame(current_frame, x, y, alpha);
 			break;
 		}
 
@@ -203,40 +226,39 @@ void CCar::SetState(int state)
 	{
 	case CAR_STATE_WALKING_RIGHT:
 		vx = CAR_WALKING_SPEED;
-		DebugOut(L"vx : %d\n", vx);
 		nx = 1;
+		IsJumping = false;
 		break;
 	case CAR_STATE_WALKING_LEFT:
 		vx = -CAR_WALKING_SPEED;
-		DebugOut(L"vx : %d\n", vx);
 		nx = -1;
+		IsJumping = false;
 		break;
 	case CAR_STATE_JUMP:
-		// TODO: need to check if Mario is *current* on a platform before allowing to jump again
-		//IsJump == true;
-		//if (IsJump == true) {
-			DebugOut(L"IsJump car : %d\n", IsJump);
+		if (IsJumping == false) {
+			return;
+		}
+		else {
+			IsJumping = false;
 			vy = -CAR_JUMP_SPEED_Y;
-			IsJump = false;
-		//}
-		//else {
-			//return;
-		//}
+		}
 		break;
 	case CAR_STATE_IDLE:
-		IsJump = false;
 		vx = 0;
 		break;
 	case CAR_STATE_DIE:
 		vy = -CAR_DIE_DEFLECT_SPEED;
+		IsJumping = false;
 		break;
 	case CAR_STATE_WALKING_UP_LEFT:
 		vx = -CAR_WALKING_SPEED;
 		nx = -1;
+		IsJumping = false;
 		break;
 	case CAR_STATE_WALKING_UP_RIGHT:
 		vx = CAR_WALKING_SPEED;
 		nx = 1;
+		IsJumping = false;
 		break;
 	}
 }
@@ -250,8 +272,12 @@ void CCar::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 
 	if (state == CAR_STATE_UP) {
 
-		right = x + CAR_UP_BBOX_WIDTH;
+		right = x + CAR_BBOX_WIDTH;
 		bottom = y + CAR_UP_BBOX_HEIGHT;
+	}
+	else if (state == CAR_STATE_JUMP) {
+		right = x + CAR_BBOX_WIDTH;
+		bottom = y + CAR_JUMP_BBOX_HEIGHT;
 	}
 
 }

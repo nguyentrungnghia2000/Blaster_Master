@@ -4,9 +4,6 @@
 #include "Scence.h"
 #include "GameObject.h"
 #include "Brick.h"
-#include "Mario.h"
-#include "Goomba.h"
-#include "Koopas.h"
 #include "Car.h"
 
 
@@ -15,8 +12,10 @@ class CPlayScene : public CScene
 protected:
 	//CMario* player;					// A play scene has to have player, right? 
 	CCar* player;
-
+	LPDIRECT3DTEXTURE9 maptextures;
+	int mapWidth = 1024, mapHeight = 240;
 	vector<LPGAMEOBJECT> objects;
+	vector<LPCWSTR> ListSceneFilePath;
 
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);
