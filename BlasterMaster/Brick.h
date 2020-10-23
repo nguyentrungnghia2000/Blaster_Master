@@ -6,7 +6,9 @@
 
 class CBrick : public CGameObject
 {
+	bool istemp;
 public:
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
+	void SetRender();
 };

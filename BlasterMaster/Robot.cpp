@@ -16,8 +16,6 @@ void Robot::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	vector<LPGAMEOBJECT>* OnlyBrick = new vector<LPGAMEOBJECT>();
-	//vector<LPGAMEOBJECT>* Player = new vector<LPGAMEOBJECT>();
-	//Player->clear();
 	OnlyBrick->clear();
 	for (int i = 0; i < coObjects->size(); i++)
 	{

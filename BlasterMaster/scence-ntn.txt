@@ -4,7 +4,7 @@
 10	textures\cars.png	255	0	255
 20	textures\misc.png	176	224	248
 30	textures\map.png	0	0	0
-40	textures\enemies.png	255	255	255
+40	textures\Enermies.png	255	0	255
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -103,6 +103,20 @@
 112	118	387	136	405	40		
 113	158	387	176	405	40
 
+#DOOM
+#walk down
+118	67	424	85	441	40
+119	87	425	105	441	40
+#walk left
+120	105	441	122	459	40
+121	105	461	121	479	40
+#walk right
+122	51	441	67	459	40	
+123	50	461	67	479	40
+#walk top
+124	67	479	85	495	40		
+125	87	479	105	496	40					
+
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
 # ==== CAR =========
@@ -175,6 +189,16 @@
 #roll
 808	111	50	112	50	113	50
 
+# ==== DOOM =====
+#walk down
+809	118	100	119	100
+#walk left
+810	120	100	121	100
+#walk right
+811	122	100	123	100
+#walk top
+812	124	100	125	100
+
 #
 # id	ani1	ani2	ani3
 #
@@ -196,6 +220,9 @@
 #MayBug
 10	806	807	808
 
+#Doom
+11	809	810	811	812
+
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 1 = Brick, 2 = Goomba, 3 = Koopas, 5 = car 
@@ -212,11 +239,32 @@
 #9	210	30	9
 
 #MAYBUG
-10	140	120	10
+#10	140	120	10
+
+#DOOM
+#11	100	120	11
 
 # BRICK 
-1	0	135	22
-1	0	150	22
+#1	0	135	22
+#1	0	119	22
+#1	0	103	22
+#1	0	87	22
+
+#1	112	135	22
+#1	112	119	22
+#1	112	103	22
+#1	112	87	22
+
+#1	0	150	22
+#1	16	86	22
+#1	32	86	22
+#1	48	86	22
+#1	64	86	22
+#1	80	86	22
+#1	96	86	22
+#1	112	86	22
+#1	16	86	22
+
 1	16	150	22
 1	32	150	22
 1	48	150	22
