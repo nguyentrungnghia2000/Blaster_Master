@@ -5,6 +5,7 @@
 #include "Car.h"
 #include "Brick.h"
 #include "Game.h"
+
 #include "Portal.h"
 
 CCar::CCar(float x, float y) : CGameObject()
@@ -58,7 +59,8 @@ void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		untouchable_start = 0;
 		untouchable = 0;
 	}
-
+	if (IsJumping)
+		state = CAR_STATE_JUMP;
 	//swept aabb      aabb
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
@@ -79,14 +81,6 @@ void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		//if (rdx != 0 && rdx!=dx)
 		//	x += nx*abs(rdx); 
 
-		// block every object first!
-
-		/*x += min_tx * dx + nx * 0.4f;
-		y += min_ty * dy + ny * 0.4f;
-
-		if (nx != 0) vx = 0;
-		if (ny != 0) vy = 0;*/
-
 		//
 		// Collision logic with other objects
 		//
@@ -100,9 +94,15 @@ void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (e->nx != 0) vx = 0;
 				if (e->ny != 0) {
-					vy = 0;
-					IsJumping = true;
+					if (e->ny < 0) {
+						vy = 0;
+						IsJumping = false;
+						PressJump = false;
+					}
 				}
+				//if (e->ny > 0) {
+				//	PressJump = false;
+				//}
 			}
 			else if (dynamic_cast<CPortal*>(e->obj))
 			{
@@ -111,7 +111,6 @@ void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 	}
-
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 #pragma endregion
@@ -119,22 +118,23 @@ void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CCar::Render()
 {
-
 	int alpha = 255;
 	if (untouchable) alpha = 128;
-	RenderBoundingBox();
+
 	if (state == CAR_STATE_DIE)
 		ani = CAR_ANI_DIE;
 	else
 	{
 		switch (state) {
-		case CAR_STATE_WALKING_RIGHT:
-			ani = CAR_ANI_WALKING_RIGHT;
-			animation_set->at(ani)->Render(x, y, alpha);
-			break;
-		case CAR_STATE_WALKING_LEFT:
-			ani = CAR_ANI_WALKING_LEFT;
-			animation_set->at(ani)->Render(x, y, alpha);
+		case CAR_STATE_JUMP:
+			if (nx > 0) {
+				ani = CAR_ANI_JUMP_RIGHT;
+			}
+			else if (nx <= 0) {
+				ani = CAR_ANI_JUMP_LEFT;
+			}
+			animation_set->at(ani)->RenderCarUp(x, y, alpha);
+
 			break;
 		case CAR_STATE_UP:
 			if (vx == 0) {
@@ -193,29 +193,40 @@ void CCar::Render()
 			}
 
 			break;
-		case CAR_STATE_JUMP:
-			if (vx > 0 || (vx > 0 && vy != 0))
-				ani = CAR_ANI_JUMP_RIGHT;
-			else if (vx <= 0 || (vx <= 0 && vy != 0))
-				ani = CAR_ANI_JUMP_LEFT;
+		case CAR_STATE_WALKING_RIGHT:
+			ani = CAR_ANI_WALKING_RIGHT;
 			animation_set->at(ani)->Render(x, y, alpha);
+			break;
+		case CAR_STATE_WALKING_LEFT:
+			ani = CAR_ANI_WALKING_LEFT;
+			animation_set->at(ani)->Render(x, y, alpha);
+			break;
+		case CAR_STATE_WALKING_UP_LEFT:
+			ani = CAR_ANI_WALKING_UP_LEFT;
+			animation_set->at(ani)->Render(x, y, alpha);
+			PressKeyUp = false;
+			break;
+		case CAR_STATE_WALKING_UP_RIGHT:
+			ani = CAR_ANI_WALKING_UP_RIGHT;
+			animation_set->at(ani)->Render(x, y, alpha);
+			PressKeyUp = false;
 			break;
 		default:
 			PressKeyUp = false;
 			if (nx > 0) {
 				ani = CAR_ANI_WALKING_RIGHT;
-				DebugOut(L"right : %d\n", ani);
 				current_frame = animation_set->at(ani)->GetCurrentFrame();
 			}
 			else if (nx < 0) {
 				ani = CAR_ANI_WALKING_LEFT;
-				current_frame = animation_set->at(CAR_ANI_WALKING_LEFT)->GetCurrentFrame();
+				current_frame = animation_set->at(ani)->GetCurrentFrame();
 			}
 			animation_set->at(ani)->RenderCurrentFrame(current_frame, x, y, alpha);
 			break;
 		}
-
 	}
+	//RenderBoundingBox();
+
 }
 
 void CCar::SetState(int state)
@@ -227,19 +238,17 @@ void CCar::SetState(int state)
 	case CAR_STATE_WALKING_RIGHT:
 		vx = CAR_WALKING_SPEED;
 		nx = 1;
-		IsJumping = false;
 		break;
 	case CAR_STATE_WALKING_LEFT:
 		vx = -CAR_WALKING_SPEED;
 		nx = -1;
-		IsJumping = false;
 		break;
 	case CAR_STATE_JUMP:
-		if (IsJumping == false) {
+		if (IsJumping == true) {
 			return;
 		}
 		else {
-			IsJumping = false;
+			IsJumping = true;
 			vy = -CAR_JUMP_SPEED_Y;
 		}
 		break;
@@ -248,17 +257,14 @@ void CCar::SetState(int state)
 		break;
 	case CAR_STATE_DIE:
 		vy = -CAR_DIE_DEFLECT_SPEED;
-		IsJumping = false;
 		break;
 	case CAR_STATE_WALKING_UP_LEFT:
 		vx = -CAR_WALKING_SPEED;
 		nx = -1;
-		IsJumping = false;
 		break;
 	case CAR_STATE_WALKING_UP_RIGHT:
 		vx = CAR_WALKING_SPEED;
 		nx = 1;
-		IsJumping = false;
 		break;
 	}
 }
@@ -270,7 +276,17 @@ void CCar::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 	right = x + CAR_BBOX_WIDTH;
 	bottom = y + CAR_BBOX_HEIGHT;
 
-	if (state == CAR_STATE_UP) {
+	switch (state) {
+	case CAR_STATE_UP:
+		right = x + CAR_BBOX_WIDTH;
+		bottom = y + CAR_UP_BBOX_HEIGHT;
+		break;
+	case CAR_STATE_JUMP:
+		right = x + CAR_BBOX_WIDTH;
+		bottom = y + CAR_JUMP_BBOX_HEIGHT;
+		break;
+	}
+	/*if (state == CAR_STATE_UP) {
 
 		right = x + CAR_BBOX_WIDTH;
 		bottom = y + CAR_UP_BBOX_HEIGHT;
@@ -278,7 +294,7 @@ void CCar::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 	else if (state == CAR_STATE_JUMP) {
 		right = x + CAR_BBOX_WIDTH;
 		bottom = y + CAR_JUMP_BBOX_HEIGHT;
-	}
+	}*/
 
 }
 

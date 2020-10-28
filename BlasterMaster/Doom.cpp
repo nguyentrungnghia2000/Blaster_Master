@@ -1,9 +1,7 @@
 #include "Doom.h"
-Doom::Doom(LPGAMEOBJECT target)
+Doom::Doom()
 {
-	Target = target;
-	IsBrick = true;
-	LastState = DOOM_STATE_WALKING_DOWN;
+	IsState = DOOM_STATE_WALKING_DOWN;
 	SetState(DOOM_STATE_WALKING_DOWN);
 }
 
@@ -26,14 +24,8 @@ void Doom::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 void Doom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
-	if (state == DOOM_STATE_WALKING_DOWN)
-		vy += DOOM_GRAVITY * dt;
-	else if (state == DOOM_STATE_WALKING_TOP)
-		vy -= DOOM_GRAVITY * dt;
-	else if (state == DOOM_STATE_WALKING_LEFT)
-		vx = -DOOM_WALKING_SPEED_X;
-	else if (state == DOOM_STATE_WALKING_RIGHT)
-		vx = +DOOM_WALKING_SPEED_X;
+	//if(state==DOOM_STATE_WALKING_DOWN)
+		//vy += DOOM_GRAVITY * dt;
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	vector<LPGAMEOBJECT>* OnlyBrick = new vector<LPGAMEOBJECT>();
@@ -136,114 +128,33 @@ void Doom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (dynamic_cast<CBrick*>(e->obj))
 			{
 				CBrick* brick = dynamic_cast<CBrick*>(e->obj);
-				//brick->SetRender();
-				if (state == DOOM_STATE_WALKING_RIGHT)
+				brick->Render();
+				// jump on top >> kill Goomba and deflect a bit 
+				//if (ny < 0)
+				//{
+				//	//vx = -vx;
+				//	//this->SetState(DOOM_STATE_WALKING_TOP);
+				//}
+				if (vx < 0 && ny == 0)
 				{
-					if (y + 0.4f > brick->y + brick->GetHeight())
-					{
-						//x = x + DOOM_BBOX_WIDTH_LR;
-						y = brick->y + brick->GetHeight();
-						this->SetState(DOOM_STATE_WALKING_TOP);
-					}
-					if (e->ny < 0)
-					{
-						LastState = DOOM_STATE_WALKING_RIGHT;
-						IsBrick = true;
-						this->SetState(DOOM_STATE_WALKING_DOWN);
-					}
-					else if (e->ny > 0)
-					{
-						LastState = DOOM_STATE_WALKING_RIGHT;
-						IsBrick = true;
-						this->SetState(DOOM_STATE_WALKING_TOP);
-					}
-					if (fabs(y - Target->y) < 4.0f && fabs(y - Target->y) > 2.0f)
-					{
-						LastState = DOOM_STATE_WALKING_RIGHT;
-						this->SetState(DOOM_STATE_SURFING);
-					}
-				}
-				else if (state == DOOM_STATE_WALKING_LEFT)
+					this->SetState(DOOM_STATE_WALKING_LEFT);
+				}else
+				if (ny > 0)
 				{
-					if (y + 0.4f > brick->y + brick->GetHeight())
-					{
-						//y = brick->y + brick->GetHeight();
-						this->SetState(DOOM_STATE_WALKING_TOP);
-					}
-					if (e->ny < 0)
-					{
-						LastState = DOOM_STATE_WALKING_LEFT;
-						IsBrick = true;
-						this->SetState(DOOM_STATE_WALKING_DOWN);
-					}
-					else if (e->ny > 0)
-					{
-						LastState = DOOM_STATE_WALKING_LEFT;
-						IsBrick = true;
-						this->SetState(DOOM_STATE_WALKING_TOP);
-					}
-					if (fabs(y - Target->y) < 4.0f && fabs(y - Target->y) > 2.0f)
-					{
-						LastState = DOOM_STATE_WALKING_LEFT;
-						this->SetState(DOOM_STATE_SURFING);
-					}
-				}
-				else if (state == DOOM_STATE_WALKING_DOWN)
+					this->SetState(DOOM_STATE_WALKING_TOP);
+				}else
+				if (vx > 0 && ny == 0)
 				{
-					if (vx > 0 && ny == 0)
-					{
-						LastState = DOOM_STATE_WALKING_DOWN;
-						IsBrick = true;
-						this->SetState(DOOM_STATE_WALKING_RIGHT);
-					}
-					else if (vx < 0 && ny == 0)
-					{
-						LastState = DOOM_STATE_WALKING_DOWN;
-						IsBrick = true;
-						this->SetState(DOOM_STATE_WALKING_LEFT);
-					}
-				}
-				else if (state == DOOM_STATE_WALKING_TOP)
+					this->SetState(DOOM_STATE_WALKING_RIGHT);
+				}else
+				if (ny < 0 && nx == 0)
 				{
-					if (x + 0.4f > brick->x + brick->GetWidth())
-						this->SetState(DOOM_STATE_WALKING_LEFT);
-					if (vx > 0 && ny == 0)
-					{
-						LastState = DOOM_STATE_WALKING_TOP;
-						IsBrick = true;
-						this->SetState(DOOM_STATE_WALKING_RIGHT);
-					}
-					else if (vx < 0 && ny == 0)
-					{
-						LastState = DOOM_STATE_WALKING_TOP;
-						IsBrick = true;
-						this->SetState(DOOM_STATE_WALKING_LEFT);
-					}
-					if (fabs(x - Target->x) < 0.5f && fabs(x - Target->x) > 0)
-					{
-						LastState = DOOM_STATE_WALKING_TOP;
-						IsBrick = true;
-						this->SetState(DOOM_STATE_SURFING);
-					}
+					this->SetState(DOOM_STATE_WALKING_DOWN);
 				}
-				else if (state == DOOM_STATE_SURFING)
-				{
-					if (ny < 0)
-					{
-						IsBrick = true;
-						this->SetState(DOOM_STATE_WALKING_DOWN);
-					}
-					else if (vx > 0 && ny == 0)
-					{
-						IsBrick = true;
-  						this->SetState(DOOM_STATE_WALKING_RIGHT);
-					}
-					else if (vx < 0 && ny == 0)
-					{
-						IsBrick = true;
-						this->SetState(DOOM_STATE_WALKING_LEFT);
-					}
-				}
+				//if (ny != 0 && nx == 0)
+				//{
+
+				//}
 			}
 		}
 	}
@@ -254,23 +165,14 @@ void Doom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void Doom::Render()
 {
 	int ani = DOOM_ANI_WALKING_DOWN;
-	if (state == DOOM_STATE_WALKING_DOWN)
+	if (IsState == DOOM_STATE_WALKING_DOWN)
 		ani = DOOM_ANI_WALKING_DOWN;
-	else if (state == DOOM_STATE_WALKING_RIGHT)
+	else if (IsState == DOOM_STATE_WALKING_RIGHT)
 		ani = DOOM_ANI_WALKING_RIGHT;
-	else if (state == DOOM_STATE_WALKING_LEFT)
+	else if (IsState == DOOM_STATE_WALKING_LEFT)
 		ani = DOOM_ANI_WALKING_LEFT;
 	else if (state == DOOM_STATE_WALKING_TOP)
 		ani = DOOM_ANI_WALKING_TOP;
-	else if (state == DOOM_STATE_SURFING)
-	{
-		if (LastState == DOOM_STATE_WALKING_LEFT)
-			ani = DOOM_ANI_WALKING_LEFT;
-		else if (LastState == DOOM_STATE_WALKING_RIGHT)
-			ani = DOOM_ANI_WALKING_RIGHT;
-		else if (LastState == DOOM_STATE_WALKING_TOP)
-			ani = DOOM_ANI_WALKING_TOP;
-	}
 	animation_set->at(ani)->Render(x, y);
 	RenderBoundingBox();
 }
@@ -281,87 +183,36 @@ void Doom::SetState(int state)
 	switch (state)
 	{
 	case DOOM_STATE_WALKING_DOWN:
-		if (IsBrick)
-		{
-			if (LastState == DOOM_STATE_WALKING_LEFT)
-				vx = DOOM_WALKING_SPEED_X;
-			else
-				vx = -DOOM_WALKING_SPEED_X;
-		}
-		else
-		{
-			if (LastState == DOOM_STATE_WALKING_LEFT)
-				vx = -DOOM_WALKING_SPEED_X;
-			else
-				vx = DOOM_WALKING_SPEED_X;
-		}
+		if (IsState == DOOM_STATE_WALKING_LEFT)
+			vx = DOOM_WALKING_SPEED_X;
+		else 
+			vx = -DOOM_WALKING_SPEED_X;
+		vy = 0;
+		IsState = DOOM_STATE_WALKING_DOWN;
 		break;
 	case DOOM_STATE_WALKING_LEFT:
-		if (IsBrick)
-		{
-			if (LastState == DOOM_STATE_WALKING_DOWN || LastState == DOOM_STATE_WALKING_RIGHT)
-				vy = -DOOM_WALKING_SPEED_Y;
-			else
-				vy = DOOM_WALKING_SPEED_Y;
-		}
+		if (IsState == DOOM_STATE_WALKING_DOWN)
+			vy = -DOOM_WALKING_SPEED_Y;
 		else
-		{
-			if (LastState == DOOM_STATE_WALKING_DOWN)
-				vy = DOOM_WALKING_SPEED_Y;
-			else
-				vy = -DOOM_WALKING_SPEED_Y;
-		}
-		IsBrick = false;
+			vy = DOOM_WALKING_SPEED_Y;
+		vx = 0;
+		IsState = DOOM_STATE_WALKING_LEFT;
 		break;
 	case DOOM_STATE_WALKING_RIGHT:
-		if (IsBrick)
-		{
-			if (LastState == DOOM_STATE_WALKING_TOP || LastState == DOOM_STATE_WALKING_LEFT)
-				vy = DOOM_WALKING_SPEED_Y;
-			else
-				vy = -DOOM_WALKING_SPEED_Y;
-		}
+		if (IsState == DOOM_STATE_WALKING_DOWN)
+			vy = -DOOM_WALKING_SPEED_Y;
 		else
-		{
-			if (LastState == DOOM_STATE_WALKING_DOWN)
-				vy = DOOM_WALKING_SPEED_Y;
-			else
-				vy = -DOOM_WALKING_SPEED_Y;
-		}
-		IsBrick = false;
+			vy = DOOM_WALKING_SPEED_Y;
+		vx = 0;
+		IsState = DOOM_STATE_WALKING_RIGHT;
 		break;
 	case DOOM_STATE_WALKING_TOP:
-		if (IsBrick)
-		{
-			if (LastState == DOOM_STATE_WALKING_LEFT)
-				vx = DOOM_WALKING_SPEED_X;
-			else
-				vx = -DOOM_WALKING_SPEED_X;
-		}
+		if (IsState == DOOM_STATE_WALKING_LEFT)
+			vx = DOOM_WALKING_SPEED_X;
 		else
-		{
-			if (LastState == DOOM_ANI_WALKING_LEFT)
-				vx = -DOOM_WALKING_SPEED_X;
-			else
-				vx = DOOM_WALKING_SPEED_X;
-		}
-		IsBrick = false;
+			vx = -DOOM_WALKING_SPEED_X;
+		vy = 0;
+		IsState = DOOM_ANI_WALKING_TOP;
 		break;
-	case DOOM_STATE_SURFING:
-		switch (LastState)
-		{
-		case DOOM_STATE_WALKING_LEFT:
-			vy = 0;
-			vx = DOOM_WALKING_SPEED_X * 5;
-			break;
-		case DOOM_STATE_WALKING_RIGHT:
-			vy = 0;
-			vx = -DOOM_WALKING_SPEED_X * 5;
-			break;
-		case DOOM_STATE_WALKING_TOP:
-			vx = 0;
-			vy = DOOM_WALKING_SPEED_Y * 5;
-			break;
-		}
 	}
 }

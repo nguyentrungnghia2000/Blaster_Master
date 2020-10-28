@@ -322,10 +322,9 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	CCar* car = ((CPlayScene*)scence)->GetPlayer();
 	switch (KeyCode)
 	{
-	case DIK_SPACE:
+	case DIK_X:
 		car->SetState(CAR_STATE_JUMP);
-		//car->IsJump = true;
-		//DebugOut(L"IsJump PlaySence : %d\n", car->IsJump);
+		car->PressJump = true;
 		break;
 	case DIK_A:
 		car->Reset();
@@ -342,11 +341,15 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode) {
 	{
 	case DIK_UP:
 		car->y = car->y + (CAR_UP_BBOX_HEIGHT - CAR_BBOX_HEIGHT);
-		/*if (car->curAnimation != NULL) {
-			DebugOut(L"%d\n", car->curAnimation);
-			car->curAnimation->currentFrame = -1;
-		}*/
-		car->SetState(CAR_STATE_IDLE);
+		up = true;
+		//car->SetState(CAR_STATE_IDLE);
+		break;
+	case DIK_LEFT:
+	case DIK_RIGHT:
+		up = true;
+		break;
+	case DIK_X:
+		jump = false;
 		break;
 	}
 }
@@ -355,34 +358,40 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	CGame* game = CGame::GetInstance();
 	CCar* car = ((CPlayScene*)scence)->GetPlayer();
 
-	// disable control key when Mario die 
+	int KeyCode;
 	if (car->GetState() == CAR_STATE_DIE) return;
-	if (game->IsKeyDown(DIK_RIGHT)) {
-		car->SetState(CAR_STATE_WALKING_RIGHT);
-		up = true;
-	}
-	else if (game->IsKeyDown(DIK_LEFT)) {
-		car->SetState(CAR_STATE_WALKING_LEFT);
-		up = true;
-	}
-	else if (game->IsKeyDown(DIK_UP)) {
-		car->SetState(CAR_STATE_UP);
+
+	if (game->IsKeyDown(DIK_UP)) {
 		car->PressKeyUp = true;
-		if (up == true) {
-			car->SetPosition(car->x, car->y - (CAR_UP_BBOX_HEIGHT - CAR_BBOX_HEIGHT));
-			up = false;
-		}
 		if (game->IsKeyDown(DIK_LEFT)) {
 			car->SetState(CAR_STATE_WALKING_UP_LEFT);
 		}
 		else if (game->IsKeyDown(DIK_RIGHT)) {
 			car->SetState(CAR_STATE_WALKING_UP_RIGHT);
 		}
+		else
+			car->SetState(CAR_STATE_UP);
+
+		if (up == true) {
+			car->SetPosition(car->x, car->y - (CAR_UP_BBOX_HEIGHT - CAR_BBOX_HEIGHT));
+			up = false;
+		}
+	}
+	else if (game->IsKeyDown(DIK_RIGHT)) {
+		car->SetState(CAR_STATE_WALKING_RIGHT);
+	}
+	else if (game->IsKeyDown(DIK_LEFT)) {
+		car->SetState(CAR_STATE_WALKING_LEFT);
 	}
 	else if (game->IsKeyUp(DIK_UP)) {
 
 		car->SetState(CAR_STATE_IDLE);
-		up = true;
+	}
+	else if (game->IsKeyDown(DIK_X)) {
+		if (jump == true) {
+			car->SetPosition(car->x, car->y - (CAR_JUMP_BBOX_HEIGHT - CAR_BBOX_HEIGHT));
+			jump = false;
+		}
 	}
 }
 	
