@@ -41,6 +41,7 @@ public:
 class CPlayScenceKeyHandler : public CScenceKeyHandler
 {
 	bool up = true;
+	bool jump = true;
 public:
 	virtual void KeyState(BYTE* states);
 	virtual void OnKeyDown(int KeyCode);

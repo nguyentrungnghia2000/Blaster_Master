@@ -128,7 +128,7 @@ void Doom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (dynamic_cast<CBrick*>(e->obj))
 			{
 				CBrick* brick = dynamic_cast<CBrick*>(e->obj);
-				brick->SetRender();
+				brick->Render();
 				// jump on top >> kill Goomba and deflect a bit 
 				//if (ny < 0)
 				//{

@@ -63,6 +63,7 @@ public:
 	bool flag = true;
 	bool IsJumping;
 	bool PressKeyUp = false;
+	bool PressJump = false;
 
 	CCar(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
