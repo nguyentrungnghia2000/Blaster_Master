@@ -1,19 +1,23 @@
-﻿  PlayScence.cpp
-D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
-D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Bee.h(23,1): warning C4005: 'DISTANCE': macro redefinition
-D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Robot.h(25): message : see previous definition of 'DISTANCE'
-D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(100,20): warning C4018: '<': signed/unsigned mismatch
-D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(122,20): warning C4018: '<': signed/unsigned mismatch
-D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(145,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(146,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(179,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(180,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(189,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(190,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(297,20): warning C4018: '<': signed/unsigned mismatch
-D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(306,20): warning C4018: '<': signed/unsigned mismatch
-  Robot.cpp
-D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
-D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Robot.cpp(22,20): warning C4018: '<': signed/unsigned mismatch
+﻿  Doom.cpp
+C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\Brick.h(14,27): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\Brick.h(15,26): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\Doom.cpp(41,20): warning C4018: '<': signed/unsigned mismatch
+  PlayScence.cpp
+C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\Brick.h(14,27): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\Brick.h(15,26): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\Bee.h(23,1): warning C4005: 'DISTANCE': macro redefinition
+C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\Robot.h(25): message : see previous definition of 'DISTANCE'
+C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\PlayScence.cpp(102,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\PlayScence.cpp(124,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\PlayScence.cpp(147,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\PlayScence.cpp(148,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\PlayScence.cpp(181,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\PlayScence.cpp(182,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\PlayScence.cpp(192,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\PlayScence.cpp(193,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\PlayScence.cpp(300,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\PlayScence.cpp(309,20): warning C4018: '<': signed/unsigned mismatch
   Generating Code...
-  BlasterMaster.vcxproj -> D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\Debug\BlasterMaster.exe
+  BlasterMaster.vcxproj -> C:\Users\Asus\Documents\GitHub\Blaster_Master\Debug\BlasterMaster.exe

@@ -43,6 +43,8 @@ void Bug::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				this->SetState(BUG_STATE_HUNTING);
 			}
+			//if(fabs(this->x - target->x) > DISTANCE_TURNAROUND*2)
+			//	this->SetState(BUG_STATE_WALKING);
 		//}
 	}
 	else
@@ -82,6 +84,7 @@ void Bug::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 				if (nx != 0 && ny == 0)
 				{
+					//IsJump = true;
 					this->SetState(BUG_STATE_JUMPING);
 				}
 			}
