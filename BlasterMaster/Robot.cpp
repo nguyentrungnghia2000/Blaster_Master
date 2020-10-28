@@ -119,21 +119,27 @@ void Robot::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					IsJump = false;
 				}
-				if (nx != 0 && ny == 0)
-				{
-					vx = -vx;
-				}
+				//if (nx != 0 && ny == 0)
+				//{
+				//	x = brick->x + brick->GetWidth();
+				//	vx = -vx;
+				//}
 				if (IsJump == false)
 				{
 					if (vx < 0 && x < brick->x) {
 						x = brick->x;
 						vx = -vx;
 					}
-					if (vx > 0 && x + ROBOT_BBOX_WIDTH > (brick->x + BRICK_BBOX_WIDTH))
+					if (vx > 0 && x + ROBOT_BBOX_WIDTH > (brick->x + brick->GetWidth()))
 					{
-						x = brick->x + BRICK_BBOX_WIDTH - ROBOT_BBOX_WIDTH;
+						x = brick->x + brick->GetWidth() - ROBOT_BBOX_WIDTH;
 						vx = -vx;
 					}
+				}
+				if (nx != 0 && ny == 0)
+				{
+					vx = -vx;
+					//x = brick->x + brick->GetWidth();
 				}
 			}
 		}

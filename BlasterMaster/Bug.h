@@ -17,7 +17,7 @@
 #define BUG_ANI_WALKING_RIGHT 1
 
 
-#define DISTANCE_TURNAROUND 50
+#define DISTANCE_TURNAROUND 30
 class Bug :public CGameObject
 {
 	LPGAMEOBJECT target;

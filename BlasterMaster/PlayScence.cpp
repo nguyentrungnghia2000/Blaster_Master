@@ -186,7 +186,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_ROBOT: obj = new Robot(player); break;
 	case OBJECT_TYPE_BEE: obj = new Bee(player); break;
 	case OBJECT_TYPE_MAYBUG: obj = new MayBug(player); break;
-	case OBJECT_TYPE_DOOM: obj = new Doom(); break;
+	case OBJECT_TYPE_DOOM: obj = new Doom(player); break;
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = atof(tokens[4].c_str());
