@@ -59,7 +59,7 @@ public:
 	int nx;
 
 	int state;
-
+	int direction;
 	DWORD dt;
 
 	LPANIMATION_SET animation_set;

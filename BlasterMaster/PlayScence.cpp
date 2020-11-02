@@ -319,18 +319,19 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 
+	CGame* game = CGame::GetInstance();
 	CCar* car = ((CPlayScene*)scence)->GetPlayer();
 	switch (KeyCode)
 	{
 	case DIK_X:
 		car->SetState(CAR_STATE_JUMP);
-		car->PressJump = true;
+		car->Set_PressJump(true);
 		break;
 	case DIK_A:
 		car->Reset();
 		break;/*
 	case DIK_UP:
-		car->SetState(CAR_STATE_UP); 
+		car->SetState(CAR_STATE_UP);
 		break;*/
 	}
 }
@@ -339,17 +340,20 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode) {
 	CCar* car = ((CPlayScene*)scence)->GetPlayer();
 	switch (KeyCode)
 	{
+
 	case DIK_UP:
-		car->y = car->y + (CAR_UP_BBOX_HEIGHT - CAR_BBOX_HEIGHT);
-		up = true;
+		//car->y = car->y + (CAR_UP_BBOX_HEIGHT - CAR_BBOX_HEIGHT);
+		car->SetPosition(car->x, car->y + (CAR_UP_BBOX_HEIGHT - CAR_BBOX_HEIGHT));
+		car->Set_FlipUp(true);
 		//car->SetState(CAR_STATE_IDLE);
 		break;
 	case DIK_LEFT:
 	case DIK_RIGHT:
-		up = true;
+		car->SetState(CAR_STATE_IDLE);
 		break;
 	case DIK_X:
-		jump = false;
+		car->SetPosition(car->x, car->y - (CAR_JUMP_BBOX_HEIGHT - CAR_BBOX_HEIGHT));
+		car->vx = 0;
 		break;
 	}
 }
@@ -362,7 +366,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	if (car->GetState() == CAR_STATE_DIE) return;
 
 	if (game->IsKeyDown(DIK_UP)) {
-		car->PressKeyUp = true;
+		car->Set_PressKeyUp(true);
 		if (game->IsKeyDown(DIK_LEFT)) {
 			car->SetState(CAR_STATE_WALKING_UP_LEFT);
 		}
@@ -372,9 +376,9 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 		else
 			car->SetState(CAR_STATE_UP);
 
-		if (up == true) {
+		if (car->Get_FlipUp() == true) {
 			car->SetPosition(car->x, car->y - (CAR_UP_BBOX_HEIGHT - CAR_BBOX_HEIGHT));
-			up = false;
+			car->Set_FlipUp(false);
 		}
 	}
 	else if (game->IsKeyDown(DIK_RIGHT)) {
@@ -388,9 +392,9 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 		car->SetState(CAR_STATE_IDLE);
 	}
 	else if (game->IsKeyDown(DIK_X)) {
-		if (jump == true) {
+		if (car->Get_IsJumping() == true) {
 			car->SetPosition(car->x, car->y - (CAR_JUMP_BBOX_HEIGHT - CAR_BBOX_HEIGHT));
-			jump = false;
+			car->Set_IsJumping(false);
 		}
 	}
 }

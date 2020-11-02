@@ -3,22 +3,22 @@
 
 #define CAR_WALKING_SPEED		0.15f 
 //0.1f
-#define CAR_JUMP_SPEED_Y		0.5f
-#define CAR_JUMP_DEFLECT_SPEED 0.2f
-#define CAR_GRAVITY			0.002f
+#define CAR_JUMP_SPEED_Y		0.223f
+#define CAR_JUMP_DEFLECT_SPEED 0.1f
+#define CAR_GRAVITY			0.0004f
 #define CAR_DIE_DEFLECT_SPEED	 0.5f
 
 #define CAR_STATE_IDLE			0
 #define CAR_STATE_WALKING_RIGHT	1
 #define CAR_STATE_WALKING_LEFT	2
-#define CAR_STATE_JUMP			3
-#define CAR_STATE_DIE			4
-#define CAR_STATE_UP			5
-#define CAR_STATE_UP_RIGHT		6
-#define CAR_STATE_UP_LEFT		7
-#define CAR_STATE_WALKING_UP_RIGHT 8
-#define CAR_STATE_WALKING_UP_LEFT 9
-
+#define CAR_STATE_UP			3
+#define CAR_STATE_UP_RIGHT		4
+#define CAR_STATE_UP_LEFT		5
+#define CAR_STATE_WALKING_UP_RIGHT 6
+#define CAR_STATE_WALKING_UP_LEFT 7
+#define CAR_STATE_JUMP			8
+#define CAR_STATE_FALL_DOWN		9
+#define CAR_STATE_DIE			10
 
 #define CAR_ANI_IDLE_RIGHT	0
 #define CAR_ANI_IDLE_LEFT		1
@@ -64,16 +64,27 @@ public:
 	bool IsJumping;
 	bool PressKeyUp = false;
 	bool PressJump = false;
-
+	bool FlippingUp = true;
 	CCar(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
 	//virtual void Render_Current_Frame();
-	CAnimation *curAnimation;
+	CAnimation* curAnimation;
+
 	void SetState(int state);
 	void SetLevel(int l) { level = l; }
+	bool Get_FlipUp() { return FlippingUp; }
+	void Set_FlipUp(bool fl) { FlippingUp = fl; }
+	bool Get_PressJump() { return PressJump; }
+	void Set_PressJump(bool jump) { PressJump = jump; }
+	bool Get_IsJumping() { return IsJumping; }
+	void Set_IsJumping(bool ij) { IsJumping = ij; }
+	bool Get_PressKeyUp() { return PressKeyUp; }
+	void Set_PressKeyUp(bool pku) { PressKeyUp = pku; }
+
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 	void Reset();
+	void Get_CarStateForBullet(int& direct, bool& flipup, float Px, float Py) { direct = direction; flipup = FlippingUp; Px = x; Py = y; }
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 };
