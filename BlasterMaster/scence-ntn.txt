@@ -5,6 +5,7 @@
 30	textures\map.png	255	0	0
 40	textures\area2.png	255	0	255
 50	textures\Enemies.png	255	0	255
+60	textures\item.png	255	0	255
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -140,6 +141,25 @@
 124	67	479	85	495	50
 125	87	479	105	496	50
 
+##==============BULLET===================
+#small bullet jason right, top
+2001	240	68	248	74	60
+2002	241	89	247	97	60
+#big bullet jason right, top
+2003	73	200	95	206	60
+2004	218	48	224	62	60
+#bang
+2005	176	94	183	102	60
+2006	192	91	208	104	60
+2007	213	90	229	106	60
+#electric bullet jason 
+2008	3	111	18	127	60
+2009	3	132	18	148	60
+2010	7	153	14	168	60
+2011	6	174	17	190	60
+#small sophia bullet
+2020	135	180	139	184	60
+
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
 # ==== CAR =========
@@ -226,6 +246,20 @@
 #walk top
 812	124	100	125	100
 
+# =====BULLET=====
+#small bullet jason right
+1000	2001	100
+#small bullet jason top
+1001	2002	100
+#big bullet jason right
+1002	2003	100
+#big bullet jason top
+1003	2004	100
+#bang
+1004	2005	100	2006	100	2007	100
+#electric bullet jason
+1005	2008	100	2009	100	2010	100	2011	100
+
 #
 # id	ani1	ani2	ani3
 #
@@ -248,6 +282,12 @@
 
 #Doom
 11	809	810	811	812
+
+#BULLETS
+#small bullets right
+12	1000	1004
+#small bullets top
+13	1001
 
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type

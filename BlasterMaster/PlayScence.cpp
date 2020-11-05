@@ -34,7 +34,6 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define SCENE_SECTION_ANIMATION_SETS	5
 #define SCENE_SECTION_OBJECTS	6
 
-#define OBJECT_TYPE_MARIO	0
 #define OBJECT_TYPE_BRICK	1
 #define OBJECT_TYPE_GOOMBA	2
 #define OBJECT_TYPE_KOOPAS	3
@@ -44,6 +43,8 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_BEE		9
 #define OBJECT_TYPE_MAYBUG	10
 #define OBJECT_TYPE_DOOM	11
+#define OBJECT_TYPE_BULLET_SMALL_RIGHT	12
+#define OBJECT_TYPE_BULLET_SMALL_TOP	13
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -155,17 +156,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	switch (object_type)
 	{
-	/*case OBJECT_TYPE_MARIO:
-		if (player != NULL)
-		{
-			DebugOut(L"[ERROR] MARIO object was created before!\n");
-			return;
-		}
-		obj = new CMario(x, y);
-		player = (CMario*)obj;
-
-		DebugOut(L"[INFO] Player object created!\n");
-		break;*/
 	case OBJECT_TYPE_CAR:
 		if (player != NULL)
 		{
@@ -266,24 +256,38 @@ void CPlayScene::Load()
 
 void CPlayScene::Update(DWORD dt)
 {
-	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
-	// TO-DO: This is a "dirty" way, need a more organized way 
+#pragma region objects and bullets
 
 	vector<LPGAMEOBJECT> coObjects;
-	for (size_t i = 1; i < objects.size(); i++)
-	{
+	for (size_t i = 0; i < objects.size(); i++) {
 		coObjects.push_back(objects[i]);
 	}
+	if (player->isAttack){
 
-	for (size_t i = 0; i < objects.size(); i++)
-	{
-		objects[i]->Update(dt, &coObjects);
+		MainBullets* bullet = new MainBullets();
+		player->Get_CarDirection(bullet->BulletDirection);
+		player->Get_CarFlipUp(bullet->IsTargetTop);
+		if (bullet->BulletDirection > 0)
+			bullet->SetPosition(player->x + DISTANCE_TO_PLAYER_WIDTH_RIGHT, player->y + DISTANCE_TO_PLAYER_HEIGTH);
+		else
+			bullet->SetPosition(player->x + DISTANCE_TO_PLAYER_WIDTH_LEFT, player->y + DISTANCE_TO_PLAYER_HEIGTH);
+		lsBullets.push_back(bullet);
+		player->isAttack = false;
 	}
 
-	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
+	for (size_t i = 0; i < objects.size(); i++) {
+		objects[i]->Update(dt, &coObjects);
+	}
+	for (int i = 0; i < lsBullets.size(); i++) {
+		lsBullets[i]->Update(dt, &coObjects);
+	}
+	for (int i = 0; i < lsBullets.size(); i++) {
+		if (lsBullets[i]->Get_IsFinish() == true)
+			lsBullets.erase(lsBullets.begin() + i);
+	}
+#pragma endregion
 	if (player == NULL) return;
-
-	// Update camera to follow mario
+#pragma region CAMERA
 	float cx, cy;
 	player->GetPosition(cx, cy);
 
@@ -292,14 +296,9 @@ void CPlayScene::Update(DWORD dt)
 	cy -= game->GetScreenHeight() / 2;
 
 	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
+#pragma endregion
 }
 
-void CPlayScene::Render()
-{
-	CGame::GetInstance()->Draw(-135, -10, maptextures, 0, 0, mapWidth, mapHeight);
-	for (int i = 0; i < objects.size(); i++)
-		objects[i]->Render();
-}
 
 /*
 	Unload current scene
@@ -317,22 +316,26 @@ void CPlayScene::Unload()
 
 void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 {
-	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
-
 	CGame* game = CGame::GetInstance();
 	CCar* car = ((CPlayScene*)scence)->GetPlayer();
+	//vector<Bullets*> bullets = ((CPlayScene*)scence)->Get_ListBullets();
+	float Carx = 0, Cary = 0;
+	int direction;
+	bool IsTargetTop;
+	car->Get_CarStateForBullet(direction, IsTargetTop, Carx, Cary);
 	switch (KeyCode)
 	{
 	case DIK_X:
 		car->SetState(CAR_STATE_JUMP);
-		car->Set_PressJump(true);
+		car->PressJump = true;
+		//car->Set_FlipUp(true);
+		break;
+	case DIK_C:
+		car->isAttack = true;
 		break;
 	case DIK_A:
 		car->Reset();
-		break;/*
-	case DIK_UP:
-		car->SetState(CAR_STATE_UP);
-		break;*/
+		break;
 	}
 }
 
@@ -340,12 +343,10 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode) {
 	CCar* car = ((CPlayScene*)scence)->GetPlayer();
 	switch (KeyCode)
 	{
-
 	case DIK_UP:
-		//car->y = car->y + (CAR_UP_BBOX_HEIGHT - CAR_BBOX_HEIGHT);
 		car->SetPosition(car->x, car->y + (CAR_UP_BBOX_HEIGHT - CAR_BBOX_HEIGHT));
-		car->Set_FlipUp(true);
-		//car->SetState(CAR_STATE_IDLE);
+		car->FlippingUp = false;
+		car->SetState(CAR_STATE_IDLE);
 		break;
 	case DIK_LEFT:
 	case DIK_RIGHT:
@@ -354,6 +355,10 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode) {
 	case DIK_X:
 		car->SetPosition(car->x, car->y - (CAR_JUMP_BBOX_HEIGHT - CAR_BBOX_HEIGHT));
 		car->vx = 0;
+		//car->PressJump = false;
+		break;
+	case DIK_C:
+		car->isAttack = false;
 		break;
 	}
 }
@@ -361,12 +366,17 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 {
 	CGame* game = CGame::GetInstance();
 	CCar* car = ((CPlayScene*)scence)->GetPlayer();
+	//vector<Bullets*> bullets = ((CPlayScene*)scence)->Get_ListBullets();
 
 	int KeyCode;
 	if (car->GetState() == CAR_STATE_DIE) return;
 
 	if (game->IsKeyDown(DIK_UP)) {
-		car->Set_PressKeyUp(true);
+		car->PressKeyUp = true;
+
+		if (!car->FlippingUp)
+			car->SetPosition(car->x, car->y - (CAR_UP_BBOX_HEIGHT - CAR_BBOX_HEIGHT));
+		car->FlippingUp = true;
 		if (game->IsKeyDown(DIK_LEFT)) {
 			car->SetState(CAR_STATE_WALKING_UP_LEFT);
 		}
@@ -375,27 +385,30 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 		}
 		else
 			car->SetState(CAR_STATE_UP);
-
-		if (car->Get_FlipUp() == true) {
-			car->SetPosition(car->x, car->y - (CAR_UP_BBOX_HEIGHT - CAR_BBOX_HEIGHT));
-			car->Set_FlipUp(false);
-		}
 	}
+
 	else if (game->IsKeyDown(DIK_RIGHT)) {
 		car->SetState(CAR_STATE_WALKING_RIGHT);
 	}
 	else if (game->IsKeyDown(DIK_LEFT)) {
 		car->SetState(CAR_STATE_WALKING_LEFT);
 	}
-	else if (game->IsKeyUp(DIK_UP)) {
 
-		car->SetState(CAR_STATE_IDLE);
-	}
 	else if (game->IsKeyDown(DIK_X)) {
-		if (car->Get_IsJumping() == true) {
+		if (car->IsJumping == true) {
 			car->SetPosition(car->x, car->y - (CAR_JUMP_BBOX_HEIGHT - CAR_BBOX_HEIGHT));
-			car->Set_IsJumping(false);
+			car->IsJumping = false;
 		}
+	}
+}
+
+void CPlayScene::Render()
+{
+	CGame::GetInstance()->Draw(-135, -10, maptextures, 0, 0, mapWidth, mapHeight);
+	for (int i = 0; i < objects.size(); i++)
+		objects[i]->Render();
+	for (int i = 0; i < lsBullets.size(); i++) {
+		lsBullets[i]->Render();
 	}
 }
 	

@@ -5,6 +5,8 @@
 #include "GameObject.h"
 #include "Brick.h"
 #include "Car.h"
+#include "Bullets.h"
+#include "MainBullets.h"
 
 
 class CPlayScene : public CScene
@@ -26,7 +28,7 @@ protected:
 
 public:
 	CPlayScene(int id, LPCWSTR filePath);
-
+	vector<MainBullets*> lsBullets;
 	virtual void Load();
 	virtual void Update(DWORD dt);
 	virtual void Render();
