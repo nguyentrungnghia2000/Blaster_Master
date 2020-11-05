@@ -24,14 +24,14 @@
 #define CAR_ANI_IDLE_LEFT		1
 #define CAR_ANI_WALKING_RIGHT	2
 #define CAR_ANI_WALKING_LEFT	3
-#define CAR_ANI_UP_RIGHT	4
-#define CAR_ANI_UP_RIGHT_2	5
-#define CAR_ANI_UP_RIGHT_3	6
-#define CAR_ANI_UP_RIGHT_4	7
-#define CAR_ANI_UP_LEFT		8
-#define CAR_ANI_UP_LEFT_2	9
-#define CAR_ANI_UP_LEFT_3	10
-#define CAR_ANI_UP_LEFT_4	11
+#define CAR_ANI_FLIP_UP_RIGHT	4
+#define CAR_ANI_FLIP_UP_RIGHT_2	5
+#define CAR_ANI_FLIP_UP_RIGHT_3	6
+#define CAR_ANI_FLIP_UP_RIGHT_4	7
+#define CAR_ANI_FLIP_UP_LEFT		8
+#define CAR_ANI_FLIP_UP_LEFT_2	9
+#define CAR_ANI_FLIP_UP_LEFT_3	10
+#define CAR_ANI_FLIP_UP_LEFT_4	11
 #define CAR_ANI_WALKING_UP_RIGHT 12
 #define CAR_ANI_WALKING_UP_LEFT 13
 #define CAR_ANI_JUMP_RIGHT	14
@@ -64,7 +64,8 @@ public:
 	bool IsJumping;
 	bool PressKeyUp = false;
 	bool PressJump = false;
-	bool FlippingUp = true;
+	bool FlippingUp = false;
+	bool isAttack = false;
 	CCar(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
@@ -73,15 +74,8 @@ public:
 
 	void SetState(int state);
 	void SetLevel(int l) { level = l; }
-	bool Get_FlipUp() { return FlippingUp; }
-	void Set_FlipUp(bool fl) { FlippingUp = fl; }
-	bool Get_PressJump() { return PressJump; }
-	void Set_PressJump(bool jump) { PressJump = jump; }
-	bool Get_IsJumping() { return IsJumping; }
-	void Set_IsJumping(bool ij) { IsJumping = ij; }
-	bool Get_PressKeyUp() { return PressKeyUp; }
-	void Set_PressKeyUp(bool pku) { PressKeyUp = pku; }
-
+	void Get_CarDirection(int& direction) { direction = nx; }
+	void Get_CarFlipUp(bool& isTargetTop) { isTargetTop = FlippingUp; }
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 	void Reset();
 	void Get_CarStateForBullet(int& direct, bool& flipup, float Px, float Py) { direct = direction; flipup = FlippingUp; Px = x; Py = y; }

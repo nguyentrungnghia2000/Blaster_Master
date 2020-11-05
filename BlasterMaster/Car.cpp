@@ -29,14 +29,14 @@ void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 #pragma region reset render
 	if (PressKeyUp == false) {
-		animation_set->at(CAR_ANI_UP_LEFT)->ResetCurrentFrame();
-		animation_set->at(CAR_ANI_UP_LEFT_2)->ResetCurrentFrame();
-		animation_set->at(CAR_ANI_UP_LEFT_3)->ResetCurrentFrame();
-		animation_set->at(CAR_ANI_UP_LEFT_4)->ResetCurrentFrame();
-		animation_set->at(CAR_ANI_UP_RIGHT)->ResetCurrentFrame();
-		animation_set->at(CAR_ANI_UP_RIGHT_2)->ResetCurrentFrame();
-		animation_set->at(CAR_ANI_UP_RIGHT_3)->ResetCurrentFrame();
-		animation_set->at(CAR_ANI_UP_RIGHT_4)->ResetCurrentFrame();
+		animation_set->at(CAR_ANI_FLIP_UP_LEFT)->ResetCurrentFrame();
+		animation_set->at(CAR_ANI_FLIP_UP_LEFT_2)->ResetCurrentFrame();
+		animation_set->at(CAR_ANI_FLIP_UP_LEFT_3)->ResetCurrentFrame();
+		animation_set->at(CAR_ANI_FLIP_UP_LEFT_4)->ResetCurrentFrame();
+		animation_set->at(CAR_ANI_FLIP_UP_RIGHT)->ResetCurrentFrame();
+		animation_set->at(CAR_ANI_FLIP_UP_RIGHT_2)->ResetCurrentFrame();
+		animation_set->at(CAR_ANI_FLIP_UP_RIGHT_3)->ResetCurrentFrame();
+		animation_set->at(CAR_ANI_FLIP_UP_RIGHT_4)->ResetCurrentFrame();
 	}
 	/*if (IsJumping == true) {
 		IsJumping = false;
@@ -124,45 +124,49 @@ void CCar::Render()
 	RenderBoundingBox();
 	if (state == CAR_STATE_DIE)
 		ani = CAR_ANI_DIE;
-	else if (PressKeyUp == true) {
-		if (vx == 0) {
+	else if (FlippingUp == true) {
+		if (vx > 0)
+			ani = CAR_ANI_WALKING_UP_RIGHT;
+		else if (vx < 0)
+			ani = CAR_ANI_WALKING_UP_LEFT;
+		else if (vx == 0) {
 			if (nx < 0) {
-				current_frame = animation_set->at(CAR_ANI_WALKING_LEFT)->GetCurrentFrame();
+				current_frame = animation_set->at(CAR_ANI_WALKING_UP_LEFT)->GetCurrentFrame();
 				switch (current_frame) {
 				case CAR_STOP_MOVING_SPRITE1:
-					ani = CAR_ANI_UP_LEFT_2;
+					ani = CAR_ANI_FLIP_UP_LEFT_2;
 					break;
 				case CAR_STOP_MOVING_SPRITE2:
-					ani = CAR_ANI_UP_LEFT_3;
+					ani = CAR_ANI_FLIP_UP_LEFT_3;
 					break;
 				case CAR_STOP_MOVING_SPRITE3:
-					ani = CAR_ANI_UP_LEFT_4;
+					ani = CAR_ANI_FLIP_UP_LEFT_4;
 					break;
 				case CAR_STOP_MOVING_SPRITE4:
-					ani = CAR_ANI_UP_LEFT;
+					ani = CAR_ANI_FLIP_UP_LEFT;
 					break;
 				default:
-					ani = CAR_ANI_UP_LEFT;
+					ani = CAR_ANI_FLIP_UP_LEFT;
 					break;
 				}
 			}
 			else {
-				current_frame = animation_set->at(CAR_ANI_WALKING_RIGHT)->GetCurrentFrame();
+				current_frame = animation_set->at(CAR_ANI_WALKING_UP_RIGHT)->GetCurrentFrame();
 				switch (current_frame) {
 				case CAR_STOP_MOVING_SPRITE1:
-					ani = CAR_ANI_UP_RIGHT_2;
+					ani = CAR_ANI_FLIP_UP_RIGHT_2;
 					break;
 				case CAR_STOP_MOVING_SPRITE2:
-					ani = CAR_ANI_UP_RIGHT_3;
+					ani = CAR_ANI_FLIP_UP_RIGHT_3;
 					break;
 				case CAR_STOP_MOVING_SPRITE3:
-					ani = CAR_ANI_UP_RIGHT_4;
+					ani = CAR_ANI_FLIP_UP_RIGHT_4;
 					break;
 				case CAR_STOP_MOVING_SPRITE4:
-					ani = CAR_ANI_UP_RIGHT;
+					ani = CAR_ANI_FLIP_UP_RIGHT;
 					break;
 				default:
-					ani = CAR_ANI_UP_RIGHT;
+					ani = CAR_ANI_FLIP_UP_RIGHT;
 					break;
 				}
 			}
@@ -170,10 +174,6 @@ void CCar::Render()
 			PressKeyUp = false;
 			return;
 		}
-		else if (vx > 0)
-			ani = CAR_ANI_WALKING_UP_RIGHT;
-		else
-			ani = CAR_ANI_WALKING_UP_LEFT;
 		animation_set->at(ani)->Render(x, y, alpha);
 		return;
 	}
@@ -197,7 +197,7 @@ void CCar::Render()
 				ani = CAR_ANI_WALKING_LEFT;
 			animation_set->at(ani)->Render(x, y, alpha);
 		}
-		else if (IsJumping == true) {
+		else {
 			if (nx > 0)
 				ani = CAR_ANI_JUMP_RIGHT;
 			else
@@ -253,16 +253,17 @@ void CCar::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
 	top = y;
-	right = x + CAR_BBOX_WIDTH;
-	bottom = y + CAR_BBOX_HEIGHT;
-
-	if (PressKeyUp == true) {
+	if (FlippingUp == true) {
 		right = x + CAR_BBOX_WIDTH;
 		bottom = y + CAR_UP_BBOX_HEIGHT;
 	}
 	else if (PressJump == true) {
 		right = x + CAR_BBOX_WIDTH;
 		bottom = y + CAR_JUMP_BBOX_HEIGHT;
+	}
+	else {
+		right = x + CAR_BBOX_WIDTH;
+		bottom = y + CAR_BBOX_HEIGHT;
 	}
 }
 

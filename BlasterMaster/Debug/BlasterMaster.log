@@ -1,1 +1,32 @@
-﻿  BlasterMaster.vcxproj -> C:\Users\Asus\Documents\GitHub\Blaster_Master\Debug\BlasterMaster.exe
+﻿  Game.cpp
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Brick.h(14,27): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Brick.h(15,26): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+  MainBullets.cpp
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
+  PlayScence.cpp
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Brick.h(14,27): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Brick.h(15,26): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Bee.h(23,1): warning C4005: 'DISTANCE': macro redefinition
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Robot.h(25): message : see previous definition of 'DISTANCE'
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(103,20): warning C4018: '<': signed/unsigned mismatch
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(125,20): warning C4018: '<': signed/unsigned mismatch
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(148,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(149,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(171,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(172,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(182,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(183,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(281,20): warning C4018: '<': signed/unsigned mismatch
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(284,20): warning C4018: '<': signed/unsigned mismatch
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(308,20): warning C4018: '<': signed/unsigned mismatch
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(371,6): warning C4101: 'KeyCode': unreferenced local variable
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(408,20): warning C4018: '<': signed/unsigned mismatch
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(410,20): warning C4018: '<': signed/unsigned mismatch
+  main.cpp
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Brick.h(14,27): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Brick.h(15,26): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+  Generating Code...
+  BlasterMaster.vcxproj -> D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\Debug\BlasterMaster.exe
