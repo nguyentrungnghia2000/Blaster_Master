@@ -1,17 +1,37 @@
 #include "Doom.h"
-Doom::Doom(LPGAMEOBJECT target)
+Doom::Doom(LPGAMEOBJECT target, int state, int brick)
 {
 	Target = target;
-	IsBrick = true;
-	LastState = DOOM_STATE_WALKING_DOWN;
-	SetState(DOOM_STATE_WALKING_DOWN);
+	if (brick == 1)
+		IsBrick = true;
+	else
+		IsBrick = false;
+	switch (state)
+	{
+	case DOOM_STATE_WALKING_DOWN:
+		LastState = DOOM_STATE_WALKING_DOWN;
+		SetState(DOOM_STATE_WALKING_DOWN);
+		break;
+	case DOOM_STATE_WALKING_TOP:
+		LastState = DOOM_STATE_WALKING_TOP;
+		SetState(DOOM_STATE_WALKING_TOP);
+		break;
+	case DOOM_STATE_WALKING_LEFT:
+		LastState = DOOM_STATE_WALKING_LEFT;
+		SetState(DOOM_STATE_WALKING_LEFT);
+		break;
+	case DOOM_STATE_WALKING_RIGHT:
+		LastState = DOOM_STATE_WALKING_RIGHT;
+		SetState(DOOM_STATE_WALKING_RIGHT);
+		break;
+	}
 }
 
 void Doom::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
 	top = y;
-	if (state == DOOM_STATE_WALKING_DOWN||state==DOOM_STATE_WALKING_TOP)
+	if (state == DOOM_STATE_WALKING_DOWN || state == DOOM_STATE_WALKING_TOP)
 	{
 		right = x + DOOM_BBOX_WIDTH_TD;
 		bottom = y + DOOM_BBOX_HEIGHT_TD;
@@ -111,15 +131,17 @@ void Doom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 					if (fabs(y - Target->y) < 4.0f && fabs(y - Target->y) > 2.0f)
 					{
-						LastState = DOOM_STATE_WALKING_RIGHT;
-						this->SetState(DOOM_STATE_SURFING);
+						if (Target->x - x < 0)
+						{
+							LastState = DOOM_STATE_WALKING_RIGHT;
+							this->SetState(DOOM_STATE_SURFING);
+						}
 					}
 				}
 				else if (state == DOOM_STATE_WALKING_LEFT)
 				{
 					if (y + 0.4f > brick->y + brick->GetHeight())
 					{
-						//y = brick->y + brick->GetHeight();
 						this->SetState(DOOM_STATE_WALKING_TOP);
 					}
 					if (e->ny < 0)
@@ -136,8 +158,11 @@ void Doom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 					if (fabs(y - Target->y) < 4.0f && fabs(y - Target->y) > 2.0f)
 					{
-						LastState = DOOM_STATE_WALKING_LEFT;
-						this->SetState(DOOM_STATE_SURFING);
+						if (Target->x - x > 0)
+						{
+							LastState = DOOM_STATE_WALKING_LEFT;
+							this->SetState(DOOM_STATE_SURFING);
+						}
 					}
 				}
 				else if (state == DOOM_STATE_WALKING_DOWN)
@@ -153,6 +178,10 @@ void Doom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						LastState = DOOM_STATE_WALKING_DOWN;
 						IsBrick = true;
 						this->SetState(DOOM_STATE_WALKING_LEFT);
+					}
+					else if (x + DOOM_BBOX_WIDTH_TD < brick->x + 0.4f)
+					{
+						SetState(DOOM_STATE_WALKING_RIGHT);
 					}
 				}
 				else if (state == DOOM_STATE_WALKING_TOP)
@@ -173,9 +202,12 @@ void Doom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 					if (fabs(x - Target->x) < 0.5f && fabs(x - Target->x) > 0)
 					{
-						LastState = DOOM_STATE_WALKING_TOP;
-						IsBrick = true;
-						this->SetState(DOOM_STATE_SURFING);
+						if (Target->y - y > 0)
+						{
+							LastState = DOOM_STATE_WALKING_TOP;
+							IsBrick = true;
+							this->SetState(DOOM_STATE_SURFING);
+						}
 					}
 				}
 				else if (state == DOOM_STATE_SURFING)
@@ -224,7 +256,7 @@ void Doom::Render()
 			ani = DOOM_ANI_WALKING_TOP;
 	}
 	animation_set->at(ani)->Render(x, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void Doom::SetState(int state)

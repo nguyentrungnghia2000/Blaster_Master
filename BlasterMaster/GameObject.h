@@ -8,6 +8,8 @@
 #include "Animations.h"
 
 #include "Timer.h"
+#include <cstdlib>
+#include <ctime>
 
 
 using namespace std;

@@ -32,6 +32,6 @@ class Doom : public CGameObject
 	virtual void Render();
 
 public:
-	Doom(LPGAMEOBJECT);
+	Doom(LPGAMEOBJECT,int,int);
 	virtual void SetState(int state);
 };

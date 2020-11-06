@@ -13,6 +13,8 @@
 #include "Bee.h"
 #include "MayBug.h"
 #include "Doom.h"
+#include "Spider.h"
+#include "Item.h"
 
 using namespace std;
 
@@ -34,6 +36,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define SCENE_SECTION_ANIMATION_SETS	5
 #define SCENE_SECTION_OBJECTS	6
 
+#define OBJECT_TYPE_MARIO	0
 #define OBJECT_TYPE_BRICK	1
 #define OBJECT_TYPE_GOOMBA	2
 #define OBJECT_TYPE_KOOPAS	3
@@ -43,8 +46,10 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_BEE		9
 #define OBJECT_TYPE_MAYBUG	10
 #define OBJECT_TYPE_DOOM	11
-#define OBJECT_TYPE_BULLET_SMALL_RIGHT	12
-#define OBJECT_TYPE_BULLET_SMALL_TOP	13
+#define OBJECT_TYPE_SPIDER	12
+
+
+#define OBJECT_TYPE_ITEM	100
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -148,6 +153,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	float x = atof(tokens[1].c_str());
 	float y = atof(tokens[2].c_str());
 	float w, h;
+	int IsState;
+	int IsBrick;
 	int ani_set_id = atoi(tokens[3].c_str());
 
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
@@ -156,6 +163,17 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	switch (object_type)
 	{
+		/*case OBJECT_TYPE_MARIO:
+			if (player != NULL)
+			{
+				DebugOut(L"[ERROR] MARIO object was created before!\n");
+				return;
+			}
+			obj = new CMario(x, y);
+			player = (CMario*)obj;
+
+			DebugOut(L"[INFO] Player object created!\n");
+			break;*/
 	case OBJECT_TYPE_CAR:
 		if (player != NULL)
 		{
@@ -167,7 +185,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
-	case OBJECT_TYPE_BRICK: 
+	case OBJECT_TYPE_BRICK:
 		w = atof(tokens[4].c_str());
 		h = atof(tokens[5].c_str());
 		obj = new CBrick(w, h);
@@ -176,7 +194,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_ROBOT: obj = new Robot(player); break;
 	case OBJECT_TYPE_BEE: obj = new Bee(player); break;
 	case OBJECT_TYPE_MAYBUG: obj = new MayBug(player); break;
-	case OBJECT_TYPE_DOOM: obj = new Doom(player); break;
+	case OBJECT_TYPE_DOOM:
+		IsBrick = atof(tokens[5].c_str());
+		IsState = atof(tokens[4].c_str());
+		obj = new Doom(player, IsState, IsBrick);
+		break;
+	case OBJECT_TYPE_SPIDER: obj = new Spider(player); break;
+	case OBJECT_TYPE_ITEM: obj = new Item(); break;
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = atof(tokens[4].c_str());
@@ -252,42 +276,32 @@ void CPlayScene::Load()
 	CTextures::GetInstance()->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
+
+
+	//Load map
+	spriteMap = CSprites::GetInstance()->Get(123456);
 }
 
 void CPlayScene::Update(DWORD dt)
 {
-#pragma region objects and bullets
+	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
+	// TO-DO: This is a "dirty" way, need a more organized way 
 
 	vector<LPGAMEOBJECT> coObjects;
-	for (size_t i = 0; i < objects.size(); i++) {
+	for (size_t i = 1; i < objects.size(); i++)
+	{
 		coObjects.push_back(objects[i]);
 	}
-	if (player->isAttack){
 
-		MainBullets* bullet = new MainBullets();
-		player->Get_CarDirection(bullet->BulletDirection);
-		player->Get_CarFlipUp(bullet->IsTargetTop);
-		if (bullet->BulletDirection > 0)
-			bullet->SetPosition(player->x + DISTANCE_TO_PLAYER_WIDTH_RIGHT, player->y + DISTANCE_TO_PLAYER_HEIGTH);
-		else
-			bullet->SetPosition(player->x + DISTANCE_TO_PLAYER_WIDTH_LEFT, player->y + DISTANCE_TO_PLAYER_HEIGTH);
-		lsBullets.push_back(bullet);
-		player->isAttack = false;
-	}
-
-	for (size_t i = 0; i < objects.size(); i++) {
+	for (size_t i = 0; i < objects.size(); i++)
+	{
 		objects[i]->Update(dt, &coObjects);
 	}
-	for (int i = 0; i < lsBullets.size(); i++) {
-		lsBullets[i]->Update(dt, &coObjects);
-	}
-	for (int i = 0; i < lsBullets.size(); i++) {
-		if (lsBullets[i]->Get_IsFinish() == true)
-			lsBullets.erase(lsBullets.begin() + i);
-	}
-#pragma endregion
+
+	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return;
-#pragma region CAMERA
+
+	// Update camera to follow mario
 	float cx, cy;
 	player->GetPosition(cx, cy);
 
@@ -295,10 +309,16 @@ void CPlayScene::Update(DWORD dt)
 	cx -= game->GetScreenWidth() / 2;
 	cy -= game->GetScreenHeight() / 2;
 
-	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
-#pragma endregion
+	CGame::GetInstance()->SetCamPos(cx, cy /*cy*/);
 }
 
+void CPlayScene::Render()
+{
+	spriteMap->Draw(-135, -10);
+	//CGame::GetInstance()->Draw(-135, -10, maptextures, 0, 0, mapWidth, mapHeight);
+	for (int i = 0; i < objects.size(); i++)
+		objects[i]->Render();
+}
 
 /*
 	Unload current scene
@@ -316,6 +336,8 @@ void CPlayScene::Unload()
 
 void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 {
+	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
+
 	CGame* game = CGame::GetInstance();
 	CCar* car = ((CPlayScene*)scence)->GetPlayer();
 	//vector<Bullets*> bullets = ((CPlayScene*)scence)->Get_ListBullets();
@@ -335,6 +357,15 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		break;
 	case DIK_A:
 		car->Reset();
+		break;/*
+	case DIK_UP:
+		car->SetState(CAR_STATE_UP);
+		break;*/
+	case DIK_P:
+		if (CGame::GetInstance()->GetIDCurrentScene() == 8)
+			CGame::GetInstance()->SwitchScene(1);
+		else
+			CGame::GetInstance()->SwitchScene(1 + CGame::GetInstance()->GetIDCurrentScene());
 		break;
 	}
 }
@@ -385,6 +416,10 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 		}
 		else
 			car->SetState(CAR_STATE_UP);
+		//if (car->FlippingUp == true) {
+		//	
+		//	/*car->Set_FlipUp(false);*/
+		//}
 	}
 
 	else if (game->IsKeyDown(DIK_RIGHT)) {
@@ -400,15 +435,8 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 			car->IsJumping = false;
 		}
 	}
+	/*else if (game->IsKeyDown(DIK_P))
+	{
+		CGame::GetInstance()->SwitchScene(1 + CGame::GetInstance()->GetIDCurrentScene());
+	}*/
 }
-
-void CPlayScene::Render()
-{
-	CGame::GetInstance()->Draw(-135, -10, maptextures, 0, 0, mapWidth, mapHeight);
-	for (int i = 0; i < objects.size(); i++)
-		objects[i]->Render();
-	for (int i = 0; i < lsBullets.size(); i++) {
-		lsBullets[i]->Render();
-	}
-}
-	

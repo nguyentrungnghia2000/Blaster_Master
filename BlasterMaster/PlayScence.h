@@ -25,6 +25,7 @@ protected:
 	void _ParseSection_ANIMATION_SETS(string line);
 	void _ParseSection_OBJECTS(string line);
 
+	LPSPRITE spriteMap;
 
 public:
 	CPlayScene(int id, LPCWSTR filePath);

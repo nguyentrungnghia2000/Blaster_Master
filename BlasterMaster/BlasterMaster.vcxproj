@@ -157,6 +157,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="MainBullets.h" />
     <ClInclude Include="MayBug.h" />
@@ -165,6 +166,7 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Robot.h" />
     <ClInclude Include="Scence.h" />
+    <ClInclude Include="Spider.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Textures.h" />
@@ -181,6 +183,7 @@
     <ClCompile Include="Doom.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="KeyEventHandler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainBullets.cpp" />
@@ -189,6 +192,7 @@
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="Robot.cpp" />
     <ClCompile Include="Scence.cpp" />
+    <ClCompile Include="Spider.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="Utils.cpp" />
