@@ -284,24 +284,38 @@ void CPlayScene::Load()
 
 void CPlayScene::Update(DWORD dt)
 {
-	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
-	// TO-DO: This is a "dirty" way, need a more organized way 
+#pragma region objects and bullets
 
 	vector<LPGAMEOBJECT> coObjects;
-	for (size_t i = 1; i < objects.size(); i++)
-	{
+	for (size_t i = 0; i < objects.size(); i++) {
 		coObjects.push_back(objects[i]);
 	}
-
-	for (size_t i = 0; i < objects.size(); i++)
+	if (player->isAttack)
 	{
-		objects[i]->Update(dt, &coObjects);
+		MainBullets* bullet = new MainBullets();
+		player->Get_CarDirection(bullet->BulletDirection);
+		player->Get_CarFlipUp(bullet->IsTargetTop);
+		if (bullet->BulletDirection > 0)
+			bullet->SetPosition(player->x + DISTANCE_TO_PLAYER_WIDTH_RIGHT, player->y + DISTANCE_TO_PLAYER_HEIGTH);
+		else
+			bullet->SetPosition(player->x + DISTANCE_TO_PLAYER_WIDTH_LEFT, player->y + DISTANCE_TO_PLAYER_HEIGTH);
+		lsBullets.push_back(bullet);
+		player->isAttack = false;
 	}
 
-	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
+	for (size_t i = 0; i < objects.size(); i++) {
+		objects[i]->Update(dt, &coObjects);
+	}
+	for (int i = 0; i < lsBullets.size(); i++) {
+		lsBullets[i]->Update(dt, &coObjects);
+	}
+	for (int i = 0; i < lsBullets.size(); i++) {
+		if (lsBullets[i]->Get_IsFinish() == true)
+			lsBullets.erase(lsBullets.begin() + i);
+	}
+#pragma endregion
 	if (player == NULL) return;
-
-	// Update camera to follow mario
+#pragma region CAMERA
 	float cx, cy;
 	player->GetPosition(cx, cy);
 
@@ -309,7 +323,8 @@ void CPlayScene::Update(DWORD dt)
 	cx -= game->GetScreenWidth() / 2;
 	cy -= game->GetScreenHeight() / 2;
 
-	CGame::GetInstance()->SetCamPos(cx, cy /*cy*/);
+	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
+#pragma endregion
 }
 
 void CPlayScene::Render()
@@ -318,6 +333,9 @@ void CPlayScene::Render()
 	//CGame::GetInstance()->Draw(-135, -10, maptextures, 0, 0, mapWidth, mapHeight);
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
+	for (int i = 0; i < lsBullets.size(); i++) {
+		lsBullets[i]->Render();
+	}
 }
 
 /*
