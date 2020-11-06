@@ -1,42 +1,8 @@
-﻿  Car.cpp
-C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
-C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\Brick.h(14,27): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
-C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\Brick.h(15,26): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
-  Doom.cpp
-C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
-C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\Brick.h(14,27): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
-C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\Brick.h(15,26): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
-C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\Doom.cpp(61,20): warning C4018: '<': signed/unsigned mismatch
-  Game.cpp
-C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
-C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\Brick.h(14,27): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
-C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\Brick.h(15,26): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
-  GameObject.cpp
-C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
-  PlayScence.cpp
-C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
-C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\Brick.h(14,27): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
-C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\Brick.h(15,26): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
-C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\Bee.h(23,1): warning C4005: 'DISTANCE': macro redefinition
-C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\Robot.h(25): message : see previous definition of 'DISTANCE'
-C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\PlayScence.cpp(108,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\PlayScence.cpp(130,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\PlayScence.cpp(153,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\PlayScence.cpp(154,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\PlayScence.cpp(189,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\PlayScence.cpp(190,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\PlayScence.cpp(198,17): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\PlayScence.cpp(199,17): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\PlayScence.cpp(206,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\PlayScence.cpp(207,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\PlayScence.cpp(319,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\PlayScence.cpp(328,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\PlayScence.cpp(402,6): warning C4101: 'KeyCode': unreferenced local variable
-  Sprites.cpp
-  Textures.cpp
+﻿  MainBullets.cpp
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
   main.cpp
-C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
-C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\Brick.h(14,27): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
-C:\Users\Asus\Documents\GitHub\Blaster_Master\BlasterMaster\Brick.h(15,26): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Brick.h(14,27): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Brick.h(15,26): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
   Generating Code...
-  BlasterMaster.vcxproj -> C:\Users\Asus\Documents\GitHub\Blaster_Master\Debug\BlasterMaster.exe
+  BlasterMaster.vcxproj -> D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\Debug\BlasterMaster.exe
