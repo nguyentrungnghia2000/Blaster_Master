@@ -5,9 +5,11 @@
 
 #define BULLET_BBOX_WIDTH	26
 #define BULLET_BBOX_HEIGHT	8
-#define DISTANCE_TO_PLAYER_WIDTH_RIGHT	18
-#define DISTANCE_TO_PLAYER_WIDTH_LEFT	1
-#define DISTANCE_TO_PLAYER_HEIGTH	1
+#define DISTANCE_TO_CAR_WIDTH_RIGHT	18
+#define DISTANCE_TO_CAR_WIDTH_LEFT	1
+#define DISTANCE_TO_CAR_HEIGTH	1
+#define DISTANCE_TO_CAR_FLIP_UP_WIDTH	11
+#define DISTANCE_TO_CAR_FLIP_UP_HEIGHT	-14
 #define DISTANCE_TO_FIRE	6
 
 #define COLLISION_WALL_ANI	0
@@ -37,7 +39,7 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
 
-	virtual void Fire(int direct, bool isGunFlip, float posX, float posY) { direction = direct; IsTargetTop = isGunFlip; x = posX + DISTANCE_TO_PLAYER_WIDTH_RIGHT; y = posY + DISTANCE_TO_PLAYER_HEIGTH; alpha = 255; IsDone = false; IsCollision = 0; }
+	virtual void Fire(int direct, bool isGunFlip, float posX, float posY) { direction = direct; IsTargetTop = isGunFlip; x = posX + DISTANCE_TO_CAR_WIDTH_RIGHT; y = posY + DISTANCE_TO_CAR_WIDTH_LEFT; alpha = 255; IsDone = false; IsCollision = 0; }
 	void ResetDelay() { TimeDelay = 0; }
 	bool GetIsDone() { return IsDone; }
 	void SetIsDone(bool isdone) { IsDone = isdone; }

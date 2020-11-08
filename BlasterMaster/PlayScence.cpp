@@ -280,10 +280,34 @@ void CPlayScene::Load()
 
 	//Load map
 	spriteMap = CSprites::GetInstance()->Get(123456);
+
+	LoadObjects();
+}
+
+void CPlayScene::LoadObjects()
+{
+	if (playerHUD == NULL) {
+		player->Get_health(healthunit);
+		player->Get_power(powerunit);
+		playerHUD = new HUD(healthunit, powerunit);
+
+		DebugOut(L"health : %d\n", healthunit);
+	}
 }
 
 void CPlayScene::Update(DWORD dt)
 {
+#pragma region CAMERA
+	float cx, cy;
+	player->GetPosition(cx, cy);
+
+	CGame* game = CGame::GetInstance();
+	cx -= game->GetScreenWidth() / 2;
+	cy -= game->GetScreenHeight() / 2;
+
+	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
+#pragma endregion
+
 #pragma region objects and bullets
 
 	vector<LPGAMEOBJECT> coObjects;
@@ -295,10 +319,15 @@ void CPlayScene::Update(DWORD dt)
 		MainBullets* bullet = new MainBullets();
 		player->Get_CarDirection(bullet->BulletDirection);
 		player->Get_CarFlipUp(bullet->IsTargetTop);
-		if (bullet->BulletDirection > 0)
-			bullet->SetPosition(player->x + DISTANCE_TO_PLAYER_WIDTH_RIGHT, player->y + DISTANCE_TO_PLAYER_HEIGTH);
-		else
-			bullet->SetPosition(player->x + DISTANCE_TO_PLAYER_WIDTH_LEFT, player->y + DISTANCE_TO_PLAYER_HEIGTH);
+		if (bullet->IsTargetTop == true) {
+			bullet->SetPosition(player->x + DISTANCE_TO_CAR_FLIP_UP_WIDTH, player->y + DISTANCE_TO_CAR_FLIP_UP_HEIGHT);
+		}
+		else {
+			if (bullet->BulletDirection > 0)
+				bullet->SetPosition(player->x + DISTANCE_TO_CAR_WIDTH_RIGHT, player->y + DISTANCE_TO_CAR_HEIGTH);
+			else
+				bullet->SetPosition(player->x + DISTANCE_TO_CAR_WIDTH_LEFT, player->y + DISTANCE_TO_CAR_HEIGTH);
+		}
 		lsBullets.push_back(bullet);
 		player->isAttack = false;
 	}
@@ -313,18 +342,14 @@ void CPlayScene::Update(DWORD dt)
 		if (lsBullets[i]->Get_IsFinish() == true)
 			lsBullets.erase(lsBullets.begin() + i);
 	}
+	if (playerHUD != NULL) {
+		player->Get_health(healthunit);
+		player->Get_power(powerunit);
+		playerHUD->Update(cx, cy, healthunit, powerunit);
+	}
 #pragma endregion
 	if (player == NULL) return;
-#pragma region CAMERA
-	float cx, cy;
-	player->GetPosition(cx, cy);
 
-	CGame* game = CGame::GetInstance();
-	cx -= game->GetScreenWidth() / 2;
-	cy -= game->GetScreenHeight() / 2;
-
-	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
-#pragma endregion
 }
 
 void CPlayScene::Render()
@@ -336,6 +361,7 @@ void CPlayScene::Render()
 	for (int i = 0; i < lsBullets.size(); i++) {
 		lsBullets[i]->Render();
 	}
+	playerHUD->Render(player);
 }
 
 /*
@@ -402,8 +428,8 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode) {
 		car->SetState(CAR_STATE_IDLE);
 		break;
 	case DIK_X:
-		car->SetPosition(car->x, car->y - (CAR_JUMP_BBOX_HEIGHT - CAR_BBOX_HEIGHT));
-		car->vx = 0;
+		//car->SetPosition(car->x, car->y - (CAR_JUMP_BBOX_HEIGHT - CAR_BBOX_HEIGHT));
+		//car->vx = 0;
 		//car->PressJump = false;
 		break;
 	case DIK_C:
@@ -448,9 +474,9 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	}
 
 	else if (game->IsKeyDown(DIK_X)) {
-		if (car->IsJumping == true) {
-			car->SetPosition(car->x, car->y - (CAR_JUMP_BBOX_HEIGHT - CAR_BBOX_HEIGHT));
-			car->IsJumping = false;
+		if (car->PressJump == true) {
+			//car->SetPosition(car->x, car->y - (CAR_JUMP_BBOX_HEIGHT - CAR_BBOX_HEIGHT));
+			car->IsJumping = true;
 		}
 	}
 	/*else if (game->IsKeyDown(DIK_P))

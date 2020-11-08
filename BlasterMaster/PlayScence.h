@@ -7,6 +7,7 @@
 #include "Car.h"
 #include "Bullets.h"
 #include "MainBullets.h"
+#include "HUD.h"
 
 
 class CPlayScene : public CScene
@@ -14,6 +15,7 @@ class CPlayScene : public CScene
 protected:
 	//CMario* player;					// A play scene has to have player, right? 
 	CCar* player;
+	HUD* playerHUD;
 	LPDIRECT3DTEXTURE9 maptextures;
 	int mapWidth = 1024, mapHeight = 240;
 	vector<LPGAMEOBJECT> objects;
@@ -28,9 +30,12 @@ protected:
 	LPSPRITE spriteMap;
 
 public:
+	float posX, posY;
+	int healthunit, powerunit;
 	CPlayScene(int id, LPCWSTR filePath);
 	vector<MainBullets*> lsBullets;
 	virtual void Load();
+	void LoadObjects();
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();

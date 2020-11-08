@@ -53,6 +53,8 @@ class CCar : public CGameObject
 {
 	int level;
 	int untouchable;
+	int health;
+	int power;
 	DWORD untouchable_start;
 
 	float start_x;			// initial position of Mario at scene
@@ -76,6 +78,8 @@ public:
 	void SetLevel(int l) { level = l; }
 	void Get_CarDirection(int& direction) { direction = nx; }
 	void Get_CarFlipUp(bool& isTargetTop) { isTargetTop = FlippingUp; }
+	void Get_health(int& health) { health = this->health; }
+	void Get_power(int& power) { health = this->power; }
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 	void Reset();
 	void Get_CarStateForBullet(int& direct, bool& flipup, float Px, float Py) { direct = direction; flipup = FlippingUp; Px = x; Py = y; }

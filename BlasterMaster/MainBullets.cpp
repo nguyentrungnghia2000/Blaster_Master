@@ -38,6 +38,9 @@ void MainBullets::Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 	if (IsTargetTop == false) {
 		vx = BULLET_SPEED * BulletDirection;
 	}
+	else {
+		vy = -BULLET_SPEED;
+	}
 	if (GetTickCount() - timer < EXPLOTION_TIME && flag == true) {
 		isFinish = true;
 		flag = false;
@@ -74,6 +77,14 @@ void MainBullets::Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 				vx = 0;
 				vy = 0;
 			}
+			if (e->ny != 0)
+			{
+				IsCollision = 1;
+				x += min_tx * dx + nx * 0.4f;
+				y += min_ty * dy + ny * 0.4f;
+				vx = 0;
+				vy = 0;
+			}
 		}
 	}
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
@@ -96,12 +107,15 @@ void MainBullets::Render()
 		{
 			if (IsTargetTop == true)
 			{
-				/*ani = SMALL_BULLET_JASON_ANI_TOP;
-				animation_set->at(ani)->Render(x, y, alpha);*/
+				ani = CAR_BULLET_ANI_TOP;
+				animation_set->at(ani)->Render(x, y, alpha);
 			}
 			else
 			{
-				ani = SMALL_BULLET_JASON_ANI_RIGHT;
+				if (BulletDirection > 0)
+					ani = CAR_BULLET_ANI_RIGHT;
+				else
+					ani = CAR_BULLET_ANI_LEFT;
 				animation_set->at(ani)->Render(x, y, alpha);
 			}
 		}
@@ -109,7 +123,7 @@ void MainBullets::Render()
 		{
 			timer = GetTickCount();
 			flag = true;
-			ani = SMALL_BULLET_JASON_BANG_ANI;
+			ani = CAR_BULLET_EXPLOTION_ANI;
 			animation_set->at(ani)->Render(x, y - DISTANCE_TO_BANG, alpha);
 			if (animation_set->at(ani)->GetFrame() == 2)
 			{

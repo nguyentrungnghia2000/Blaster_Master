@@ -81,10 +81,6 @@ void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		// how to push back Mario if collides with a moving objects, what if Mario is pushed this way into another object?
 		//if (rdx != 0 && rdx!=dx)
 		//	x += nx*abs(rdx); 
-
-		//
-		// Collision logic with other objects
-		//
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
