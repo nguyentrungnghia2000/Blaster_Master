@@ -44,6 +44,7 @@ public:
 
 	//CMario* GetPlayer() { return player; }
 	CCar* GetPlayer() { return player; }
+	vector<LPGAMEOBJECT> ReturnObject() { return objects; }
 
 	//friend class CPlayScenceKeyHandler;
 };

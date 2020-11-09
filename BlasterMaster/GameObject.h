@@ -59,7 +59,7 @@ public:
 	float vy;
 
 	int nx;
-
+	int alpha;
 	int state;
 	int direction;
 	DWORD dt;
@@ -91,7 +91,8 @@ public:
 		float& rdy);
 
 	CGameObject();
-
+	int GetAlpha() { return alpha; }
+	void SetAlpha(int A) { alpha = A; }
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom) = 0;
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
 	virtual void Render() = 0;

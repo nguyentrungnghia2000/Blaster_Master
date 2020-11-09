@@ -1,13 +1,49 @@
-﻿  Car.cpp
+﻿  Bee.cpp
 D:\Code các môn\Game\Test\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
 D:\Code các môn\Game\Test\BlasterMaster\Brick.h(14,27): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
 D:\Code các môn\Game\Test\BlasterMaster\Brick.h(15,26): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+D:\Code các môn\Game\Test\BlasterMaster\Bee.cpp(19,20): warning C4018: '<': signed/unsigned mismatch
+  Brick.cpp
+D:\Code các môn\Game\Test\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
+D:\Code các môn\Game\Test\BlasterMaster\Brick.h(14,27): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+D:\Code các môn\Game\Test\BlasterMaster\Brick.h(15,26): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+  Bug.cpp
+D:\Code các môn\Game\Test\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
+D:\Code các môn\Game\Test\BlasterMaster\Brick.h(14,27): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+D:\Code các môn\Game\Test\BlasterMaster\Brick.h(15,26): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+D:\Code các môn\Game\Test\BlasterMaster\Bug.cpp(22,20): warning C4018: '<': signed/unsigned mismatch
+  Bullets.cpp
+D:\Code các môn\Game\Test\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
+  Car.cpp
+D:\Code các môn\Game\Test\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
+D:\Code các môn\Game\Test\BlasterMaster\Brick.h(14,27): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+D:\Code các môn\Game\Test\BlasterMaster\Brick.h(15,26): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+  Doom.cpp
+D:\Code các môn\Game\Test\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
+D:\Code các môn\Game\Test\BlasterMaster\Brick.h(14,27): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+D:\Code các môn\Game\Test\BlasterMaster\Brick.h(15,26): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+D:\Code các môn\Game\Test\BlasterMaster\Doom.cpp(61,20): warning C4018: '<': signed/unsigned mismatch
   Game.cpp
 D:\Code các môn\Game\Test\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
 D:\Code các môn\Game\Test\BlasterMaster\Brick.h(14,27): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
 D:\Code các môn\Game\Test\BlasterMaster\Brick.h(15,26): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+  GameObject.cpp
+D:\Code các môn\Game\Test\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
   HUD.cpp
 D:\Code các môn\Game\Test\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
+  HealthBar.cpp
+D:\Code các môn\Game\Test\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
+D:\Code các môn\Game\Test\BlasterMaster\HealthBar.cpp(40,56): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Item.cpp
+D:\Code các môn\Game\Test\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
+D:\Code các môn\Game\Test\BlasterMaster\Item.cpp(59,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  MainBullets.cpp
+D:\Code các môn\Game\Test\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
+  MayBug.cpp
+D:\Code các môn\Game\Test\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
+D:\Code các môn\Game\Test\BlasterMaster\Brick.h(14,27): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+D:\Code các môn\Game\Test\BlasterMaster\Brick.h(15,26): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+D:\Code các môn\Game\Test\BlasterMaster\MayBug.cpp(19,20): warning C4018: '<': signed/unsigned mismatch
   PlayScence.cpp
 D:\Code các môn\Game\Test\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
 D:\Code các môn\Game\Test\BlasterMaster\Brick.h(14,27): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
@@ -31,7 +67,23 @@ D:\Code các môn\Game\Test\BlasterMaster\PlayScence.cpp(383,20): warning C4018:
 D:\Code các môn\Game\Test\BlasterMaster\PlayScence.cpp(401,20): warning C4018: '<': signed/unsigned mismatch
 D:\Code các môn\Game\Test\BlasterMaster\PlayScence.cpp(403,20): warning C4018: '<': signed/unsigned mismatch
 D:\Code các môn\Game\Test\BlasterMaster\PlayScence.cpp(414,20): warning C4018: '<': signed/unsigned mismatch
-D:\Code các môn\Game\Test\BlasterMaster\PlayScence.cpp(488,6): warning C4101: 'KeyCode': unreferenced local variable
+D:\Code các môn\Game\Test\BlasterMaster\PlayScence.cpp(459,21): warning C4018: '<': signed/unsigned mismatch
+D:\Code các môn\Game\Test\BlasterMaster\PlayScence.cpp(499,6): warning C4101: 'KeyCode': unreferenced local variable
+  Portal.cpp
+D:\Code các môn\Game\Test\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
+D:\Code các môn\Game\Test\BlasterMaster\Portal.cpp(9,16): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\Code các môn\Game\Test\BlasterMaster\Portal.cpp(10,17): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Robot.cpp
+D:\Code các môn\Game\Test\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
+D:\Code các môn\Game\Test\BlasterMaster\Brick.h(14,27): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+D:\Code các môn\Game\Test\BlasterMaster\Brick.h(15,26): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+D:\Code các môn\Game\Test\BlasterMaster\Robot.cpp(20,20): warning C4018: '<': signed/unsigned mismatch
+  Spider.cpp
+D:\Code các môn\Game\Test\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
+D:\Code các môn\Game\Test\BlasterMaster\Brick.h(14,27): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+D:\Code các môn\Game\Test\BlasterMaster\Brick.h(15,26): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+D:\Code các môn\Game\Test\BlasterMaster\Spider.cpp(15,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+D:\Code các môn\Game\Test\BlasterMaster\Spider.cpp(22,20): warning C4018: '<': signed/unsigned mismatch
   main.cpp
 D:\Code các môn\Game\Test\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
 D:\Code các môn\Game\Test\BlasterMaster\Brick.h(14,27): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data

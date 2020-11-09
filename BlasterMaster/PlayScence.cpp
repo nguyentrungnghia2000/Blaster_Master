@@ -426,6 +426,8 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 
 	CGame* game = CGame::GetInstance();
 	CCar* car = ((CPlayScene*)scence)->GetPlayer();
+	vector<LPGAMEOBJECT> listObjects = ((CPlayScene*)scence)->ReturnObject();
+	//DebugOut(L"%i", listObjects.size());
 	//vector<Bullets*> bullets = ((CPlayScene*)scence)->Get_ListBullets();
 	float Carx = 0, Cary = 0;
 	int direction;
@@ -452,6 +454,15 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 			CGame::GetInstance()->SwitchScene(1);
 		else
 			CGame::GetInstance()->SwitchScene(1 + CGame::GetInstance()->GetIDCurrentScene());
+		break;
+	case DIK_L:
+		for (int i = 0; i < listObjects.size(); i++)
+		{
+			if (listObjects[i]->GetAlpha() == 0)
+				listObjects[i]->SetAlpha(155);
+			else
+				listObjects[i]->SetAlpha(0);
+		}
 		break;
 	}
 }
