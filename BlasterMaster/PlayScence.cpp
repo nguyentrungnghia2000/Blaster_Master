@@ -300,12 +300,54 @@ void CPlayScene::Update(DWORD dt)
 #pragma region CAMERA
 	float cx, cy;
 	player->GetPosition(cx, cy);
+	//Camera* GameCamera = Camera::GetInstance();
+	CGame* GameCamera = CGame::GetInstance();
+	player->GetPosition(cx, cy);
+	if (player->x + SCREEN_WIDTH / 2 >= spriteMap->GetWidth())
+		cx = spriteMap->GetWidth() - SCREEN_WIDTH;
+	else
+	{
+		if (player->x < SCREEN_WIDTH / 2)
+			cx = 0;
+		else
+			cx -= SCREEN_WIDTH / 2;
+	}
 
-	CGame* game = CGame::GetInstance();
-	cx -= game->GetScreenWidth() / 2;
-	cy -= game->GetScreenHeight() / 2;
-
-	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
+	if (player->y > spriteMap->GetHeight() - SCREEN_HEIGHT / 2)
+	{
+		//if (player->y > spriteMap->GetHeight() - SCREEN_HEIGHT / 2)
+		//{
+		if (spriteMap->GetHeight() < SCREEN_HEIGHT)
+			cy = 0;
+		else
+		{
+			if (player->y + SCREEN_HEIGHT / 2 > spriteMap->GetHeight())
+				cy = spriteMap->GetHeight() - SCREEN_HEIGHT;
+			else
+			{
+				cy -= SCREEN_HEIGHT / 2;
+			}
+		}
+	}
+	else if (player->y < spriteMap->GetHeight() - SCREEN_HEIGHT / 2)
+	{
+		if (spriteMap->GetHeight() < SCREEN_HEIGHT)
+			cy = 0;
+		else
+		{
+			if (player->y < SCREEN_HEIGHT / 2)
+				cy = 0;
+			//else if (player->y > spriteMap->GetHeight()-SCREEN_HEIGHT/2)
+			//	cy = spriteMap->GetHeight() - SCREEN_HEIGHT;
+			else
+				cy -= SCREEN_HEIGHT / 2;
+		}
+		//	cy = spriteMap->GetHeight() - SCREEN_HEIGHT;
+	}
+	DebugOut(L"toa do cam x %f \n ", cx);
+	DebugOut(L"toa do cam y %f \n ", cy);
+	//GameCamera->SetCamPos(cx, cy);
+	GameCamera->SetCamPos(cx, cy);
 #pragma endregion
 
 #pragma region objects and bullets
@@ -354,7 +396,7 @@ void CPlayScene::Update(DWORD dt)
 
 void CPlayScene::Render()
 {
-	spriteMap->Draw(-135, -10);
+	spriteMap->Draw(0,0);
 	//CGame::GetInstance()->Draw(-135, -10, maptextures, 0, 0, mapWidth, mapHeight);
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();

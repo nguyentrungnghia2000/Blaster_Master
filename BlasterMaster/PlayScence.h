@@ -9,6 +9,8 @@
 #include "MainBullets.h"
 #include "HUD.h"
 
+#define SCREEN_WIDTH	300
+#define SCREEN_HEIGHT	240
 
 class CPlayScene : public CScene
 {

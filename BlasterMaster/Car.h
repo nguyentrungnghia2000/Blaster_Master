@@ -1,9 +1,9 @@
 ﻿#pragma once
 #include "GameObject.h"
 
-#define CAR_WALKING_SPEED		0.15f 
+#define CAR_WALKING_SPEED		0.1f 
 //0.1f
-#define CAR_JUMP_SPEED_Y		0.223f
+#define CAR_JUMP_SPEED_Y		0.23f
 #define CAR_JUMP_DEFLECT_SPEED 0.1f
 #define CAR_GRAVITY			0.0004f
 #define CAR_DIE_DEFLECT_SPEED	 0.5f
