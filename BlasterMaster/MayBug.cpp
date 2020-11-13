@@ -129,6 +129,7 @@ void MayBug::Render()
 			ani = MAYBUG_ANI_ROLLING;
 		animation_set->at(ani)->Render(x, y);
 	}
+	RenderBoundingBox();
 }
 
 MayBug::MayBug(LPGAMEOBJECT Target)

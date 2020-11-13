@@ -169,6 +169,7 @@
     <ClInclude Include="Robot.h" />
     <ClInclude Include="Scence.h" />
     <ClInclude Include="Spider.h" />
+    <ClInclude Include="SpiderBullets.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Textures.h" />
@@ -197,6 +198,7 @@
     <ClCompile Include="Robot.cpp" />
     <ClCompile Include="Scence.cpp" />
     <ClCompile Include="Spider.cpp" />
+    <ClCompile Include="SpiderBullets.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="Utils.cpp" />

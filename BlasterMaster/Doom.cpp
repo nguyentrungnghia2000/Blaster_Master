@@ -256,7 +256,7 @@ void Doom::Render()
 			ani = DOOM_ANI_WALKING_TOP;
 	}
 	animation_set->at(ani)->Render(x, y);
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void Doom::SetState(int state)

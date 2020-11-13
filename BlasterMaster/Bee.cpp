@@ -127,7 +127,9 @@ void Bee::Render()
 			ani = BEE_ANI_FLYING_LEFT;
 
 		animation_set->at(ani)->Render(x, y);
+
 	}
+	RenderBoundingBox();
 }
 
 Bee::Bee(LPGAMEOBJECT Target)

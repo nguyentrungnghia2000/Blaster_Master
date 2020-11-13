@@ -1,7 +1,7 @@
 #include "GameObject.h"
 
-#define ITEM_BBOX_WIDTH		20
-#define ITEM_BBOX_HEIGHT	20
+#define ITEM_BBOX_WIDTH		16
+#define ITEM_BBOX_HEIGHT	16
 
 #define ITEM_STATE_ACTIVE	100
 #define	ITEM_STATE_TIMEUP	200

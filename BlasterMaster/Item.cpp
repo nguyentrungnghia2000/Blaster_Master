@@ -52,6 +52,7 @@ void Item::Render()
 		}
 		//RenderBoundingBox();
 	}
+	RenderBoundingBox();
 }
 
 Item::Item()
