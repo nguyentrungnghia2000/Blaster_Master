@@ -112,6 +112,9 @@ void Bug::Render()
 
 Bug::Bug(LPGAMEOBJECT Target)
 {
+	this->IsDead = false;
+	this->EnermiesHealth = ENERMIES_HEALTH;
+
 	IsJump = false;
 	IsActive = false;
 	this->target = Target;

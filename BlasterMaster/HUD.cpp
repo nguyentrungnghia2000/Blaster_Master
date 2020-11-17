@@ -23,7 +23,7 @@ void HUD::Update(float x, float y, int currentCarHealth, int currentPowerHealth)
 void HUD::Render(CCar* playerInfo)
 {
 	//UIanimationSet->at(CAR_POWER_BAR)->Render(x, y + ARTICULAR_POWER_HEALTHBAR_Y);
-	UIanimationSet->at(CAR_HEALTH_BAR)->Render(x, y + ARTICULAR_CAR_HEALTHBAR_Y);
+	UIanimationSet->at(CAR_HEALTH_BAR)->Render(x + 3, y + 54 + ARTICULAR_CAR_HEALTHBAR_Y);
 	//PowerHB->Render();
 	CarHB->Render();
 }

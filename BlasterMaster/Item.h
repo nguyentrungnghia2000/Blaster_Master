@@ -30,4 +30,9 @@ class Item :public CGameObject
 public:
 	Item();
 	virtual void SetState(int state);
+
+	// these funtion are useless
+	void Set_IsDead(bool value) { this->IsDead = value; }
+	bool Get_IsDead() { return this->IsDead; }
+	void SubDamage(int damage) { EnermiesHealth += damage; }
 };

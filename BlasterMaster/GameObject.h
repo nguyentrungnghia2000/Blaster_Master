@@ -13,7 +13,8 @@
 
 
 using namespace std;
-
+#define PLAYER_HEALTH	8
+#define ENERMIES_HEALTH	3
 #define ID_TEX_BBOX -100		// special texture to draw object bounding box
 
 class CGameObject;
@@ -64,6 +65,10 @@ public:
 	int direction;
 	DWORD dt;
 
+	int damage;
+	int EnermiesHealth;
+	bool IsDead, health_up;
+
 	LPANIMATION_SET animation_set;
 
 public:
@@ -99,6 +104,10 @@ public:
 	//virtual void Render_Current_Frame() = 0;
 	virtual void SetState(int state) { this->state = state; }
 	virtual float GetDistance(LPGAMEOBJECT);
+
+	virtual bool Get_IsDead() = 0;
+	virtual void Set_IsDead(bool value) = 0;
+	virtual void SubDamage(int damage) = 0;
 
 	~CGameObject();
 };

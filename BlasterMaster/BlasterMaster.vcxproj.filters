@@ -22,6 +22,15 @@
     <Filter Include="Source Files\Objects">
       <UniqueIdentifier>{13da0bd1-9f2a-4654-a945-34634072c1e1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Objects\Enermies">
+      <UniqueIdentifier>{8e875e82-f98f-421b-a19a-55f56437e91a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\FBullets">
+      <UniqueIdentifier>{65efa93b-b7aa-4550-8ed7-4bd615edd4c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Materials">
+      <UniqueIdentifier>{725b3fac-27ac-4563-918f-5b0355340727}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -36,12 +45,6 @@
     <ClInclude Include="BlasterMaster.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Brick.h">
-      <Filter>Source Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Car.h">
-      <Filter>Source Files\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="Animations.h">
       <Filter>Source Files\Framework</Filter>
     </ClInclude>
@@ -49,9 +52,6 @@
       <Filter>Source Files\Framework</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>Source Files\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Portal.h">
       <Filter>Source Files\Framework</Filter>
     </ClInclude>
     <ClInclude Include="Sprites.h">
@@ -72,53 +72,56 @@
     <ClInclude Include="Scence.h">
       <Filter>Source Files\Scence</Filter>
     </ClInclude>
-    <ClInclude Include="Bug.h">
-      <Filter>Source Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Robot.h">
-      <Filter>Source Files\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>Source Files\Framework</Filter>
     </ClInclude>
     <ClInclude Include="Bee.h">
-      <Filter>Source Files\Objects</Filter>
+      <Filter>Source Files\Objects\Enermies</Filter>
     </ClInclude>
-    <ClInclude Include="MayBug.h">
-      <Filter>Source Files\Objects</Filter>
+    <ClInclude Include="Bug.h">
+      <Filter>Source Files\Objects\Enermies</Filter>
     </ClInclude>
-    <ClInclude Include="Doom.h">
-      <Filter>Source Files\Objects</Filter>
+    <ClInclude Include="Brick.h">
+      <Filter>Source Files\Objects\Materials</Filter>
     </ClInclude>
     <ClInclude Include="Bullets.h">
-      <Filter>Source Files\Objects</Filter>
+      <Filter>Source Files\Objects\FBullets</Filter>
     </ClInclude>
-    <ClInclude Include="MainBullets.h">
-      <Filter>Source Files\Objects</Filter>
+    <ClInclude Include="Car.h">
+      <Filter>Source Files\Objects\Materials</Filter>
     </ClInclude>
-    <ClInclude Include="Spider.h">
-      <Filter>Source Files\Objects</Filter>
+    <ClInclude Include="Doom.h">
+      <Filter>Source Files\Objects\Enermies</Filter>
     </ClInclude>
     <ClInclude Include="Item.h">
-      <Filter>Source Files\Objects</Filter>
+      <Filter>Source Files\Objects\Materials</Filter>
     </ClInclude>
-    <ClInclude Include="HealthBar.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="MainBullets.h">
+      <Filter>Source Files\Objects\FBullets</Filter>
     </ClInclude>
-    <ClInclude Include="HUD.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="MayBug.h">
+      <Filter>Source Files\Objects\Enermies</Filter>
+    </ClInclude>
+    <ClInclude Include="Robot.h">
+      <Filter>Source Files\Objects\Enermies</Filter>
+    </ClInclude>
+    <ClInclude Include="Spider.h">
+      <Filter>Source Files\Objects\Enermies</Filter>
     </ClInclude>
     <ClInclude Include="SpiderBullets.h">
-      <Filter>Source Files\Objects</Filter>
+      <Filter>Source Files\Objects\FBullets</Filter>
+    </ClInclude>
+    <ClInclude Include="HUD.h">
+      <Filter>Source Files\Objects\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthBar.h">
+      <Filter>Source Files\Objects\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Portal.h">
+      <Filter>Source Files\Objects\Materials</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Brick.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Car.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
     <ClCompile Include="Animations.cpp">
       <Filter>Source Files\Framework</Filter>
     </ClCompile>
@@ -126,9 +129,6 @@
       <Filter>Source Files\Framework</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
-      <Filter>Source Files\Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Portal.cpp">
       <Filter>Source Files\Framework</Filter>
     </ClCompile>
     <ClCompile Include="Sprites.cpp">
@@ -152,41 +152,50 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Bug.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Robot.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
     <ClCompile Include="Bee.cpp">
-      <Filter>Source Files\Objects</Filter>
+      <Filter>Source Files\Objects\Enermies</Filter>
     </ClCompile>
-    <ClCompile Include="MayBug.cpp">
-      <Filter>Source Files\Objects</Filter>
+    <ClCompile Include="Bug.cpp">
+      <Filter>Source Files\Objects\Enermies</Filter>
     </ClCompile>
-    <ClCompile Include="Doom.cpp">
-      <Filter>Source Files\Objects</Filter>
+    <ClCompile Include="Brick.cpp">
+      <Filter>Source Files\Objects\Materials</Filter>
     </ClCompile>
     <ClCompile Include="Bullets.cpp">
-      <Filter>Source Files\Objects</Filter>
+      <Filter>Source Files\Objects\FBullets</Filter>
     </ClCompile>
-    <ClCompile Include="MainBullets.cpp">
-      <Filter>Source Files\Objects</Filter>
+    <ClCompile Include="Car.cpp">
+      <Filter>Source Files\Objects\Materials</Filter>
     </ClCompile>
-    <ClCompile Include="Spider.cpp">
-      <Filter>Source Files\Objects</Filter>
+    <ClCompile Include="Doom.cpp">
+      <Filter>Source Files\Objects\Enermies</Filter>
     </ClCompile>
     <ClCompile Include="Item.cpp">
-      <Filter>Source Files\Objects</Filter>
+      <Filter>Source Files\Objects\Materials</Filter>
     </ClCompile>
-    <ClCompile Include="HealthBar.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="MainBullets.cpp">
+      <Filter>Source Files\Objects\FBullets</Filter>
     </ClCompile>
-    <ClCompile Include="HUD.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="MayBug.cpp">
+      <Filter>Source Files\Objects\Enermies</Filter>
+    </ClCompile>
+    <ClCompile Include="Robot.cpp">
+      <Filter>Source Files\Objects\Enermies</Filter>
+    </ClCompile>
+    <ClCompile Include="Spider.cpp">
+      <Filter>Source Files\Objects\Enermies</Filter>
     </ClCompile>
     <ClCompile Include="SpiderBullets.cpp">
-      <Filter>Source Files\Objects</Filter>
+      <Filter>Source Files\Objects\FBullets</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthBar.cpp">
+      <Filter>Source Files\Objects\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="HUD.cpp">
+      <Filter>Source Files\Objects\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Portal.cpp">
+      <Filter>Source Files\Objects\Materials</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

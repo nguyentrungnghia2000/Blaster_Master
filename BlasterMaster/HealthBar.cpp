@@ -8,7 +8,7 @@ HealthBar::HealthBar(int maxhealth, bool isGun)
 	this->isGun = isGun;
 
 	for (int i = 0; i < currentHealth; i++) {
-		LPANIMATION_SET ani_set = CAnimationSets::GetInstance()->Get(CAR_HEALTH_UNIT);
+		LPANIMATION_SET ani_set = CAnimationSets::GetInstance()->Get(ANIMATION_SET_CAR_HEALTH_BAR);
 		lsHealth_unit.push_back(ani_set);
 	}
 }
@@ -35,14 +35,7 @@ void HealthBar::Render()
 	{
 		for (int i = 0; i < currentHealth; i++)
 		{
-			if (isGun)
-			{
-				lsHealth_unit[i]->at(CAR_HEALTH_UNIT)->Render(0, 0 - i * UNIT_SPACE);
-			}
-			/*else
-			{
-				lsHealth_unit[j]->at(CAR_POWER_UNIT)->Render(x, y + 57 - j * UNIT_SPACE);
-			}*/
+			lsHealth_unit[i]->at(CAR_HEALTH_UNIT)->Render(x + 4, y + 166 - i * UNIT_SPACE);
 		}
 	}
 }

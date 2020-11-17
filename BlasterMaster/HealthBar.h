@@ -9,14 +9,14 @@
 #define CAR_POWER_UNIT	3
 
 #define ANIMATION_SET_CAR_HEALTH_BAR	30
-#define UNIT_SPACE	3
+#define UNIT_SPACE	6.5
 
 #define BBOX_HEALTH_BAR_WIDTH	13
 #define BBOX_HEALTH_BAR_HEIGHT	53
 
 class HealthBar;
 typedef HealthBar* LPHEALTHBAR;
-class HealthBar : public CGameObject
+class HealthBar
 {
 	float x, y;
 	int currentHealth, maxHealth;

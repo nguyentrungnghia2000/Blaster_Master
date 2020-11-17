@@ -23,7 +23,8 @@ typedef Bullets* LPBULLETS;
 class Bullets : public CGameObject
 {
 protected:
-	bool IsCollision;
+	bool IsCollisionBrick;
+	bool IsCollisionEnermies;
 	bool IsDone;
 	bool isFinish, flag;
 	int damage;
@@ -39,7 +40,7 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
 
-	virtual void Fire(int direct, bool isGunFlip, float posX, float posY) { direction = direct; IsTargetTop = isGunFlip; x = posX + DISTANCE_TO_CAR_WIDTH_RIGHT; y = posY + DISTANCE_TO_CAR_WIDTH_LEFT; alpha = 255; IsDone = false; IsCollision = 0; }
+	virtual void Fire(int direct, bool isGunFlip, float posX, float posY) { direction = direct; IsTargetTop = isGunFlip; x = posX + DISTANCE_TO_CAR_WIDTH_RIGHT; y = posY + DISTANCE_TO_CAR_WIDTH_LEFT; alpha = 255; IsDone = false; IsCollisionBrick = 0; }
 	void ResetDelay() { TimeDelay = 0; }
 	bool GetIsDone() { return IsDone; }
 	void SetIsDone(bool isdone) { IsDone = isdone; }

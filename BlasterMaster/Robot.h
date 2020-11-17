@@ -40,4 +40,9 @@ class Robot : public CGameObject
 public:
 	Robot(LPGAMEOBJECT);
 	virtual void SetState(int state);
+	int Get_health() { return EnermiesHealth; }
+
+	void Set_IsDead(bool value) { this->IsDead = value; }
+	bool Get_IsDead() { return this->IsDead; }
+	void SubDamage(int damage) { EnermiesHealth += damage; }
 };

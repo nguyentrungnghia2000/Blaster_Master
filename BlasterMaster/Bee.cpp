@@ -134,6 +134,9 @@ void Bee::Render()
 
 Bee::Bee(LPGAMEOBJECT Target)
 {
+	this->IsDead = false;
+	this->EnermiesHealth = ENERMIES_HEALTH;
+
 	this->target = Target;
 	this->time = new Timer(BEE_FLYING_TIME + BEE_SURFING_TIME);
 	IsBrickTop = false;

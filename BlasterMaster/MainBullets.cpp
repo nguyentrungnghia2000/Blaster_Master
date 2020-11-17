@@ -1,4 +1,12 @@
 ﻿#include "MainBullets.h"
+#include "Brick.h"
+#include "Item.h"
+#include "Bug.h"
+#include "Robot.h"
+#include "Bee.h"
+#include "MayBug.h"
+#include "Doom.h"
+#include "Spider.h"
 
 MainBullets::MainBullets()
 {
@@ -6,7 +14,7 @@ MainBullets::MainBullets()
 	x = 0;
 	y = 0;
 	alpha = 0;
-	IsCollision = 0;
+	IsCollisionBrick = 0;
 	IsDone = true;
 	TimeDelay = 0;
 	TimeDelayMax = SMALL_JASON_BULLET_DELAY;
@@ -48,10 +56,22 @@ void MainBullets::Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 #pragma region Xử lý va chạm
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
-
+	vector<LPGAMEOBJECT>* OnlyBrick = new vector<LPGAMEOBJECT>();
+	vector<LPGAMEOBJECT>* OnlyItem = new vector<LPGAMEOBJECT>();
+	vector<LPGAMEOBJECT>* OnlyEnermies_Brick = new vector<LPGAMEOBJECT>();
 	coEvents.clear();
+	OnlyBrick->clear();
+	for (int i = 0; i < colliable_objects->size(); i++)
+	{
+		if (dynamic_cast<Item*>(colliable_objects->at(i))) {
+			OnlyItem->push_back(colliable_objects->at(i));
+		}
+		else {
+			OnlyEnermies_Brick->push_back(colliable_objects->at(i));
+		}
+	}
 
-	CalcPotentialCollisions(colliable_objects, coEvents);
+	CalcPotentialCollisions(OnlyEnermies_Brick, coEvents);
 
 	if (coEvents.size() == 0)
 	{
@@ -66,26 +86,130 @@ void MainBullets::Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 
-		for (UINT i = 0; i < coEventsResult.size(); i++)
-		{
+#pragma region return the object type which have been hit by bullets
+		for (UINT i = 0; i < coEventsResult.size(); i++) {
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (e->nx != 0)
-			{
-				IsCollision = 1;
-				x += min_tx * dx + nx * 0.4f;
-				y += min_ty * dy + ny * 0.4f;
-				vx = 0;
-				vy = 0;
+
+			if (dynamic_cast<CBrick*>(e->obj)) {
+				if (e->nx != 0) {
+					IsCollisionBrick = 1;
+					x += min_tx * dx + nx * 0.4f;
+					y += min_ty * dy + ny * 0.4f;
+					vx = 0;
+					vy = 0;
+				}
+				if (e->ny != 0) {
+					IsCollisionBrick = 1;
+					x += min_tx * dx + nx * 0.4f;
+					y += min_ty * dy + ny * 0.4f;
+					vx = 0;
+					vy = 0;
+				}
 			}
-			if (e->ny != 0)
-			{
-				IsCollision = 1;
-				x += min_tx * dx + nx * 0.4f;
-				y += min_ty * dy + ny * 0.4f;
-				vx = 0;
-				vy = 0;
+
+			else if (dynamic_cast<Robot*>(e->obj)) {
+				Robot* rob = dynamic_cast<Robot*>(e->obj);
+				if (e->nx != 0) {
+					rob->SubDamage(-BULLETS_DAMAGE);
+					temp = rob->Get_health();
+					DebugOut(L"temp : %d\n", temp);
+					IsCollisionEnermies = 1;
+					x += min_tx * dx + nx * 0.4f;
+					y += min_ty * dy + ny * 0.4f;
+					vx = 0;
+					vy = 0;
+				}
+				if (e->ny != 0) {
+					rob->SubDamage(-BULLETS_DAMAGE);
+					IsCollisionEnermies = 1;
+					x += min_tx * dx + nx * 0.4f;
+					y += min_ty * dy + ny * 0.4f;
+					vx = 0;
+					vy = 0;
+				}
+			}
+
+			else if (dynamic_cast<Bug*>(e->obj)) {
+				Bug* bug = dynamic_cast<Bug*>(e->obj);
+				if (e->nx != 0) {
+					bug->SubDamage(-BULLETS_DAMAGE);
+					IsCollisionEnermies = 1;
+					x += min_tx * dx + nx * 0.4f;
+					y += min_ty * dy + ny * 0.4f;
+					vx = 0;
+					vy = 0;
+				}
+				if (e->ny != 0) {
+					bug->SubDamage(-BULLETS_DAMAGE);
+					IsCollisionEnermies = 1;
+					x += min_tx * dx + nx * 0.4f;
+					y += min_ty * dy + ny * 0.4f;
+					vx = 0;
+					vy = 0;
+				}
+			}
+
+			else if (dynamic_cast<Doom*>(e->obj)) {
+				Doom* doom = dynamic_cast<Doom*>(e->obj);
+				if (e->nx != 0) {
+					doom->SubDamage(-BULLETS_DAMAGE);
+					IsCollisionEnermies = 1;
+					x += min_tx * dx + nx * 0.4f;
+					y += min_ty * dy + ny * 0.4f;
+					vx = 0;
+					vy = 0;
+				}
+				if (e->ny != 0) {
+					doom->SubDamage(-BULLETS_DAMAGE);
+					IsCollisionEnermies = 1;
+					x += min_tx * dx + nx * 0.4f;
+					y += min_ty * dy + ny * 0.4f;
+					vx = 0;
+					vy = 0;
+				}
+			}
+
+			else if (dynamic_cast<MayBug*>(e->obj)) {
+				MayBug* maybug = dynamic_cast<MayBug*>(e->obj);
+				if (e->nx != 0) {
+					maybug->SubDamage(-BULLETS_DAMAGE);
+					IsCollisionEnermies = 1;
+					x += min_tx * dx + nx * 0.4f;
+					y += min_ty * dy + ny * 0.4f;
+					vx = 0;
+					vy = 0;
+				}
+				if (e->ny != 0) {
+					maybug->SubDamage(-BULLETS_DAMAGE);
+					IsCollisionEnermies = 1;
+					x += min_tx * dx + nx * 0.4f;
+					y += min_ty * dy + ny * 0.4f;
+					vx = 0;
+					vy = 0;
+				}
+			}
+
+			else if (dynamic_cast<Spider*>(e->obj)) {
+				Spider* spider = dynamic_cast<Spider*>(e->obj);
+				if (e->nx != 0) {
+					spider->SubDamage(-BULLETS_DAMAGE);
+					IsCollisionEnermies = 1;
+					x += min_tx * dx + nx * 0.4f;
+					y += min_ty * dy + ny * 0.4f;
+					vx = 0;
+					vy = 0;
+				}
+				if (e->ny != 0) {
+					spider->SubDamage(-BULLETS_DAMAGE);
+					IsCollisionEnermies = 1;
+					x += min_tx * dx + nx * 0.4f;
+					y += min_ty * dy + ny * 0.4f;
+					vx = 0;
+					vy = 0;
+				}
 			}
 		}
+#pragma endregion
 	}
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 #pragma endregion
@@ -96,22 +220,17 @@ void MainBullets::Render()
 {
 	//RenderBoundingBox();
 	int ani;
-	if (TimeDelay >= TimeDelayMax)
-	{
+	if (TimeDelay >= TimeDelayMax) {
 		IsDone = true;
 		TimeDelay = 0;
 	}
-	else
-	{
-		if (IsCollision == 0)
-		{
-			if (IsTargetTop == true)
-			{
+	else {
+		if (IsCollisionBrick == 0 && IsCollisionEnermies == 0) {
+			if (IsTargetTop == true) {
 				ani = CAR_BULLET_ANI_TOP;
 				animation_set->at(ani)->Render(x, y, alpha);
 			}
-			else
-			{
+			else {
 				if (BulletDirection > 0)
 					ani = CAR_BULLET_ANI_RIGHT;
 				else
@@ -119,17 +238,18 @@ void MainBullets::Render()
 				animation_set->at(ani)->Render(x, y, alpha);
 			}
 		}
-		else
-		{
-			timer = GetTickCount();
+		else {
+			//if (IsCollisionBrick != 0 || IsCollisionEnermies != 0) {
+
 			flag = true;
 			ani = CAR_BULLET_EXPLOTION_ANI;
 			animation_set->at(ani)->Render(x, y - DISTANCE_TO_BANG, alpha);
-			if (animation_set->at(ani)->GetFrame() == 2)
-			{
+			if (animation_set->at(ani)->GetFrame() == 2) {
 				IsDone = true;
 				TimeDelay = 0;
 			}
+			timer = GetTickCount();
+			//}
 		}
 	}
 }

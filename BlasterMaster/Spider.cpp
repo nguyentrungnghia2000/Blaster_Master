@@ -87,6 +87,9 @@ void Spider::Render()
 
 Spider::Spider(LPGAMEOBJECT target)
 {
+	this->IsDead = false;
+	this->EnermiesHealth = ENERMIES_HEALTH;
+
 	random_device m;
 	mt19937 t(m());
 	uniform_real_distribution<float> minh(-.05f, .05f);

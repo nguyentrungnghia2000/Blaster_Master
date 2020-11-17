@@ -344,8 +344,6 @@ void CPlayScene::Update(DWORD dt)
 		}
 		//	cy = spriteMap->GetHeight() - SCREEN_HEIGHT;
 	}
-	DebugOut(L"toa do cam x %f \n ", cx);
-	DebugOut(L"toa do cam y %f \n ", cy);
 	//GameCamera->SetCamPos(cx, cy);
 	GameCamera->SetCamPos(cx, cy);
 #pragma endregion
@@ -380,12 +378,23 @@ void CPlayScene::Update(DWORD dt)
 	for (int i = 0; i < lsBullets.size(); i++) {
 		lsBullets[i]->Update(dt, &coObjects);
 	}
+	for (size_t i = 1; i < objects.size(); i++) {
+		if (objects[i]->Get_IsDead() == true) {
+			objects.erase(objects.begin() + i);
+		}
+	}
 	for (int i = 0; i < lsBullets.size(); i++) {
 		if (lsBullets[i]->Get_IsFinish() == true)
 			lsBullets.erase(lsBullets.begin() + i);
 	}
+	if (player->IsDead == true) {
+		player->y -= (CAR_DIE_BBOX_HEIGTH - CAR_BBOX_HEIGHT);
+		player->IsDead = false;
+		//Unload();
+	}
 	if (playerHUD != NULL) {
 		player->Get_health(healthunit);
+		DebugOut(L"current health : %d\n", healthunit);
 		player->Get_power(powerunit);
 		playerHUD->Update(cx, cy, healthunit, powerunit);
 	}

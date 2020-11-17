@@ -29,4 +29,8 @@ class Bug :public CGameObject
 public:
 	Bug(LPGAMEOBJECT);
 	virtual void SetState(int state);
+
+	void Set_IsDead(bool value) { this->IsDead = value; }
+	bool Get_IsDead() { return this->IsDead; }
+	void SubDamage(int damage) { EnermiesHealth += damage; }
 };

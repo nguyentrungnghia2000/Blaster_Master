@@ -1,6 +1,9 @@
 #include "Doom.h"
 Doom::Doom(LPGAMEOBJECT target, int state, int brick)
 {
+	this->IsDead = false;
+	this->EnermiesHealth = ENERMIES_HEALTH;
+
 	Target = target;
 	if (brick == 1)
 		IsBrick = true;

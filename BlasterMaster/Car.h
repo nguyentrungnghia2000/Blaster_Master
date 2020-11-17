@@ -42,11 +42,14 @@
 #define CAR_BBOX_HEIGHT 18
 #define CAR_UP_BBOX_HEIGHT 34
 #define CAR_JUMP_BBOX_HEIGHT 21
+#define CAR_DIE_BBOX_WIDTH	45
+#define CAR_DIE_BBOX_HEIGTH	40
 
 #define CAR_SMALL_BBOX_WIDTH  13
 #define CAR_SMALL_BBOX_HEIGHT 15
 
 #define CAR_UNTOUCHABLE_TIME 5000
+#define EXPLOSION_TIME 200
 
 
 class CCar : public CGameObject
@@ -68,6 +71,7 @@ public:
 	bool PressJump = false;
 	bool FlippingUp = false;
 	bool isAttack = false;
+	DWORD timer;
 	CCar(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
@@ -79,10 +83,14 @@ public:
 	void Get_CarDirection(int& direction) { direction = nx; }
 	void Get_CarFlipUp(bool& isTargetTop) { isTargetTop = FlippingUp; }
 	void Get_health(int& health) { health = this->health; }
-	void Get_power(int& power) { health = this->power; }
+	void Get_power(int& power) { power = this->power; }
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 	void Reset();
 	void Get_CarStateForBullet(int& direct, bool& flipup, float Px, float Py) { direct = direction; flipup = FlippingUp; Px = x; Py = y; }
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+
+	void Set_IsDead(bool value) { this->IsDead = value; }
+	bool Get_IsDead() { return this->IsDead; }
+	void SubDamage(int damage) { EnermiesHealth += damage; }
 };

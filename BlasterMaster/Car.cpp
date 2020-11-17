@@ -6,6 +6,13 @@
 #include "Brick.h"
 #include "Game.h"
 
+#include "Item.h"
+#include "Bug.h"
+#include "Robot.h"
+#include "Bee.h"
+#include "MayBug.h"
+#include "Doom.h"
+#include "Spider.h"
 #include "Portal.h"
 
 CCar::CCar(float x, float y) : CGameObject()
@@ -17,12 +24,20 @@ CCar::CCar(float x, float y) : CGameObject()
 	start_y = y;
 	this->x = x;
 	this->y = y;
+
+	health = power = PLAYER_HEALTH;
+	this->IsDead = false;
+	this->health_up = false;
 }
 
 void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
+
+	if (GetTickCount() - timer < EXPLOSION_TIME && health_up == true) {
+		this->IsDead = true;
+	}
 
 	// Simple fall down
 	vy += CAR_GRAVITY * dt;
@@ -47,11 +62,14 @@ void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
-	coEvents.clear();
+	vector<LPGAMEOBJECT>* lsEnermies_Items_Bricks = new vector<LPGAMEOBJECT>();
 
-	// turn off collision when die 
-	//if (state != CAR_STATE_IDLE)
-	CalcPotentialCollisions(coObjects, coEvents);
+	coEvents.clear();
+	lsEnermies_Items_Bricks->clear();
+	for (int i = 0; i < coObjects->size(); i++) {
+		lsEnermies_Items_Bricks->push_back(coObjects->at(i));
+	}
+	CalcPotentialCollisions(lsEnermies_Items_Bricks, coEvents);
 
 	// reset untouchable timer if untouchable time has passed
 	if (GetTickCount() - untouchable_start > CAR_UNTOUCHABLE_TIME)
@@ -97,14 +115,29 @@ void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						PressJump = false;
 					}
 				}
-				//if (e->ny > 0) {
-				//	PressJump = false;
-				//}
 			}
 			else if (dynamic_cast<CPortal*>(e->obj))
 			{
 				CPortal* p = dynamic_cast<CPortal*>(e->obj);
 				CGame::GetInstance()->SwitchScene(p->GetSceneId());
+			}
+			else if (dynamic_cast<Robot*>(e->obj)) {
+				health = health - 1;
+			}
+			else if (dynamic_cast<Bee*>(e->obj)) {
+				health = health - 1;
+			}
+			else if (dynamic_cast<Bug*>(e->obj)) {
+				health = health - 1;
+			}
+			else if (dynamic_cast<Doom*>(e->obj)) {
+				health = health - 1;
+			}
+			else if (dynamic_cast<MayBug*>(e->obj)) {
+				health = health - 1;
+			}
+			else if (dynamic_cast<Spider*>(e->obj)) {
+				health = health - 1;
 			}
 		}
 	}
@@ -118,8 +151,12 @@ void CCar::Render()
 	int alpha = 255;
 	if (untouchable) alpha = 128;
 	RenderBoundingBox();
-	if (state == CAR_STATE_DIE)
+	if (health == 0) {
+		health_up = true;
 		ani = CAR_ANI_DIE;
+		animation_set->at(ani)->Render(x, y, alpha);
+		timer = GetTickCount();
+	}
 	else if (FlippingUp == true) {
 		if (vx > 0)
 			ani = CAR_ANI_WALKING_UP_RIGHT;

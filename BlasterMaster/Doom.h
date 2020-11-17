@@ -34,4 +34,8 @@ class Doom : public CGameObject
 public:
 	Doom(LPGAMEOBJECT,int,int);
 	virtual void SetState(int state);
+
+	void Set_IsDead(bool value) { this->IsDead = value; }
+	bool Get_IsDead() { return this->IsDead; }
+	void SubDamage(int damage) { EnermiesHealth += damage; }
 };

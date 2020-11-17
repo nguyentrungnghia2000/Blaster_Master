@@ -16,6 +16,11 @@ void Robot::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	vector<LPGAMEOBJECT>* OnlyBrick = new vector<LPGAMEOBJECT>();
+
+	if (this->EnermiesHealth == 0) {
+		this->IsDead = true;
+	}
+
 	OnlyBrick->clear();
 	for (int i = 0; i < coObjects->size(); i++)
 	{
@@ -175,6 +180,9 @@ void Robot::Render()
 Robot::Robot(LPGAMEOBJECT Target)
 {
 	//srand(time(NULL));
+	this->IsDead = false;
+	this->EnermiesHealth = ENERMIES_HEALTH;
+
 	this->time = new Timer(ROBOT_HUNTING_TIME + ROBOT_SAVE_TIME);
 	this->target = Target;
 	SetState(ROBOT_STATE_UNACTIVE);

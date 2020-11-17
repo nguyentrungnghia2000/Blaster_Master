@@ -134,6 +134,9 @@ void MayBug::Render()
 
 MayBug::MayBug(LPGAMEOBJECT Target)
 {
+	this->IsDead = false;
+	this->EnermiesHealth = ENERMIES_HEALTH;
+
 	this->time = new Timer(MAYBUG_FLYING_TIME);
 	IsActive = false;
 	RandomUpDown = 0;

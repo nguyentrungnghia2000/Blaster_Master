@@ -1,15 +1,4 @@
-﻿/* =============================================================
-	INTRODUCTION TO GAME PROGRAMMING SE102
-
-	SAMPLE 05 - SCENCE MANAGER
-
-	This sample illustrates how to:
-
-		1/ Implement a scence manager
-		2/ Load scene from "database", add/edit/remove scene without changing code
-		3/ Dynamically move between scenes without hardcode logic
-
-================================================================ */
+﻿
 
 #include <windows.h>
 #include <d3d9.h>
