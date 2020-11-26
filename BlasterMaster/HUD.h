@@ -24,6 +24,6 @@ public:
 	~HUD();
 
 	void Update(float x, float y, int currentCarHealth, int currentPowerHealth);
-	void Render(CCar* playerInfo);
+	void Render(CGameObject* playerInfo);
 };
 

@@ -159,6 +159,8 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="HealthBar.h" />
     <ClInclude Include="HUD.h" />
+    <ClInclude Include="Human.h" />
+    <ClInclude Include="HumanBullets.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="MainBullets.h" />
@@ -188,6 +190,8 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="HealthBar.cpp" />
     <ClCompile Include="HUD.cpp" />
+    <ClCompile Include="Human.cpp" />
+    <ClCompile Include="HumanBullets.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="KeyEventHandler.cpp" />
     <ClCompile Include="main.cpp" />

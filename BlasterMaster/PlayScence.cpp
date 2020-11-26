@@ -15,6 +15,7 @@
 #include "Doom.h"
 #include "Spider.h"
 #include "Item.h"
+#include "Human.h"
 
 using namespace std;
 
@@ -24,19 +25,17 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 	key_handler = new CPlayScenceKeyHandler(this);
 }
 
-/*
-	Load scene resources from scene file (textures, sprites, animations and objects)
-	See scene1.txt, scene2.txt for detail format specification
-*/
-
 #define SCENE_SECTION_UNKNOWN -1
 #define SCENE_SECTION_TEXTURES 2
 #define SCENE_SECTION_SPRITES 3
 #define SCENE_SECTION_ANIMATIONS 4
 #define SCENE_SECTION_ANIMATION_SETS	5
 #define SCENE_SECTION_OBJECTS	6
+#define SCENE_SECTION_SCENE	7
+#define SCENE_SECTION_SWITCHSCENE	8
+#define SCENE_SECTION_MAP	9
 
-#define OBJECT_TYPE_MARIO	0
+#define OBJECT_TYPE_HUMAN	0
 #define OBJECT_TYPE_BRICK	1
 #define OBJECT_TYPE_GOOMBA	2
 #define OBJECT_TYPE_KOOPAS	3
@@ -119,7 +118,7 @@ void CPlayScene::_ParseSection_ANIMATION_SETS(string line)
 {
 	vector<string> tokens = split(line);
 
-	if (tokens.size() < 2) return; // skip invalid lines - an animation set must at least id and one animation id
+	if (tokens.size() < 2) return;
 
 	int ani_set_id = atoi(tokens[0].c_str());
 
@@ -138,16 +137,11 @@ void CPlayScene::_ParseSection_ANIMATION_SETS(string line)
 	CAnimationSets::GetInstance()->Add(ani_set_id, s);
 }
 
-/*
-	Parse a line in section [OBJECTS]
-*/
 void CPlayScene::_ParseSection_OBJECTS(string line)
 {
 	vector<string> tokens = split(line);
 
-	//DebugOut(L"--> %s\n",ToWSTR(line).c_str());
-
-	if (tokens.size() < 3) return; // skip invalid lines - an object set must have at least id, x, y
+	if (tokens.size() < 3) return;
 
 	int object_type = atoi(tokens[0].c_str());
 	float x = atof(tokens[1].c_str());
@@ -161,28 +155,24 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	CGameObject* obj = NULL;
 
-	switch (object_type)
-	{
-		/*case OBJECT_TYPE_MARIO:
-			if (player != NULL)
-			{
-				DebugOut(L"[ERROR] MARIO object was created before!\n");
-				return;
-			}
-			obj = new CMario(x, y);
-			player = (CMario*)obj;
-
-			DebugOut(L"[INFO] Player object created!\n");
-			break;*/
+	switch (object_type) {
 	case OBJECT_TYPE_CAR:
-		if (player != NULL)
-		{
-			DebugOut(L"[ERROR] MARIO object was created before!\n");
+		if (player != NULL) {
+			DebugOut(L"[ERROR] CAR object was created before!\n");
 			return;
 		}
 		obj = new CCar(x, y);
 		player = (CCar*)obj;
 
+		DebugOut(L"[INFO] Player object created!\n");
+		break;
+	case OBJECT_TYPE_HUMAN:
+		if (player2 != NULL) {
+			DebugOut(L"[ERROR] CAR object was created before!\n");
+			return;
+		}
+		obj = new Human(x, y);
+		player2 = (Human*)obj;
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
 	case OBJECT_TYPE_BRICK:
@@ -226,6 +216,36 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	objects.push_back(obj);
 }
 
+void CPlayScene::_ParseSection_SCENE(string line)
+{
+	vector<string> tokens = split(line);
+
+
+}
+
+void CPlayScene::_ParseSection_SWITCHSCENE(string line)
+{
+	vector<string> tokens = split(line);
+	int id_scene = atoi(tokens[0].c_str());
+	CGame::GetInstance()->SwitchScene(id_scene);
+}
+
+void CPlayScene::_ParseSection_MAP(string line)
+{
+	vector<string> tokens = split(line);
+	int id_map = atoi(tokens[0].c_str());
+	int l = atoi(tokens[1].c_str());
+	int t = atoi(tokens[2].c_str());
+	int r = atoi(tokens[3].c_str());
+	int b = atoi(tokens[4].c_str());
+	int id_texture = atoi(tokens[5].c_str());
+
+	LPDIRECT3DTEXTURE9 tex = CTextures::GetInstance()->Get(id_texture);
+	//spriteMap = CSprites::GetInstance()->Get(id_map);
+
+	spriteMap = new CSprite(id_map, l, t, r, b, tex);
+}
+
 void CPlayScene::Load()
 {
 	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
@@ -256,6 +276,15 @@ void CPlayScene::Load()
 		if (line == "[OBJECTS]") {
 			section = SCENE_SECTION_OBJECTS; continue;
 		}
+		if (line == "[SCENE]") {
+			section = SCENE_SECTION_SCENE; continue;
+		}
+		if (line == "[SWITCHSCENE]") {
+			section = SCENE_SECTION_SWITCHSCENE; continue;
+		}
+		if (line == "[MAP]") {
+			section = SCENE_SECTION_MAP; continue;
+		}
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
 
 		//
@@ -268,6 +297,8 @@ void CPlayScene::Load()
 		case SCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
 		case SCENE_SECTION_ANIMATION_SETS: _ParseSection_ANIMATION_SETS(line); break;
 		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
+		case SCENE_SECTION_SWITCHSCENE: _ParseSection_SWITCHSCENE(line); break;
+		case SCENE_SECTION_MAP: _ParseSection_MAP(line); break;
 		}
 	}
 
@@ -281,17 +312,20 @@ void CPlayScene::Load()
 	//Load map
 	spriteMap = CSprites::GetInstance()->Get(123456);
 
+
 	LoadObjects();
 }
 
 void CPlayScene::LoadObjects()
 {
+	/*if (player == NULL) {
+		player = new CCar(50, 95);
+	}
+	if (player2 == NULL) {
+		player2 = new Human(50, 95);
+	}*/
 	if (playerHUD == NULL) {
-		player->Get_health(healthunit);
-		player->Get_power(powerunit);
-		playerHUD = new HUD(healthunit, powerunit);
-
-		DebugOut(L"health : %d\n", healthunit);
+		playerHUD = new HUD(PLAYER_HEALTH, PLAYER_HEALTH);
 	}
 }
 
@@ -299,53 +333,87 @@ void CPlayScene::Update(DWORD dt)
 {
 #pragma region CAMERA
 	float cx, cy;
-	player->GetPosition(cx, cy);
-	//Camera* GameCamera = Camera::GetInstance();
 	CGame* GameCamera = CGame::GetInstance();
-	player->GetPosition(cx, cy);
-	if (player->x + SCREEN_WIDTH / 2 >= spriteMap->GetWidth())
-		cx = spriteMap->GetWidth() - SCREEN_WIDTH;
-	else
-	{
-		if (player->x < SCREEN_WIDTH / 2)
-			cx = 0;
-		else
-			cx -= SCREEN_WIDTH / 2;
-	}
-
-	if (player->y > spriteMap->GetHeight() - SCREEN_HEIGHT / 2)
-	{
-		//if (player->y > spriteMap->GetHeight() - SCREEN_HEIGHT / 2)
-		//{
-		if (spriteMap->GetHeight() < SCREEN_HEIGHT)
-			cy = 0;
+	if (player->isActive == true) {
+		player->GetPosition(cx, cy);
+		if (player->x + SCREEN_WIDTH / 2 >= spriteMap->GetWidth())
+			cx = spriteMap->GetWidth() - SCREEN_WIDTH;
 		else
 		{
-			if (player->y + SCREEN_HEIGHT / 2 > spriteMap->GetHeight())
-				cy = spriteMap->GetHeight() - SCREEN_HEIGHT;
+			if (player->x < SCREEN_WIDTH / 2)
+				cx = 0;
+			else
+				cx -= SCREEN_WIDTH / 2;
+		}
+
+		if (player->y > spriteMap->GetHeight() - SCREEN_HEIGHT / 2)
+		{
+			if (spriteMap->GetHeight() < SCREEN_HEIGHT)
+				cy = 0;
 			else
 			{
-				cy -= SCREEN_HEIGHT / 2;
+				if (player->y + SCREEN_HEIGHT / 2 > spriteMap->GetHeight())
+					cy = spriteMap->GetHeight() - SCREEN_HEIGHT;
+				else
+				{
+					cy -= SCREEN_HEIGHT / 2;
+				}
 			}
 		}
+		else if (player->y < spriteMap->GetHeight() - SCREEN_HEIGHT / 2)
+		{
+			if (spriteMap->GetHeight() < SCREEN_HEIGHT)
+				cy = 0;
+			else
+			{
+				if (player->y < SCREEN_HEIGHT / 2)
+					cy = 0;
+				else
+					cy -= SCREEN_HEIGHT / 2;
+			}
+		}
+		GameCamera->SetCamPos(cx, cy);
 	}
-	else if (player->y < spriteMap->GetHeight() - SCREEN_HEIGHT / 2)
-	{
-		if (spriteMap->GetHeight() < SCREEN_HEIGHT)
-			cy = 0;
+	else if (player2->isActive == true) {
+		player2->GetPosition(cx, cy);
+		if (player2->x + SCREEN_WIDTH / 2 >= spriteMap->GetWidth())
+			cx = spriteMap->GetWidth() - SCREEN_WIDTH;
 		else
 		{
-			if (player->y < SCREEN_HEIGHT / 2)
-				cy = 0;
-			//else if (player->y > spriteMap->GetHeight()-SCREEN_HEIGHT/2)
-			//	cy = spriteMap->GetHeight() - SCREEN_HEIGHT;
+			if (player2->x < SCREEN_WIDTH / 2)
+				cx = 0;
 			else
-				cy -= SCREEN_HEIGHT / 2;
+				cx -= SCREEN_WIDTH / 2;
 		}
-		//	cy = spriteMap->GetHeight() - SCREEN_HEIGHT;
+
+		if (player2->y > spriteMap->GetHeight() - SCREEN_HEIGHT / 2)
+		{
+			if (spriteMap->GetHeight() < SCREEN_HEIGHT)
+				cy = 0;
+			else
+			{
+				if (player2->y + SCREEN_HEIGHT / 2 > spriteMap->GetHeight())
+					cy = spriteMap->GetHeight() - SCREEN_HEIGHT;
+				else
+				{
+					cy -= SCREEN_HEIGHT / 2;
+				}
+			}
+		}
+		else if (player2->y < spriteMap->GetHeight() - SCREEN_HEIGHT / 2)
+		{
+			if (spriteMap->GetHeight() < SCREEN_HEIGHT)
+				cy = 0;
+			else
+			{
+				if (player2->y < SCREEN_HEIGHT / 2)
+					cy = 0;
+				else
+					cy -= SCREEN_HEIGHT / 2;
+			}
+		}
+		GameCamera->SetCamPos(cx, cy);
 	}
-	//GameCamera->SetCamPos(cx, cy);
-	GameCamera->SetCamPos(cx, cy);
 #pragma endregion
 
 #pragma region objects and bullets
@@ -371,93 +439,140 @@ void CPlayScene::Update(DWORD dt)
 		lsBullets.push_back(bullet);
 		player->isAttack = false;
 	}
+	if (player2->isAttack)
+	{
+		MainBullets* bullet = new MainBullets();
+		player2->Get_HumanDirection(bullet->BulletDirection);
 
+		if (bullet->BulletDirection > 0)
+			bullet->SetPosition(player2->x + DISTANCE_TO_HUMAN_WIDTH_RIGHT, player2->y + DISTANCE_TO_HUMAN_HEIGTH);
+		else
+			bullet->SetPosition(player2->x + DISTANCE_TO_HUMAN_WIDTH_LEFT, player2->y + DISTANCE_TO_HUMAN_HEIGTH);
+		lsBullets.push_back(bullet);
+		player2->isAttack = false;
+	}
+#pragma endregion
+
+#pragma region update objects
 	for (size_t i = 0; i < objects.size(); i++) {
 		objects[i]->Update(dt, &coObjects);
 	}
+	/*player->Update(dt, &coObjects);
+	player2->Update(dt, &coObjects);*/
 	for (int i = 0; i < lsBullets.size(); i++) {
 		lsBullets[i]->Update(dt, &coObjects);
 	}
-	for (size_t i = 1; i < objects.size(); i++) {
+	for (size_t i = 0; i < objects.size(); i++) {
 		if (objects[i]->Get_IsDead() == true) {
 			objects.erase(objects.begin() + i);
 		}
 	}
 	for (int i = 0; i < lsBullets.size(); i++) {
-		if (lsBullets[i]->Get_IsFinish() == true)
+		if (lsBullets[i]->Get_IsDead() == true)
 			lsBullets.erase(lsBullets.begin() + i);
 	}
 	if (player->IsDead == true) {
 		player->y -= (CAR_DIE_BBOX_HEIGTH - CAR_BBOX_HEIGHT);
-		player->IsDead = false;
-		//Unload();
 	}
 	if (playerHUD != NULL) {
-		player->Get_health(healthunit);
-		DebugOut(L"current health : %d\n", healthunit);
-		player->Get_power(powerunit);
-		playerHUD->Update(cx, cy, healthunit, powerunit);
+		if (player->isActive == true) {
+			player->Get_health(healthunit);
+			player->Get_power(powerunit);
+			playerHUD->Update(cx, cy, healthunit, powerunit);
+		}
+		else if (player2->isActive == true) {
+			player2->Get_health(healthunit);
+			player2->Get_power(powerunit);
+			playerHUD->Update(cx, cy, healthunit, powerunit);
+		}
 	}
 #pragma endregion
-	if (player == NULL) return;
 
+	if (player == NULL) return;
+	if (player2 == NULL) return;
 }
 
 void CPlayScene::Render()
 {
-	spriteMap->Draw(0,0);
-	//CGame::GetInstance()->Draw(-135, -10, maptextures, 0, 0, mapWidth, mapHeight);
+	spriteMap->Draw(0, 0);
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
+
+	player->Render();
+	player2->Render();
+
 	for (int i = 0; i < lsBullets.size(); i++) {
 		lsBullets[i]->Render();
 	}
-	playerHUD->Render(player);
+	if (player->isActive == true) {
+		playerHUD->Render(player);
+	}
+	else if (player2->isActive == true) {
+		playerHUD->Render(player2);
+	}
 }
 
-/*
-	Unload current scene
-*/
 void CPlayScene::Unload()
 {
 	for (int i = 0; i < objects.size(); i++)
 		delete objects[i];
 
 	objects.clear();
-	player = NULL;
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
 
 void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 {
-	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
-
 	CGame* game = CGame::GetInstance();
+	//CGameObject* controlplayer = ((CPlayScene*)scence)->Get_Player();
 	CCar* car = ((CPlayScene*)scence)->GetPlayer();
+	Human* human = ((CPlayScene*)scence)->GetPlayer1();
 	vector<LPGAMEOBJECT> listObjects = ((CPlayScene*)scence)->ReturnObject();
-	//DebugOut(L"%i", listObjects.size());
-	//vector<Bullets*> bullets = ((CPlayScene*)scence)->Get_ListBullets();
 	float Carx = 0, Cary = 0;
 	int direction;
 	bool IsTargetTop;
 	car->Get_CarStateForBullet(direction, IsTargetTop, Carx, Cary);
+
 	switch (KeyCode)
 	{
+	case DIK_T:
+		if (car->isActive == true && human->isActive == false) {
+			car->isActive = false;
+			human->isActive = true;
+		}
+		else if (car->isActive == false && human->isActive == true) {
+			car->isActive = true;
+			human->isActive = false;
+		}
+		if (car->isActive == false) {
+			car->Get_CarDirection(human->nx);
+			if (human->nx > 0)
+				human->SetPosition(car->x + HUMAN_APPEAR_DISTANCE_WIDTH_RIGHT, car->y + HUMAN_APPEAR_DISTANCE_HEIGHT);
+			else
+				human->SetPosition(car->x + HUMAN_APPEAR_DISTANCE_WIDTH_LEFT, car->y + HUMAN_APPEAR_DISTANCE_HEIGHT);
+		}
+		break;
 	case DIK_X:
-		car->SetState(CAR_STATE_JUMP);
-		car->PressJump = true;
-		//car->Set_FlipUp(true);
+		if (car->isActive == true) {
+			car->SetState(CAR_STATE_JUMP);
+			car->PressJump = true;
+		}
+		else if (human->isActive == true) {
+			human->SetState(HUMAN_STATE_JUMP);
+			human->PressJump = true;
+		}
 		break;
 	case DIK_C:
-		car->isAttack = true;
+		if (car->isActive == true)
+			car->isAttack = true;
+		if (human->isActive == true)
+			human->isAttack = true;
 		break;
-	case DIK_A:
+	case DIK_R:
 		car->Reset();
-		break;/*
-	case DIK_UP:
-		car->SetState(CAR_STATE_UP);
-		break;*/
+		human->Reset();
+		break;
 	case DIK_P:
 		if (CGame::GetInstance()->GetIDCurrentScene() == 8)
 			CGame::GetInstance()->SwitchScene(1);
@@ -478,24 +593,37 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 
 void CPlayScenceKeyHandler::OnKeyUp(int KeyCode) {
 	CCar* car = ((CPlayScene*)scence)->GetPlayer();
+	Human* human = ((CPlayScene*)scence)->GetPlayer1();
 	switch (KeyCode)
 	{
 	case DIK_UP:
-		car->SetPosition(car->x, car->y + (CAR_UP_BBOX_HEIGHT - CAR_BBOX_HEIGHT));
-		car->FlippingUp = false;
-		car->SetState(CAR_STATE_IDLE);
+		if (car->isActive == true) {
+			car->SetPosition(car->x, car->y + (CAR_UP_BBOX_HEIGHT - CAR_BBOX_HEIGHT));
+			car->FlippingUp = false;
+			car->SetState(CAR_STATE_IDLE);
+		}
 		break;
 	case DIK_LEFT:
 	case DIK_RIGHT:
-		car->SetState(CAR_STATE_IDLE);
+		if (car->isActive == true)
+			car->SetState(CAR_STATE_IDLE);
+		else if (human->isActive == true)
+			human->SetState(HUMAN_STATE_IDLE);
 		break;
 	case DIK_X:
-		//car->SetPosition(car->x, car->y - (CAR_JUMP_BBOX_HEIGHT - CAR_BBOX_HEIGHT));
-		//car->vx = 0;
-		//car->PressJump = false;
+		if (car->isActive == true) {
+			car->PressJump = false;
+			car->vy = 0;
+		}
+		else if (human->isActive == true) {
+			human->PressJump = false;
+		}
 		break;
 	case DIK_C:
-		car->isAttack = false;
+		if (car->isActive == true)
+			car->isAttack = false;
+		if (human->isActive == true)
+			human->isAttack = false;
 		break;
 	}
 }
@@ -503,46 +631,52 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 {
 	CGame* game = CGame::GetInstance();
 	CCar* car = ((CPlayScene*)scence)->GetPlayer();
-	//vector<Bullets*> bullets = ((CPlayScene*)scence)->Get_ListBullets();
+	Human* human = ((CPlayScene*)scence)->GetPlayer1();
 
 	int KeyCode;
-	if (car->GetState() == CAR_STATE_DIE) return;
+	if (car->isActive == true) {
+		if (car->GetState() == CAR_STATE_DIE) return;
 
-	if (game->IsKeyDown(DIK_UP)) {
-		car->PressKeyUp = true;
+		if (game->IsKeyDown(DIK_UP)) {
+			car->PressKeyUp = true;
 
-		if (!car->FlippingUp)
-			car->SetPosition(car->x, car->y - (CAR_UP_BBOX_HEIGHT - CAR_BBOX_HEIGHT));
-		car->FlippingUp = true;
-		if (game->IsKeyDown(DIK_LEFT)) {
-			car->SetState(CAR_STATE_WALKING_UP_LEFT);
+			if (!car->FlippingUp)
+				car->SetPosition(car->x, car->y - (CAR_UP_BBOX_HEIGHT - CAR_BBOX_HEIGHT));
+			car->FlippingUp = true;
+			if (game->IsKeyDown(DIK_LEFT)) {
+				car->SetState(CAR_STATE_WALKING_UP_LEFT);
+			}
+			else if (game->IsKeyDown(DIK_RIGHT)) {
+				car->SetState(CAR_STATE_WALKING_UP_RIGHT);
+			}
+			else
+				car->SetState(CAR_STATE_UP);
 		}
+
 		else if (game->IsKeyDown(DIK_RIGHT)) {
-			car->SetState(CAR_STATE_WALKING_UP_RIGHT);
+			car->SetState(CAR_STATE_WALKING_RIGHT);
 		}
-		else
-			car->SetState(CAR_STATE_UP);
-		//if (car->FlippingUp == true) {
-		//	
-		//	/*car->Set_FlipUp(false);*/
-		//}
-	}
+		else if (game->IsKeyDown(DIK_LEFT)) {
+			car->SetState(CAR_STATE_WALKING_LEFT);
+		}
 
-	else if (game->IsKeyDown(DIK_RIGHT)) {
-		car->SetState(CAR_STATE_WALKING_RIGHT);
-	}
-	else if (game->IsKeyDown(DIK_LEFT)) {
-		car->SetState(CAR_STATE_WALKING_LEFT);
-	}
-
-	else if (game->IsKeyDown(DIK_X)) {
-		if (car->PressJump == true) {
-			//car->SetPosition(car->x, car->y - (CAR_JUMP_BBOX_HEIGHT - CAR_BBOX_HEIGHT));
-			car->IsJumping = true;
+		else if (game->IsKeyDown(DIK_X)) {
+			if (car->PressJump == true) {
+				car->IsJumping = true;
+			}
 		}
 	}
-	/*else if (game->IsKeyDown(DIK_P))
-	{
-		CGame::GetInstance()->SwitchScene(1 + CGame::GetInstance()->GetIDCurrentScene());
-	}*/
+	else if (human->isActive == true) {
+		if (game->IsKeyDown(DIK_RIGHT)) {
+			human->SetState(HUMAN_STATE_WALKING_RIGHT);
+		}
+		else if (game->IsKeyDown(DIK_LEFT)) {
+			human->SetState(HUMAN_STATE_WALKING_LEFT);
+		}
+		else if (game->IsKeyDown(DIK_X)) {
+			if (human->PressJump == true) {
+				human->IsJumping = true;
+			}
+		}
+	}
 }

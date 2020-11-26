@@ -28,7 +28,7 @@
 #define CAR_ANI_FLIP_UP_RIGHT_2	5
 #define CAR_ANI_FLIP_UP_RIGHT_3	6
 #define CAR_ANI_FLIP_UP_RIGHT_4	7
-#define CAR_ANI_FLIP_UP_LEFT		8
+#define CAR_ANI_FLIP_UP_LEFT	8
 #define CAR_ANI_FLIP_UP_LEFT_2	9
 #define CAR_ANI_FLIP_UP_LEFT_3	10
 #define CAR_ANI_FLIP_UP_LEFT_4	11
@@ -60,23 +60,31 @@ class CCar : public CGameObject
 	int power;
 	DWORD untouchable_start;
 
-	float start_x;			// initial position of Mario at scene
+	float start_x;
 	float start_y;
 public:
 	int ani = -1;
 	int current_frame;
+	DWORD timer;
 	bool flag = true;
+	bool health_up;
 	bool IsJumping;
 	bool PressKeyUp = false;
 	bool PressJump = false;
 	bool FlippingUp = false;
 	bool isAttack = false;
-	DWORD timer;
+	bool isDead;
+	bool isActive;
+	//bool IsFinish;
 	CCar(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
 	//virtual void Render_Current_Frame();
 	CAnimation* curAnimation;
+
+	void Set_IsDead(bool value) { this->IsDead = value; }
+	bool Get_IsDead() { return this->IsDead; }
+	void SubDamage(int damage) { EnermiesHealth += damage; }
 
 	void SetState(int state);
 	void SetLevel(int l) { level = l; }
@@ -89,8 +97,4 @@ public:
 	void Get_CarStateForBullet(int& direct, bool& flipup, float Px, float Py) { direct = direction; flipup = FlippingUp; Px = x; Py = y; }
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-
-	void Set_IsDead(bool value) { this->IsDead = value; }
-	bool Get_IsDead() { return this->IsDead; }
-	void SubDamage(int damage) { EnermiesHealth += damage; }
 };

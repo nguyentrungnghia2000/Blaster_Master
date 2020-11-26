@@ -120,6 +120,12 @@
     <ClInclude Include="Portal.h">
       <Filter>Source Files\Objects\Materials</Filter>
     </ClInclude>
+    <ClInclude Include="HumanBullets.h">
+      <Filter>Source Files\Objects\FBullets</Filter>
+    </ClInclude>
+    <ClInclude Include="Human.h">
+      <Filter>Source Files\Objects\Materials</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -196,6 +202,12 @@
     </ClCompile>
     <ClCompile Include="Portal.cpp">
       <Filter>Source Files\Objects\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Human.cpp">
+      <Filter>Source Files\Objects\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="HumanBullets.cpp">
+      <Filter>Source Files\Objects\FBullets</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

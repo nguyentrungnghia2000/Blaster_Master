@@ -8,6 +8,7 @@
 #include "Bullets.h"
 #include "MainBullets.h"
 #include "HUD.h"
+#include "Human.h"
 
 #define SCREEN_WIDTH	300
 #define SCREEN_HEIGHT	240
@@ -15,8 +16,10 @@
 class CPlayScene : public CScene
 {
 protected:
-	//CMario* player;					// A play scene has to have player, right? 
+
+	CGameObject* controlplayer;
 	CCar* player;
+	Human* player2;
 	HUD* playerHUD;
 	LPDIRECT3DTEXTURE9 maptextures;
 	int mapWidth = 1024, mapHeight = 240;
@@ -28,6 +31,9 @@ protected:
 	void _ParseSection_ANIMATIONS(string line);
 	void _ParseSection_ANIMATION_SETS(string line);
 	void _ParseSection_OBJECTS(string line);
+	void _ParseSection_SCENE(string line);
+	void _ParseSection_SWITCHSCENE(string line);
+	void _ParseSection_MAP(string line);
 
 	LPSPRITE spriteMap;
 
@@ -42,15 +48,15 @@ public:
 	virtual void Render();
 	virtual void Unload();
 
-	//CMario* GetPlayer() { return player; }
 	CCar* GetPlayer() { return player; }
+	CGameObject* Get_Player() { return controlplayer; }
+	Human* GetPlayer1() { return player2; }
 	vector<LPGAMEOBJECT> ReturnObject() { return objects; }
-
-	//friend class CPlayScenceKeyHandler;
 };
 
 class CPlayScenceKeyHandler : public CScenceKeyHandler
 {
+	bool changeplayer = true;
 	bool up = true;
 	bool jump = true;
 public:
