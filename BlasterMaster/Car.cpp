@@ -6,6 +6,7 @@
 #include "Brick.h"
 #include "Game.h"
 
+#include "Human.h"
 #include "Item.h"
 #include "Bug.h"
 #include "Robot.h"
@@ -19,131 +20,127 @@ CCar::CCar(float x, float y) : CGameObject()
 {
 	untouchable = 0;
 	SetState(CAR_STATE_IDLE);
-
+	health = power = PLAYER_HEALTH;
+	this->IsDead = false;
+	this->health_up = false;
+	this->isActive = true;
 	start_x = x;
 	start_y = y;
 	this->x = x;
 	this->y = y;
-
-	health = power = PLAYER_HEALTH;
-	this->IsDead = false;
-	this->health_up = false;
 }
 
 void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	// Calculate dx, dy 
-	CGameObject::Update(dt);
+	if (isActive == true) {
+		CGameObject::Update(dt);
 
-	if (GetTickCount() - timer < EXPLOSION_TIME && health_up == true) {
-		this->IsDead = true;
-	}
-
-	// Simple fall down
-	vy += CAR_GRAVITY * dt;
+		if (GetTickCount() - timer < EXPLOSION_TIME && health_up == true) {
+			this->IsDead = true;
+		}
+		vy += CAR_GRAVITY * dt;
 
 #pragma region reset render
-	if (PressKeyUp == false) {
-		animation_set->at(CAR_ANI_FLIP_UP_LEFT)->ResetCurrentFrame();
-		animation_set->at(CAR_ANI_FLIP_UP_LEFT_2)->ResetCurrentFrame();
-		animation_set->at(CAR_ANI_FLIP_UP_LEFT_3)->ResetCurrentFrame();
-		animation_set->at(CAR_ANI_FLIP_UP_LEFT_4)->ResetCurrentFrame();
-		animation_set->at(CAR_ANI_FLIP_UP_RIGHT)->ResetCurrentFrame();
-		animation_set->at(CAR_ANI_FLIP_UP_RIGHT_2)->ResetCurrentFrame();
-		animation_set->at(CAR_ANI_FLIP_UP_RIGHT_3)->ResetCurrentFrame();
-		animation_set->at(CAR_ANI_FLIP_UP_RIGHT_4)->ResetCurrentFrame();
-	}
-	/*if (IsJumping == true) {
-		IsJumping = false;
-	}*/
+		if (PressKeyUp == false) {
+			animation_set->at(CAR_ANI_FLIP_UP_LEFT)->ResetCurrentFrame();
+			animation_set->at(CAR_ANI_FLIP_UP_LEFT_2)->ResetCurrentFrame();
+			animation_set->at(CAR_ANI_FLIP_UP_LEFT_3)->ResetCurrentFrame();
+			animation_set->at(CAR_ANI_FLIP_UP_LEFT_4)->ResetCurrentFrame();
+			animation_set->at(CAR_ANI_FLIP_UP_RIGHT)->ResetCurrentFrame();
+			animation_set->at(CAR_ANI_FLIP_UP_RIGHT_2)->ResetCurrentFrame();
+			animation_set->at(CAR_ANI_FLIP_UP_RIGHT_3)->ResetCurrentFrame();
+			animation_set->at(CAR_ANI_FLIP_UP_RIGHT_4)->ResetCurrentFrame();
+		}
+		/*if (IsJumping == true) {
+			IsJumping = false;
+		}*/
 #pragma endregion
 
 #pragma region Xử lý va chạm (collision)
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
+		vector<LPCOLLISIONEVENT> coEvents;
+		vector<LPCOLLISIONEVENT> coEventsResult;
 
-	vector<LPGAMEOBJECT>* lsEnermies_Items_Bricks = new vector<LPGAMEOBJECT>();
+		vector<LPGAMEOBJECT>* lsEnermies_Items_Bricks = new vector<LPGAMEOBJECT>();
+		vector<LPGAMEOBJECT>* lsElse = new vector<LPGAMEOBJECT>();
 
-	coEvents.clear();
-	lsEnermies_Items_Bricks->clear();
-	for (int i = 0; i < coObjects->size(); i++) {
-		lsEnermies_Items_Bricks->push_back(coObjects->at(i));
-	}
-	CalcPotentialCollisions(lsEnermies_Items_Bricks, coEvents);
-
-	// reset untouchable timer if untouchable time has passed
-	if (GetTickCount() - untouchable_start > CAR_UNTOUCHABLE_TIME)
-	{
-		untouchable_start = 0;
-		untouchable = 0;
-	}
-	if (IsJumping) {
-		state = CAR_STATE_JUMP;
-	}
-	//swept aabb      aabb
-	// No collision occured, proceed normally
-	if (coEvents.size() == 0)
-	{
-		x += dx;
-		y += dy;
-	}
-	else
-	{
-		float min_tx, min_ty, nx = 0, ny;
-		float rdx = 0;
-		float rdy = 0;
-
-		// TODO: This is a very ugly designed function!!!!
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-		// how to push back Mario if collides with a moving objects, what if Mario is pushed this way into another object?
-		//if (rdx != 0 && rdx!=dx)
-		//	x += nx*abs(rdx); 
-		for (UINT i = 0; i < coEventsResult.size(); i++)
-		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-
-			if (dynamic_cast<CBrick*>(e->obj)) {
-				x += min_tx * dx + nx * 0.4f;
-				y += min_ty * dy + ny * 0.4f;
-
-				if (e->nx != 0) vx = 0;
-				if (e->ny != 0) {
-					if (e->ny < 0) {
-						vy = 0;
-						IsJumping = false;
-						PressJump = false;
-					}
-				}
+		coEvents.clear();
+		lsEnermies_Items_Bricks->clear();
+		for (int i = 0; i < coObjects->size(); i++) {
+			if (dynamic_cast<Item*>(coObjects->at(i))) {
+				lsElse->push_back(coObjects->at(i));
 			}
-			else if (dynamic_cast<CPortal*>(e->obj))
-			{
-				CPortal* p = dynamic_cast<CPortal*>(e->obj);
-				CGame::GetInstance()->SwitchScene(p->GetSceneId());
+			else if (dynamic_cast<Human*>(coObjects->at(i))) {
+				lsElse->push_back(coObjects->at(i));
 			}
-			else if (dynamic_cast<Robot*>(e->obj)) {
-				health = health - 1;
-			}
-			else if (dynamic_cast<Bee*>(e->obj)) {
-				health = health - 1;
-			}
-			else if (dynamic_cast<Bug*>(e->obj)) {
-				health = health - 1;
-			}
-			else if (dynamic_cast<Doom*>(e->obj)) {
-				health = health - 1;
-			}
-			else if (dynamic_cast<MayBug*>(e->obj)) {
-				health = health - 1;
-			}
-			else if (dynamic_cast<Spider*>(e->obj)) {
-				health = health - 1;
+			else {
+				lsEnermies_Items_Bricks->push_back(coObjects->at(i));
 			}
 		}
-	}
-	// clean up collision events
-	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+		CalcPotentialCollisions(lsEnermies_Items_Bricks, coEvents);
+
+		if (GetTickCount() - untouchable_start > CAR_UNTOUCHABLE_TIME)
+		{
+			untouchable_start = 0;
+			untouchable = 0;
+		}
+		if (IsJumping) {
+			state = CAR_STATE_JUMP;
+		}
+		if (coEvents.size() == 0)
+		{
+			x += dx;
+			y += dy;
+		}
+		else
+		{
+			float min_tx, min_ty, nx = 0, ny;
+			float rdx = 0;
+			float rdy = 0;
+			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+			for (UINT i = 0; i < coEventsResult.size(); i++)
+			{
+				LPCOLLISIONEVENT e = coEventsResult[i];
+
+				if (dynamic_cast<CBrick*>(e->obj)) {
+					x += min_tx * dx + nx * 0.4f;
+					y += min_ty * dy + ny * 0.4f;
+
+					if (e->nx != 0) vx = 0;
+					if (e->ny != 0) {
+						vy = 0;
+						if (e->ny < 0) {
+							IsJumping = false;
+							PressJump = false;
+						}
+					}
+				}
+				else if (dynamic_cast<CPortal*>(e->obj)){
+					CPortal* p = dynamic_cast<CPortal*>(e->obj);
+					CGame::GetInstance()->SwitchScene(p->GetSceneId());
+				}
+				else if (dynamic_cast<Robot*>(e->obj)) {
+					health--;
+				}
+				else if (dynamic_cast<Bug*>(e->obj)) {
+					health--;
+				}
+				else if (dynamic_cast<MayBug*>(e->obj)) {
+					health--;
+				}
+				else if (dynamic_cast<Spider*>(e->obj)) {
+					health--;
+				}
+				else if (dynamic_cast<Doom*>(e->obj)) {
+					health--;
+				}
+				else if (dynamic_cast<Bee*>(e->obj)) {
+					health--;
+				}
+			}
+		}
+		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 #pragma endregion
+	}
 }
 
 void CCar::Render()
@@ -293,6 +290,10 @@ void CCar::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 	else if (PressJump == true) {
 		right = x + CAR_BBOX_WIDTH;
 		bottom = y + CAR_JUMP_BBOX_HEIGHT;
+	}
+	else if (IsDead == true) {
+		right = x + CAR_DIE_BBOX_WIDTH;
+		bottom = y + CAR_DIE_BBOX_HEIGTH;
 	}
 	else {
 		right = x + CAR_BBOX_WIDTH;

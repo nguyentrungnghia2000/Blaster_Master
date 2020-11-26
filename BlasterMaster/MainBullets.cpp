@@ -7,6 +7,8 @@
 #include "MayBug.h"
 #include "Doom.h"
 #include "Spider.h"
+#include "Human.h"
+#include "Car.h"
 
 MainBullets::MainBullets()
 {
@@ -64,6 +66,12 @@ void MainBullets::Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 	for (int i = 0; i < colliable_objects->size(); i++)
 	{
 		if (dynamic_cast<Item*>(colliable_objects->at(i))) {
+			OnlyItem->push_back(colliable_objects->at(i));
+		}
+		else if (dynamic_cast<Human*>(colliable_objects->at(i))) {
+			OnlyItem->push_back(colliable_objects->at(i));
+		}
+		else if (dynamic_cast<CCar*>(colliable_objects->at(i))) {
 			OnlyItem->push_back(colliable_objects->at(i));
 		}
 		else {
