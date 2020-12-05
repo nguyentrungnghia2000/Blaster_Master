@@ -9,6 +9,7 @@
 #include "MainBullets.h"
 #include "HUD.h"
 #include "Human.h"
+#include "BigHuman.h"
 
 #define SCREEN_WIDTH	300
 #define SCREEN_HEIGHT	240
@@ -20,6 +21,7 @@ protected:
 	CGameObject* controlplayer;
 	CCar* player;
 	Human* player2;
+	BigHuman* player3;
 	HUD* playerHUD;
 	LPDIRECT3DTEXTURE9 maptextures;
 	int mapWidth = 1024, mapHeight = 240;
@@ -51,6 +53,7 @@ public:
 	CCar* GetPlayer() { return player; }
 	CGameObject* Get_Player() { return controlplayer; }
 	Human* GetPlayer1() { return player2; }
+	BigHuman* GetPlayer2() { return player3; }
 	vector<LPGAMEOBJECT> ReturnObject() { return objects; }
 };
 
