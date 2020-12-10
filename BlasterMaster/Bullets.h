@@ -51,6 +51,7 @@ public:
 	virtual bool Get_IsDead() { return isFinish; }
 	virtual void Set_IsDead(bool isfinish) { isFinish = isfinish; };
 	int GetDamage() { return damage; }
+	bool Get_IsCollision();
 
 };
 

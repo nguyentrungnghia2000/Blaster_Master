@@ -22,3 +22,8 @@ void Bullets::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void Bullets::Render()
 {
 }
+
+bool Bullets::Get_IsCollision()
+{
+	return IsCollisionBrick;
+}

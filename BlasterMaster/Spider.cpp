@@ -11,7 +11,6 @@ void Spider::GetBoundingBox(float& left, float& top, float& right, float& bottom
 
 void Spider::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-
 	srand(time(NULL));
 	//DebugOut(L"%d",randomX);
 	CGameObject::Update(dt, coObjects);
@@ -26,11 +25,44 @@ void Spider::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			OnlyBrick->push_back(coObjects->at(i));
 		}
 	}
+	for (int i = 0; i < Bullet.size(); i++)
+	{
+		Bullet.at(i)->Update(dt, coObjects);
+	}
+	for (int i = 0; i < Bullet.size(); i++)
+	{
+		if (Bullet.at(i)->Get_IsCollision() == true)
+		{
+			if (time_dis->GetStartTime() == 0)
+				time_dis->Start();
+			if (time_dis->IsTimeUp())
+			{
+				Bullet.erase(Bullet.begin() + i);
+				time_dis->Reset();
+			}
+		}
+	}
 	CalcPotentialCollisions(OnlyBrick, coEvents);
 	if (coEvents.size() == 0)
 	{
 		x += dx;
 		y += dy;
+		if (time_attack->GetStartTime() == 0)
+		{
+			time_attack->Start();
+		}
+		else if (time_attack->IsTimeUp())
+		{
+			IsAttack = true;
+			if (IsAttack)
+			{
+				//SpiderBullets* Bullet = new SpiderBullets(this->x, this->y, 0);
+				//Bullet->Update(dt,coObjects);
+				Bullet.push_back(new SpiderBullets(this->x, this->y, 0.05f, this->Target));
+			}
+			IsAttack = false;
+			time_attack->Reset();
+		}
 	}
 	else
 	{
@@ -40,10 +72,6 @@ void Spider::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		// TODO: This is a very ugly designed function!!!!
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-		// how to push back Mario if collides with a moving objects, what if Mario is pushed this way into another object?
-		//if (rdx != 0 && rdx!=dx)
-		//	x += nx*abs(rdx); 
 
 		// block every object first!
 		x += min_tx * dx + nx * 0.4f;
@@ -83,13 +111,16 @@ void Spider::Render()
 		ani = SPIDER_ANI_WALKING_LEFT;
 	animation_set->at(ani)->Render(x, y);
 	RenderBoundingBox();
+	for (int i = 0; i < Bullet.size(); i++)
+		Bullet.at(i)->Render();
 }
 
 Spider::Spider(LPGAMEOBJECT target)
 {
-	this->IsDead = false;
-	this->EnermiesHealth = ENERMIES_HEALTH;
-
+	this->Target = target;
+	this->time_attack = new Timer(SPIDER_ATTACK_TIME);
+	this->time_dis = new Timer(SPIDER_BULLET_DIS);
+	IsAttack = true;
 	random_device m;
 	mt19937 t(m());
 	uniform_real_distribution<float> minh(-.05f, .05f);
