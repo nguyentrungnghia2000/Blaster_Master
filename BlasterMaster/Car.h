@@ -37,6 +37,14 @@
 #define CAR_ANI_JUMP_RIGHT	14
 #define CAR_ANI_JUMP_LEFT	15
 #define CAR_ANI_DIE		16
+#define CAR_ANI_MOVE_UP_LEFT_1	17
+#define CAR_ANI_MOVE_UP_LEFT_2	18
+#define CAR_ANI_MOVE_UP_LEFT_3	19
+#define CAR_ANI_MOVE_UP_LEFT_4	20
+#define CAR_ANI_MOVE_UP_RIGHT_1	21
+#define CAR_ANI_MOVE_UP_RIGHT_2	22
+#define CAR_ANI_MOVE_UP_RIGHT_3	23
+#define CAR_ANI_MOVE_UP_RIGHT_4	24
 
 #define CAR_BBOX_WIDTH  30
 #define CAR_BBOX_HEIGHT 18
@@ -48,7 +56,8 @@
 #define CAR_SMALL_BBOX_WIDTH  13
 #define CAR_SMALL_BBOX_HEIGHT 15
 
-#define CAR_UNTOUCHABLE_TIME 5000
+#define CAR_UNTOUCHABLE_TIME 3000
+#define CAR_MOVE_SLIP_UP_TIME 400
 #define EXPLOSION_TIME 200
 
 
@@ -65,7 +74,7 @@ class CCar : public CGameObject
 public:
 	int ani = -1;
 	int current_frame;
-	DWORD timer;
+	DWORD timer, time_moving_up;
 	bool flag = true;
 	bool health_up;
 	bool IsJumping;
@@ -74,12 +83,11 @@ public:
 	bool FlippingUp = false;
 	bool isAttack = false;
 	bool isDead;
-	bool isActive;
+	bool isActive, isOverWorld;
 	//bool IsFinish;
 	CCar(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
-	//virtual void Render_Current_Frame();
 	CAnimation* curAnimation;
 
 	void Set_IsDead(bool value) { this->IsDead = value; }

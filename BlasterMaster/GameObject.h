@@ -59,7 +59,7 @@ public:
 	float vx;
 	float vy;
 
-	int nx;
+	int nx, ny;
 	int alpha;
 	int state;
 	int direction;

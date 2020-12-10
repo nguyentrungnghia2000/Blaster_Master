@@ -126,6 +126,9 @@
     <ClInclude Include="Human.h">
       <Filter>Source Files\Objects\Materials</Filter>
     </ClInclude>
+    <ClInclude Include="BigHuman.h">
+      <Filter>Source Files\Objects\Materials</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -208,6 +211,9 @@
     </ClCompile>
     <ClCompile Include="HumanBullets.cpp">
       <Filter>Source Files\Objects\FBullets</Filter>
+    </ClCompile>
+    <ClCompile Include="BigHuman.cpp">
+      <Filter>Source Files\Objects\Materials</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

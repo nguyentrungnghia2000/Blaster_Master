@@ -21,6 +21,10 @@ Human::Human(float x, float y)
 	health = power = PLAYER_HEALTH;
 	this->IsDead = false;
 	this->isActive = false;
+	this->isLying = false;
+	this->isOverWorld = false;
+	this->PressDown = false;
+	this->PressUp = false;
 	start_x = x;
 	start_y = y;
 	this->x = x;
@@ -35,6 +39,10 @@ void Human::Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 	if (IsJumping == true) {
 		state = HUMAN_STATE_JUMP;
 	}
+	if (PressDown == true)
+		isLying = true;
+	if (isActive == false)
+		isCollisionWithCar = false;
 
 #pragma region Xử lý va chạm (collision)
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -49,7 +57,7 @@ void Human::Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 			lsEnermies_Items_Bricks->push_back(colliable_objects->at(i));
 		}
 		else if (dynamic_cast<CCar*>(colliable_objects->at(i))) {
-			lsElse->push_back(colliable_objects->at(i));
+			lsEnermies_Items_Bricks->push_back(colliable_objects->at(i));
 		}
 		else {
 			lsEnermies_Items_Bricks->push_back(colliable_objects->at(i));
@@ -69,7 +77,6 @@ void Human::Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 		float rdx = 0;
 		float rdy = 0;
 
-		// TODO: This is a very ugly designed function!!!!
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
@@ -88,6 +95,11 @@ void Human::Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 					}
 				}
 			}
+			else if (dynamic_cast<CCar*>(e->obj)) {
+				isCollisionWithCar = true;
+				if (e->nx != 0) vx += dx;
+				if (e->ny != 0) vy = 0;
+			}
 			else if (dynamic_cast<CPortal*>(e->obj))
 			{
 				CPortal* p = dynamic_cast<CPortal*>(e->obj);
@@ -104,37 +116,64 @@ void Human::Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 
 void Human::Render()
 {
-	if (isActive == true) {
-		alpha = 255;
-		if (untouchable) alpha = 128;
-		RenderBoundingBox();
-		if (IsJumping == true) {
-			if (nx > 0)
-				ani = HUMAN_ANI_JUMP_RIGHT;
-			else
-				ani = HUMAN_ANI_JUMP_LEFT;
-		}
-		if (state == HUMAN_STATE_WALKING_RIGHT)
-			ani = HUMAN_ANI_WALK_RIGHT;
-		else if (state == HUMAN_STATE_WALKING_LEFT)
-			ani = HUMAN_ANI_WALK_LEFT;
-		else {
-			if (nx > 0)
-				ani = HUMAN_ANI_IDLE_RIGHT;
-			else
-				ani = HUMAN_ANI_IDLE_LEFT;
-		}
-		animation_set->at(ani)->Render(x, y, alpha);
-	}
+	if (isOverWorld == false) {
+		if (isActive == true) {
+			alpha = 255;
+			if (untouchable) alpha = 128;
+			//RenderBoundingBox();
+			if (isLying == true) {
 
+				if (vx > 0) {
+					ani = HUMAN_ANI_LIE_MOVE_RIGHT;
+				}
+				else if (vx < 0)
+					ani = HUMAN_ANI_LIE_MOVE_LEFT;
+				else {
+					if (nx > 0)
+						ani = HUMAN_ANI_IDLE_LIE_RIGHT;
+					else
+						ani = HUMAN_ANI_IDLE_LIE_LEFT;
+				}
+			}
+			else {
+				if (IsJumping == true) {
+					if (nx > 0)
+						ani = HUMAN_ANI_JUMP_RIGHT;
+					else
+						ani = HUMAN_ANI_JUMP_LEFT;
+				}
+				else {
+					if (state == HUMAN_STATE_WALKING_RIGHT)
+						ani = HUMAN_ANI_WALK_RIGHT;
+					else if (state == HUMAN_STATE_WALKING_LEFT)
+						ani = HUMAN_ANI_WALK_LEFT;
+					else if (state == HUMAN_STATE_IDLE) {
+						if (nx > 0)
+							ani = HUMAN_ANI_IDLE_RIGHT;
+						else
+							ani = HUMAN_ANI_IDLE_LEFT;
+					}
+				}
+			}
+
+
+			animation_set->at(ani)->Render(x, y, alpha);
+		}
+	}
 }
 
 void Human::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
 	top = y;
-	right = x + HUMAN_BBOX_WIDTH;
-	bottom = y + HUMAN_BBOX_HEIGHT;
+	if (isLying == true) {
+		right = x + HUMAN_LIE_BBOX_WIDTH;
+		bottom = y + HUMAN_LIE_BBOX_HEIGHT;
+	}
+	else {
+		right = x + HUMAN_BBOX_WIDTH;
+		bottom = y + HUMAN_BBOX_HEIGHT;
+	}
 }
 
 void Human::SetState(int state)
@@ -159,8 +198,17 @@ void Human::SetState(int state)
 			vy = -HUMAN_JUMP_SPEED_Y;
 		}
 		break;
+	case HUMAN_STATE_LIE:
 	case HUMAN_STATE_IDLE:
 		vx = 0;
+		break;
+	case HUMAN_STATE_LIE_MOVE_RIGHT:
+		vx = HUMAN_LYING_SPEED;
+		nx = 1;
+		break;
+	case HUMAN_STATE_LIE_MOVE_LEFT:
+		vx = -HUMAN_LYING_SPEED;
+		nx = -1;
 		break;
 	}
 }

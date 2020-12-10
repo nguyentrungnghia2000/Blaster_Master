@@ -37,8 +37,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 
 #define OBJECT_TYPE_HUMAN	0
 #define OBJECT_TYPE_BRICK	1
-#define OBJECT_TYPE_GOOMBA	2
-#define OBJECT_TYPE_KOOPAS	3
+#define OBJECT_TYPE_BIGHUMAN	2
 #define OBJECT_TYPE_CAR		5
 #define OBJECT_TYPE_BUG		7
 #define OBJECT_TYPE_ROBOT	8
@@ -164,16 +163,25 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CCar(x, y);
 		player = (CCar*)obj;
 
-		DebugOut(L"[INFO] Player object created!\n");
+		DebugOut(L"[INFO] Player CAR created!\n");
 		break;
 	case OBJECT_TYPE_HUMAN:
 		if (player2 != NULL) {
-			DebugOut(L"[ERROR] CAR object was created before!\n");
+			DebugOut(L"[ERROR] HUMAN object was created before!\n");
 			return;
 		}
 		obj = new Human(x, y);
 		player2 = (Human*)obj;
-		DebugOut(L"[INFO] Player object created!\n");
+		DebugOut(L"[INFO] Player HUMAN created!\n");
+		break;
+	case OBJECT_TYPE_BIGHUMAN:
+		if (player3 != NULL) {
+			DebugOut(L"[ERROR] BIGHUMAN object was created before!\n");
+			return;
+		}
+		obj = new BigHuman(x, y);
+		player3 = (BigHuman*)obj;
+		DebugOut(L"[INFO] Player BIGHUMAN created!\n");
 		break;
 	case OBJECT_TYPE_BRICK:
 		w = atof(tokens[4].c_str());
@@ -414,6 +422,44 @@ void CPlayScene::Update(DWORD dt)
 		}
 		GameCamera->SetCamPos(cx, cy);
 	}
+	if (player3 != NULL) {
+		if (player3->isActive == true) {
+			player3->GetPosition(cx, cy);
+			if (player3->x + SCREEN_WIDTH / 2 >= spriteMap->GetWidth())
+				cx = spriteMap->GetWidth() - SCREEN_WIDTH;
+			else
+			{
+				if (player3->x < SCREEN_WIDTH / 2)
+					cx = 0;
+				else
+					cx -= SCREEN_WIDTH / 2;
+			}
+
+			if (player3->y > spriteMap->GetHeight() - SCREEN_HEIGHT / 2)
+			{
+				if (spriteMap->GetHeight() < SCREEN_HEIGHT)
+					cy = 0;
+				else {
+					if (player3->y + SCREEN_HEIGHT / 2 > spriteMap->GetHeight())
+						cy = spriteMap->GetHeight() - SCREEN_HEIGHT;
+					else {
+						cy -= SCREEN_HEIGHT / 2;
+					}
+				}
+			}
+			else if (player3->y < spriteMap->GetHeight() - SCREEN_HEIGHT / 2) {
+				if (spriteMap->GetHeight() < SCREEN_HEIGHT)
+					cy = 0;
+				else {
+					if (player3->y < SCREEN_HEIGHT / 2)
+						cy = 0;
+					else
+						cy -= SCREEN_HEIGHT / 2;
+				}
+			}
+		}
+		GameCamera->SetCamPos(cx, cy);
+	}
 #pragma endregion
 
 #pragma region objects and bullets
@@ -468,11 +514,11 @@ void CPlayScene::Update(DWORD dt)
 		}
 	}
 	for (int i = 0; i < lsBullets.size(); i++) {
-		if (lsBullets[i]->Get_IsDead() == true)
+		if (lsBullets[i]->Get_IsFinish() == true)
 			lsBullets.erase(lsBullets.begin() + i);
 	}
 	if (player->IsDead == true) {
-		player->y -= (CAR_DIE_BBOX_HEIGTH - CAR_BBOX_HEIGHT);
+		//player->y = (CAR_DIE_BBOX_HEIGTH - CAR_BBOX_HEIGHT);
 	}
 	if (playerHUD != NULL) {
 		if (player->isActive == true) {
@@ -498,8 +544,8 @@ void CPlayScene::Render()
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
 
-	player->Render();
-	player2->Render();
+	/*player->Render();
+	player2->Render();*/
 
 	for (int i = 0; i < lsBullets.size(); i++) {
 		lsBullets[i]->Render();
@@ -528,6 +574,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	//CGameObject* controlplayer = ((CPlayScene*)scence)->Get_Player();
 	CCar* car = ((CPlayScene*)scence)->GetPlayer();
 	Human* human = ((CPlayScene*)scence)->GetPlayer1();
+	BigHuman* bhuman = ((CPlayScene*)scence)->GetPlayer2();
 	vector<LPGAMEOBJECT> listObjects = ((CPlayScene*)scence)->ReturnObject();
 	float Carx = 0, Cary = 0;
 	int direction;
@@ -536,42 +583,75 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 
 	switch (KeyCode)
 	{
+	case DIK_O:
+		if (car != NULL && human != NULL && bhuman != NULL) {
+			if (bhuman->isActive == false) {
+				car->isOverWorld = true;
+				car->isActive = false;
+				human->isOverWorld = true;
+				human->isActive = false;
+				bhuman->isActive = true;
+			}
+			else {
+				car->isOverWorld = false;
+				car->isActive = true;
+				human->isOverWorld = false;
+				human->isActive = false;
+				bhuman->isActive = false;
+			}
+		}
 	case DIK_T:
-		if (car->isActive == true && human->isActive == false) {
-			car->isActive = false;
-			human->isActive = true;
-		}
-		else if (car->isActive == false && human->isActive == true) {
-			car->isActive = true;
-			human->isActive = false;
-		}
-		if (car->isActive == false) {
-			car->Get_CarDirection(human->nx);
-			if (human->nx > 0)
-				human->SetPosition(car->x + HUMAN_APPEAR_DISTANCE_WIDTH_RIGHT, car->y + HUMAN_APPEAR_DISTANCE_HEIGHT);
-			else
-				human->SetPosition(car->x + HUMAN_APPEAR_DISTANCE_WIDTH_LEFT, car->y + HUMAN_APPEAR_DISTANCE_HEIGHT);
+		if (car != NULL && human != NULL) {
+			if (car->isActive == true && human->isActive == false) {
+				car->isActive = false;
+				human->isActive = true;
+			}
+			else if (car->isActive == false && human->isActive == true) {
+				if (human->isCollisionWithCar == true) {
+					car->isActive = true;
+					human->isActive = false;
+				}
+				else
+					return;
+			}
+			if (human->isActive == false) {
+				car->Get_CarDirection(human->nx);
+				if (human->nx > 0)
+					human->SetPosition(car->x + HUMAN_APPEAR_DISTANCE_WIDTH_RIGHT, car->y + HUMAN_APPEAR_DISTANCE_HEIGHT);
+				else
+					human->SetPosition(car->x + HUMAN_APPEAR_DISTANCE_WIDTH_LEFT, car->y + HUMAN_APPEAR_DISTANCE_HEIGHT);
+			}
 		}
 		break;
 	case DIK_X:
-		if (car->isActive == true) {
-			car->SetState(CAR_STATE_JUMP);
-			car->PressJump = true;
+		if (car != NULL) {
+			if (car->isActive == true) {
+				car->SetState(CAR_STATE_JUMP);
+				car->PressJump = true;
+			}
 		}
-		else if (human->isActive == true) {
-			human->SetState(HUMAN_STATE_JUMP);
-			human->PressJump = true;
+		if (human != NULL) {
+			if (human->isActive == true && human->isLying == false) {
+				human->SetState(HUMAN_STATE_JUMP);
+				human->PressJump = true;
+			}
 		}
 		break;
 	case DIK_C:
-		if (car->isActive == true)
-			car->isAttack = true;
-		if (human->isActive == true)
-			human->isAttack = true;
+		if (car != NULL) {
+			if (car->isActive == true)
+				car->isAttack = true;
+		}
+		if (human != NULL) {
+			if (human->isActive == true)
+				human->isAttack = true;
+		}
 		break;
 	case DIK_R:
-		car->Reset();
-		human->Reset();
+		if (car != NULL && human != NULL) {
+			car->Reset();
+			human->Reset();
+		}
 		break;
 	case DIK_P:
 		if (CGame::GetInstance()->GetIDCurrentScene() == 8)
@@ -588,42 +668,127 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 				listObjects[i]->SetAlpha(0);
 		}
 		break;
+	case DIK_DOWN:
+		if (bhuman != NULL) {
+			if (bhuman->isActive == true) {
+				bhuman->SetState(BIGHUMAN_STATE_MOVE_DOWN);
+			}
+		}
+		if (human != NULL) {
+			if (human->isActive == true) {
+				human->PressDown = true;
+			}
+		}
+		break;
+	case DIK_RIGHT:
+		if (bhuman != NULL) {
+			if (bhuman->isActive == true) {
+				bhuman->SetState(BIGHUMAN_STATE_MOVE_RIGHT);
+			}
+		}
+		break;
+	case DIK_UP:
+		if (human != NULL) {
+			if (human->isActive == true) {
+				if (human->PressDown == true) {
+					human->PressDown = false;
+					human->isLying = false;
+					human->SetPosition(human->x, human->y - (HUMAN_BBOX_HEIGHT - HUMAN_LIE_BBOX_HEIGHT));
+				}
+			}
+		}
+		if (bhuman != NULL) {
+			if (bhuman->isActive == true) {
+				bhuman->SetState(BIGHUMAN_STATE_MOVE_UP);
+			}
+		}
+		break;
+	case DIK_LEFT:
+		if (bhuman != NULL) {
+			if (bhuman->isActive == true) {
+				bhuman->SetState(BIGHUMAN_STATE_MOVE_LEFT);
+			}
+		}
+		break;
 	}
 }
 
 void CPlayScenceKeyHandler::OnKeyUp(int KeyCode) {
 	CCar* car = ((CPlayScene*)scence)->GetPlayer();
 	Human* human = ((CPlayScene*)scence)->GetPlayer1();
+	BigHuman* bhuman = ((CPlayScene*)scence)->GetPlayer2();
 	switch (KeyCode)
 	{
 	case DIK_UP:
-		if (car->isActive == true) {
-			car->SetPosition(car->x, car->y + (CAR_UP_BBOX_HEIGHT - CAR_BBOX_HEIGHT));
-			car->FlippingUp = false;
-			car->SetState(CAR_STATE_IDLE);
+		if (car != NULL) {
+			if (car->isActive == true) {
+				car->SetPosition(car->x, car->y + (CAR_UP_BBOX_HEIGHT - CAR_BBOX_HEIGHT));
+				car->PressKeyUp = false;
+				car->FlippingUp = false;
+				car->SetState(CAR_STATE_IDLE);
+			}
+		}
+		if (bhuman != NULL) {
+			if (bhuman->isActive == true) {
+				bhuman->SetState(BIGHUMAN_STATE_IDLE_Y);
+			}
+		}
+		if (human != NULL) {
+			if (human->isActive == true) {
+				if (human->isLying == true) {
+					human->SetPosition(human->x, human->y + (HUMAN_BBOX_HEIGHT - HUMAN_LIE_BBOX_HEIGHT));
+				}
+			}
+		}
+		break;
+	case DIK_DOWN:
+		if (bhuman != NULL) {
+			if (bhuman->isActive == true) {
+				bhuman->SetState(BIGHUMAN_STATE_IDLE_Y);
+			}
 		}
 		break;
 	case DIK_LEFT:
 	case DIK_RIGHT:
-		if (car->isActive == true)
-			car->SetState(CAR_STATE_IDLE);
-		else if (human->isActive == true)
-			human->SetState(HUMAN_STATE_IDLE);
+		if (car != NULL) {
+			if (car->isActive == true)
+				car->SetState(CAR_STATE_IDLE);
+		}
+		if (human != NULL) {
+			if (human->isActive == true) {
+				if (human->isLying == false)
+					human->SetState(HUMAN_STATE_IDLE);
+				else
+					human->SetState(HUMAN_STATE_LIE);
+			}
+		}
+		if (bhuman != NULL) {
+			if (bhuman->isActive == true) {
+				bhuman->SetState(BIGHUMAN_STATE_IDLE_X);
+			}
+		}
 		break;
 	case DIK_X:
-		if (car->isActive == true) {
-			car->PressJump = false;
-			car->vy = 0;
+		if (car != NULL) {
+			if (car->isActive == true) {
+				car->PressJump = false;
+			}
 		}
-		else if (human->isActive == true) {
-			human->PressJump = false;
+		if (human != NULL) {
+			if (human->isActive == true) {
+				human->PressJump = false;
+			}
 		}
 		break;
 	case DIK_C:
-		if (car->isActive == true)
-			car->isAttack = false;
-		if (human->isActive == true)
-			human->isAttack = false;
+		if (car != NULL) {
+			if (car->isActive == true)
+				car->isAttack = false;
+		}
+		if (human != NULL) {
+			if (human->isActive == true)
+				human->isAttack = false;
+		}
 		break;
 	}
 }
@@ -632,50 +797,65 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	CGame* game = CGame::GetInstance();
 	CCar* car = ((CPlayScene*)scence)->GetPlayer();
 	Human* human = ((CPlayScene*)scence)->GetPlayer1();
+	BigHuman* bhuman = ((CPlayScene*)scence)->GetPlayer2();
 
 	int KeyCode;
-	if (car->isActive == true) {
-		if (car->GetState() == CAR_STATE_DIE) return;
+	if (car != NULL) {
+		if (car->isActive == true) {
+			if (car->GetState() == CAR_STATE_DIE) return;
 
-		if (game->IsKeyDown(DIK_UP)) {
-			car->PressKeyUp = true;
+			if (game->IsKeyDown(DIK_UP)) {
+				car->PressKeyUp = true;
 
-			if (!car->FlippingUp)
-				car->SetPosition(car->x, car->y - (CAR_UP_BBOX_HEIGHT - CAR_BBOX_HEIGHT));
-			car->FlippingUp = true;
-			if (game->IsKeyDown(DIK_LEFT)) {
-				car->SetState(CAR_STATE_WALKING_UP_LEFT);
+				if (!car->FlippingUp)
+					car->SetPosition(car->x, car->y - (CAR_UP_BBOX_HEIGHT - CAR_BBOX_HEIGHT));
+				car->FlippingUp = true;
+				if (game->IsKeyDown(DIK_LEFT)) {
+					car->SetState(CAR_STATE_WALKING_UP_LEFT);
+				}
+				else if (game->IsKeyDown(DIK_RIGHT)) {
+					car->SetState(CAR_STATE_WALKING_UP_RIGHT);
+				}
+				else
+					car->SetState(CAR_STATE_UP);
 			}
+
 			else if (game->IsKeyDown(DIK_RIGHT)) {
-				car->SetState(CAR_STATE_WALKING_UP_RIGHT);
+				car->SetState(CAR_STATE_WALKING_RIGHT);
 			}
-			else
-				car->SetState(CAR_STATE_UP);
-		}
+			else if (game->IsKeyDown(DIK_LEFT)) {
+				car->SetState(CAR_STATE_WALKING_LEFT);
+			}
 
-		else if (game->IsKeyDown(DIK_RIGHT)) {
-			car->SetState(CAR_STATE_WALKING_RIGHT);
-		}
-		else if (game->IsKeyDown(DIK_LEFT)) {
-			car->SetState(CAR_STATE_WALKING_LEFT);
-		}
-
-		else if (game->IsKeyDown(DIK_X)) {
-			if (car->PressJump == true) {
-				car->IsJumping = true;
+			else if (game->IsKeyDown(DIK_X)) {
+				if (car->PressJump == true) {
+					car->IsJumping = true;
+				}
 			}
 		}
 	}
-	else if (human->isActive == true) {
-		if (game->IsKeyDown(DIK_RIGHT)) {
-			human->SetState(HUMAN_STATE_WALKING_RIGHT);
-		}
-		else if (game->IsKeyDown(DIK_LEFT)) {
-			human->SetState(HUMAN_STATE_WALKING_LEFT);
-		}
-		else if (game->IsKeyDown(DIK_X)) {
-			if (human->PressJump == true) {
-				human->IsJumping = true;
+	if (human != NULL) {
+		if (human->isActive == true) {
+			if (human->isLying == true) {
+				if (game->IsKeyDown(DIK_RIGHT)) {
+					human->SetState(HUMAN_STATE_LIE_MOVE_RIGHT);
+				}
+				else if (game->IsKeyDown(DIK_LEFT)) {
+					human->SetState(HUMAN_STATE_LIE_MOVE_LEFT);
+				}
+			}
+			else {
+				if (game->IsKeyDown(DIK_RIGHT)) {
+					human->SetState(HUMAN_STATE_WALKING_RIGHT);
+				}
+				else if (game->IsKeyDown(DIK_LEFT)) {
+					human->SetState(HUMAN_STATE_WALKING_LEFT);
+				}
+				else if (game->IsKeyDown(DIK_X)) {
+					if (human->PressJump == true) {
+						human->IsJumping = true;
+					}
+				}
 			}
 		}
 	}
