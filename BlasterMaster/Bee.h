@@ -16,7 +16,6 @@
 #define BEE_STATE_FLYING 100
 #define BEE_STATE_SURFING 200
 
-
 #define BEE_ANI_FLYING_LEFT 0
 #define BEE_ANI_FLYING_RIGHT 1
 
@@ -30,16 +29,19 @@ class Bee :public CGameObject
 	bool IsFlyingDown;
 	bool IsBrickTop;
 	bool IsActive;
+	//bool IsFinish;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
 
 public:
 	Bee(LPGAMEOBJECT);
-	virtual void SetState(int state);
-
 	void Set_IsDead(bool value) { this->IsDead = value; }
 	bool Get_IsDead() { return this->IsDead; }
+	virtual void SetState(int state);
+
+	float Get_width() { return width; }
+	float Get_height() { return height; }
 	void SubDamage(int damage) { EnermiesHealth += damage; }
 };
 

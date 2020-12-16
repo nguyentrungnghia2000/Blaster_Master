@@ -129,7 +129,7 @@ void HumanBullets::Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 				Robot* rob = dynamic_cast<Robot*>(e->obj);
 				if (e->nx != 0) {
 					rob->SubDamage(-BULLETS_DAMAGE);
-
+					
 					IsCollisionEnermies = 1;
 					x += min_tx * dx + nx * 0.4f;
 					y += min_ty * dy + ny * 0.4f;
@@ -241,7 +241,7 @@ void HumanBullets::Render()
 	}
 	else {
 		if (IsCollisionBrick == 0 && IsCollisionEnermies == 0) {
-			ani = HUMAN_BULLET_ANI;
+				ani = HUMAN_BULLET_ANI;
 			animation_set->at(ani)->Render(x, y, alpha);
 
 		}

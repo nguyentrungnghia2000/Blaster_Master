@@ -26,6 +26,7 @@ class Doom : public CGameObject
 {
 	int LastState;
 	bool IsBrick;
+	//bool IsFinish;
 	LPGAMEOBJECT Target;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
@@ -33,9 +34,12 @@ class Doom : public CGameObject
 
 public:
 	Doom(LPGAMEOBJECT,int,int);
-	virtual void SetState(int state);
 
+	float Get_width() { return width; }
+	float Get_height() { return height; }
 	void Set_IsDead(bool value) { this->IsDead = value; }
 	bool Get_IsDead() { return this->IsDead; }
 	void SubDamage(int damage) { EnermiesHealth += damage; }
+
+	virtual void SetState(int state);
 };

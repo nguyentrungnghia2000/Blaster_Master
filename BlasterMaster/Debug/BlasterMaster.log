@@ -1,93 +1,48 @@
-﻿  Car.cpp
-D:\Code các môn\Game\Test\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
-D:\Code các môn\Game\Test\BlasterMaster\Brick.h(14,27): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
-D:\Code các môn\Game\Test\BlasterMaster\Brick.h(15,26): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
-D:\Code các môn\Game\Test\BlasterMaster\Bee.h(23,1): warning C4005: 'DISTANCE': macro redefinition
-D:\Code các môn\Game\Test\BlasterMaster\Robot.h(25): message : see previous definition of 'DISTANCE'
-D:\Code các môn\Game\Test\BlasterMaster\SpiderBullets.h(12,1): warning C4005: 'SPIDER_BULLET_ANI': macro redefinition
-D:\Code các môn\Game\Test\BlasterMaster\SpiderBullets.h(7): message : see previous definition of 'SPIDER_BULLET_ANI'
-D:\Code các môn\Game\Test\BlasterMaster\Car.cpp(68,21): warning C4018: '<': signed/unsigned mismatch
-  Human.cpp
-D:\Code các môn\Game\Test\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
-D:\Code các môn\Game\Test\BlasterMaster\Brick.h(14,27): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
-D:\Code các môn\Game\Test\BlasterMaster\Brick.h(15,26): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
-D:\Code các môn\Game\Test\BlasterMaster\Bee.h(23,1): warning C4005: 'DISTANCE': macro redefinition
-D:\Code các môn\Game\Test\BlasterMaster\Robot.h(25): message : see previous definition of 'DISTANCE'
-D:\Code các môn\Game\Test\BlasterMaster\SpiderBullets.h(12,1): warning C4005: 'SPIDER_BULLET_ANI': macro redefinition
-D:\Code các môn\Game\Test\BlasterMaster\SpiderBullets.h(7): message : see previous definition of 'SPIDER_BULLET_ANI'
-D:\Code các môn\Game\Test\BlasterMaster\Human.cpp(47,20): warning C4018: '<': signed/unsigned mismatch
-  HumanBullets.cpp
-D:\Code các môn\Game\Test\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
-D:\Code các môn\Game\Test\BlasterMaster\HumanBullets.h(7,1): warning C4005: 'BULLET_BBOX_WIDTH': macro redefinition
-D:\Code các môn\Game\Test\BlasterMaster\Bullets.h(7): message : see previous definition of 'BULLET_BBOX_WIDTH'
-D:\Code các môn\Game\Test\BlasterMaster\HumanBullets.h(8,1): warning C4005: 'BULLET_BBOX_HEIGHT': macro redefinition
-D:\Code các môn\Game\Test\BlasterMaster\Bullets.h(8): message : see previous definition of 'BULLET_BBOX_HEIGHT'
-D:\Code các môn\Game\Test\BlasterMaster\Brick.h(14,27): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
-D:\Code các môn\Game\Test\BlasterMaster\Brick.h(15,26): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
-D:\Code các môn\Game\Test\BlasterMaster\Bee.h(23,1): warning C4005: 'DISTANCE': macro redefinition
-D:\Code các môn\Game\Test\BlasterMaster\Robot.h(25): message : see previous definition of 'DISTANCE'
-D:\Code các môn\Game\Test\BlasterMaster\SpiderBullets.h(12,1): warning C4005: 'SPIDER_BULLET_ANI': macro redefinition
-D:\Code các môn\Game\Test\BlasterMaster\SpiderBullets.h(7): message : see previous definition of 'SPIDER_BULLET_ANI'
-D:\Code các môn\Game\Test\BlasterMaster\HumanBullets.cpp(59,20): warning C4018: '<': signed/unsigned mismatch
-  MainBullets.cpp
-D:\Code các môn\Game\Test\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
-D:\Code các môn\Game\Test\BlasterMaster\Brick.h(14,27): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
-D:\Code các môn\Game\Test\BlasterMaster\Brick.h(15,26): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
-D:\Code các môn\Game\Test\BlasterMaster\Bee.h(23,1): warning C4005: 'DISTANCE': macro redefinition
-D:\Code các môn\Game\Test\BlasterMaster\Robot.h(25): message : see previous definition of 'DISTANCE'
-D:\Code các môn\Game\Test\BlasterMaster\SpiderBullets.h(12,1): warning C4005: 'SPIDER_BULLET_ANI': macro redefinition
-D:\Code các môn\Game\Test\BlasterMaster\SpiderBullets.h(7): message : see previous definition of 'SPIDER_BULLET_ANI'
-D:\Code các môn\Game\Test\BlasterMaster\MainBullets.cpp(66,20): warning C4018: '<': signed/unsigned mismatch
-  PlayScence.cpp
-D:\Code các môn\Game\Test\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
-D:\Code các môn\Game\Test\BlasterMaster\Brick.h(14,27): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
-D:\Code các môn\Game\Test\BlasterMaster\Brick.h(15,26): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
-D:\Code các môn\Game\Test\BlasterMaster\Bee.h(23,1): warning C4005: 'DISTANCE': macro redefinition
-D:\Code các môn\Game\Test\BlasterMaster\Robot.h(25): message : see previous definition of 'DISTANCE'
-D:\Code các môn\Game\Test\BlasterMaster\SpiderBullets.h(12,1): warning C4005: 'SPIDER_BULLET_ANI': macro redefinition
-D:\Code các môn\Game\Test\BlasterMaster\SpiderBullets.h(7): message : see previous definition of 'SPIDER_BULLET_ANI'
-D:\Code các môn\Game\Test\BlasterMaster\PlayScence.cpp(107,20): warning C4018: '<': signed/unsigned mismatch
-D:\Code các môn\Game\Test\BlasterMaster\PlayScence.cpp(129,20): warning C4018: '<': signed/unsigned mismatch
-D:\Code các môn\Game\Test\BlasterMaster\PlayScence.cpp(147,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Code các môn\Game\Test\BlasterMaster\PlayScence.cpp(148,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Code các môn\Game\Test\BlasterMaster\PlayScence.cpp(179,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-D:\Code các môn\Game\Test\BlasterMaster\PlayScence.cpp(180,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-D:\Code các môn\Game\Test\BlasterMaster\PlayScence.cpp(188,17): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-D:\Code các môn\Game\Test\BlasterMaster\PlayScence.cpp(189,17): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-D:\Code các môn\Game\Test\BlasterMaster\PlayScence.cpp(196,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Code các môn\Game\Test\BlasterMaster\PlayScence.cpp(197,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Code các môn\Game\Test\BlasterMaster\PlayScence.cpp(340,31): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\Code các môn\Game\Test\BlasterMaster\PlayScence.cpp(356,34): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\Code các môn\Game\Test\BlasterMaster\PlayScence.cpp(380,31): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\Code các môn\Game\Test\BlasterMaster\PlayScence.cpp(396,34): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\Code các môn\Game\Test\BlasterMaster\PlayScence.cpp(462,20): warning C4018: '<': signed/unsigned mismatch
-D:\Code các môn\Game\Test\BlasterMaster\PlayScence.cpp(470,20): warning C4018: '<': signed/unsigned mismatch
-D:\Code các môn\Game\Test\BlasterMaster\PlayScence.cpp(498,20): warning C4018: '<': signed/unsigned mismatch
-D:\Code các môn\Game\Test\BlasterMaster\PlayScence.cpp(504,20): warning C4018: '<': signed/unsigned mismatch
-D:\Code các môn\Game\Test\BlasterMaster\PlayScence.cpp(517,20): warning C4018: '<': signed/unsigned mismatch
-D:\Code các môn\Game\Test\BlasterMaster\PlayScence.cpp(583,21): warning C4018: '<': signed/unsigned mismatch
-D:\Code các môn\Game\Test\BlasterMaster\PlayScence.cpp(636,6): warning C4101: 'KeyCode': unreferenced local variable
-  Spider.cpp
-D:\Code các môn\Game\Test\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
-D:\Code các môn\Game\Test\BlasterMaster\Brick.h(14,27): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
-D:\Code các môn\Game\Test\BlasterMaster\Brick.h(15,26): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
-D:\Code các môn\Game\Test\BlasterMaster\SpiderBullets.h(12,1): warning C4005: 'SPIDER_BULLET_ANI': macro redefinition
-D:\Code các môn\Game\Test\BlasterMaster\SpiderBullets.h(7): message : see previous definition of 'SPIDER_BULLET_ANI'
-D:\Code các môn\Game\Test\BlasterMaster\Spider.cpp(14,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-D:\Code các môn\Game\Test\BlasterMaster\Spider.cpp(21,20): warning C4018: '<': signed/unsigned mismatch
-D:\Code các môn\Game\Test\BlasterMaster\Spider.cpp(28,20): warning C4018: '<': signed/unsigned mismatch
-D:\Code các môn\Game\Test\BlasterMaster\Spider.cpp(32,20): warning C4018: '<': signed/unsigned mismatch
-D:\Code các môn\Game\Test\BlasterMaster\Spider.cpp(61,53): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\Code các môn\Game\Test\BlasterMaster\Spider.cpp(61,44): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\Code các môn\Game\Test\BlasterMaster\Spider.cpp(114,20): warning C4018: '<': signed/unsigned mismatch
-  SpiderBullets.cpp
-D:\Code các môn\Game\Test\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
-D:\Code các môn\Game\Test\BlasterMaster\Brick.h(14,27): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
-D:\Code các môn\Game\Test\BlasterMaster\Brick.h(15,26): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
-D:\Code các môn\Game\Test\BlasterMaster\SpiderBullets.h(12,1): warning C4005: 'SPIDER_BULLET_ANI': macro redefinition
-D:\Code các môn\Game\Test\BlasterMaster\SpiderBullets.h(7): message : see previous definition of 'SPIDER_BULLET_ANI'
-D:\Code các môn\Game\Test\BlasterMaster\SpiderBullets.cpp(10,12): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\Code các môn\Game\Test\BlasterMaster\SpiderBullets.cpp(11,12): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\Code các môn\Game\Test\BlasterMaster\SpiderBullets.cpp(38,20): warning C4018: '<': signed/unsigned mismatch
-  Generating Code...
-  BlasterMaster.vcxproj -> D:\Code các môn\Game\Test\Debug\BlasterMaster.exe
+﻿  PlayScence.cpp
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Brick.h(17,27): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Brick.h(18,26): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Portal.h(20,29): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Portal.h(21,30): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Bee.h(22,1): warning C4005: 'DISTANCE': macro redefinition
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Robot.h(25): message : see previous definition of 'DISTANCE'
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\SpiderBullets.h(12,1): warning C4005: 'SPIDER_BULLET_ANI': macro redefinition
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\SpiderBullets.h(7): message : see previous definition of 'SPIDER_BULLET_ANI'
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\HumanBullets.h(7,1): warning C4005: 'BULLET_BBOX_WIDTH': macro redefinition
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Bullets.h(7): message : see previous definition of 'BULLET_BBOX_WIDTH'
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\HumanBullets.h(8,1): warning C4005: 'BULLET_BBOX_HEIGHT': macro redefinition
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Bullets.h(8): message : see previous definition of 'BULLET_BBOX_HEIGHT'
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(115,20): warning C4018: '<': signed/unsigned mismatch
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(137,20): warning C4018: '<': signed/unsigned mismatch
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(155,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(156,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(216,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(217,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(227,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(228,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(238,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(239,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(249,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(250,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(292,17): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(293,17): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(321,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(322,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(458,31): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(474,34): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(498,31): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(514,34): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(539,32): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(554,35): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(638,20): warning C4018: '<': signed/unsigned mismatch
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(646,20): warning C4018: '<': signed/unsigned mismatch
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(677,20): warning C4018: '<': signed/unsigned mismatch
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(679,20): warning C4018: '<': signed/unsigned mismatch
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(681,20): warning C4018: '<': signed/unsigned mismatch
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(684,20): warning C4018: '<': signed/unsigned mismatch
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(697,20): warning C4018: '<': signed/unsigned mismatch
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(700,20): warning C4018: '<': signed/unsigned mismatch
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(703,20): warning C4018: '<': signed/unsigned mismatch
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(816,21): warning C4018: '<': signed/unsigned mismatch
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\PlayScence.cpp(966,6): warning C4101: 'KeyCode': unreferenced local variable
+  BlasterMaster.vcxproj -> D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\Debug\BlasterMaster.exe

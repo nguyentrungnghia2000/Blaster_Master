@@ -3,6 +3,7 @@
 
 #define HUMAN_WALKING_SPEED		0.07f
 #define HUMAN_LYING_SPEED		0.05f
+#define HUMAN_MOVE_ON_LADDER_SPEED		0.05f
 #define HUMAN_JUMP_SPEED_Y		0.23f
 #define HUMAN_JUMP_DEFLECT_SPEED 0.1f
 #define HUMAN_GRAVITY			0.0005f
@@ -16,6 +17,8 @@
 #define HUMAN_STATE_LIE	7
 #define HUMAN_STATE_LIE_MOVE_RIGHT	8
 #define HUMAN_STATE_LIE_MOVE_LEFT	9
+#define HUMAN_STATE_MOVE_UP_LADDER	10
+#define HUMAN_STATE_MOVE_DOWN_LADDER	11
 
 #define HUMAN_ANI_IDLE_RIGHT	0
 #define HUMAN_ANI_WALK_RIGHT	1
@@ -27,6 +30,7 @@
 #define HUMAN_ANI_LIE_MOVE_RIGHT	7
 #define HUMAN_ANI_IDLE_LIE_LEFT	8
 #define HUMAN_ANI_LIE_MOVE_LEFT	9
+#define HUMAN_ANI_MOVE_ON_LADDER	10
 
 #define HUMAN_BBOX_WIDTH	10
 #define HUMAN_BBOX_HEIGHT	17
@@ -56,7 +60,10 @@ public:
 	bool isLying, isCollisionWithCar;
 	bool isOverWorld;
 	bool PressDown, PressUp;
+	bool isLadder, isMovingonLadder;
 
+	float Get_width() { return width; }
+	float Get_height() { return height; }
 	void Set_IsDead(bool value) { this->IsDead = value; }
 	bool Get_IsDead() { return this->IsDead; }
 	void SubDamage(int damage) { EnermiesHealth += damage; }

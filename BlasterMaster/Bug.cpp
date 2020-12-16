@@ -16,8 +16,11 @@ void Bug::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	vector<LPGAMEOBJECT>* OnlyBrick = new vector<LPGAMEOBJECT>();
-	//vector<LPGAMEOBJECT>* Player = new vector<LPGAMEOBJECT>();
-	//Player->clear();
+
+	if (this->EnermiesHealth == 0) {
+		this->IsDead = true;
+	}
+
 	OnlyBrick->clear();
 	for (int i = 0; i < coObjects->size(); i++)
 	{
@@ -26,7 +29,6 @@ void Bug::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			OnlyBrick->push_back(coObjects->at(i));
 		}
 	}
-
 
 	CalcPotentialCollisions(OnlyBrick, coEvents);
 	if (coEvents.size() == 0)
@@ -106,18 +108,16 @@ void Bug::Render()
 		else
 			ani = BUG_ANI_WALKING_LEFT;
 		animation_set->at(ani)->Render(x, y);
-		RenderBoundingBox();
 	//} 
 }
 
 Bug::Bug(LPGAMEOBJECT Target)
 {
-	this->IsDead = false;
-	this->EnermiesHealth = ENERMIES_HEALTH;
-
 	IsJump = false;
 	IsActive = false;
+	IsDead = false;
 	this->target = Target;
+	this->EnermiesHealth = ENERMIES_HEALTH;
 	this->SetState(BUG_STATE_WALKING);
 }
 

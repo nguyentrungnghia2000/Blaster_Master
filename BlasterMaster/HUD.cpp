@@ -18,6 +18,7 @@ void HUD::Update(float x, float y, int currentCarHealth, int currentPowerHealth)
 
 	//PowerHB->Update(currentPowerHealth, x + 2, y + 7.8);
 	CarHB->Update(currentCarHealth, x, y);
+	//DebugOut(L"current health : %d\n", currentCarHealth);
 }
 
 void HUD::Render(CGameObject* playerInfo)
@@ -26,4 +27,5 @@ void HUD::Render(CGameObject* playerInfo)
 	UIanimationSet->at(CAR_HEALTH_BAR)->Render(x + 3, y + 54 + ARTICULAR_CAR_HEALTHBAR_Y);
 	//PowerHB->Render();
 	CarHB->Render();
+	//DebugOut(L"carHUD : %d\n", CAR_HEALTH_UNIT);
 }

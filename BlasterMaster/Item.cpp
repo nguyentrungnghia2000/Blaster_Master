@@ -52,11 +52,11 @@ void Item::Render()
 		}
 		//RenderBoundingBox();
 	}
-	RenderBoundingBox();
 }
 
 Item::Item()
 {
+	this->IsDead = false;
 	srand(time(NULL));
 	ID = 1 + rand() % 6;
 	this->Time_Active = new Timer(ITEM_TIME_ACTIVE);

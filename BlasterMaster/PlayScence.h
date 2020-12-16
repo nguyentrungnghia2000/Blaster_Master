@@ -10,6 +10,8 @@
 #include "HUD.h"
 #include "Human.h"
 #include "BigHuman.h"
+#include "Camera.h"
+#include "Grid.h"
 
 #define SCREEN_WIDTH	300
 #define SCREEN_HEIGHT	240
@@ -17,15 +19,18 @@
 class CPlayScene : public CScene
 {
 protected:
-
+	Grid* grid;
 	CGameObject* controlplayer;
 	CCar* player;
 	Human* player2;
 	BigHuman* player3;
 	HUD* playerHUD;
+	Camera* cam;
 	LPDIRECT3DTEXTURE9 maptextures;
 	int mapWidth = 1024, mapHeight = 240;
-	vector<LPGAMEOBJECT> objects;
+	vector<LPGAMEOBJECT> lsObjects;
+	vector<LPGAMEOBJECT> lsPlayers;
+	vector< LPGAMEOBJECT> lsEnermies;
 	vector<LPCWSTR> ListSceneFilePath;
 
 	void _ParseSection_TEXTURES(string line);
@@ -42,19 +47,28 @@ protected:
 public:
 	float posX, posY;
 	int healthunit, powerunit;
+	int mapW, mapH;
 	CPlayScene(int id, LPCWSTR filePath);
-	vector<MainBullets*> lsBullets;
+
+	vector<LPGAMEOBJECT> coObjects;
+	vector<LPGAMEOBJECT> coPlayers;
+	vector<LPGAMEOBJECT> coEnermies;
+	vector<LPGAMEOBJECT> lsEnermiesGrid;
+	vector<Bullets*> lsBullets;
+	CGame* GameCamera = CGame::GetInstance();
+
 	virtual void Load();
 	void LoadObjects();
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();
+	void GetObjectFromGrid(float x, float y);
 
 	CCar* GetPlayer() { return player; }
 	CGameObject* Get_Player() { return controlplayer; }
 	Human* GetPlayer1() { return player2; }
 	BigHuman* GetPlayer2() { return player3; }
-	vector<LPGAMEOBJECT> ReturnObject() { return objects; }
+	vector<LPGAMEOBJECT> ReturnObject() { return lsObjects; }
 };
 
 class CPlayScenceKeyHandler : public CScenceKeyHandler

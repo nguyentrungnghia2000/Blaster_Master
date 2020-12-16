@@ -439,3 +439,8 @@ void CGame::SwitchScene(int scene_id)
 	CGame::GetInstance()->SetKeyHandler(s->GetKeyEventHandler());
 	s->Load();
 }
+
+bool CGame::AABB(float ml, float mt, float mr, float mb, float sl, float st, float sr, float sb)
+{
+	return !(mr < sl || ml > sr || mb < st || mt > sb);
+}

@@ -50,11 +50,13 @@ class CGameObject
 {
 public:
 
+	int id;
+	int tag;
 	float x;
 	float y;
 
-	float dx;	// dx = vx*dt
-	float dy;	// dy = vy*dt
+	float dx;
+	float dy;
 
 	float vx;
 	float vy;
@@ -63,12 +65,12 @@ public:
 	int alpha;
 	int state;
 	int direction;
-	DWORD dt;
-
 	int damage;
 	int EnermiesHealth;
-	bool IsDead, health_up;
-
+	bool IsDead = false;
+	bool isEnabled;
+	float width, height;
+	DWORD dt;
 	LPANIMATION_SET animation_set;
 
 public:
@@ -108,7 +110,10 @@ public:
 	virtual bool Get_IsDead() = 0;
 	virtual void Set_IsDead(bool value) = 0;
 	virtual void SubDamage(int damage) = 0;
+	virtual float Get_width() = 0;
+	virtual float Get_height() = 0;
 
 	~CGameObject();
+	bool IsColidingAABB(CGameObject* obj);
 };
 

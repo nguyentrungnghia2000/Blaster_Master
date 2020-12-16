@@ -29,14 +29,6 @@ void Robot::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			OnlyBrick->push_back(coObjects->at(i));
 		}
 	}
-	//for (int i = 0; i < coObjects->size(); i++)
-	//{
-	//	if (dynamic_cast<CMario*>(coObjects->at(i)))
-	//	{
-	//		Player->push_back(coObjects->at(i));
-	//	}
-	//}
-
 	CalcPotentialCollisions(OnlyBrick, coEvents);
 	if (coEvents.size() == 0)
 	{
@@ -95,22 +87,12 @@ void Robot::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		float rdx = 0;
 		float rdy = 0;
 
-		// TODO: This is a very ugly designed function!!!!
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 
-		// how to push back Mario if collides with a moving objects, what if Mario is pushed this way into another object?
-		//if (rdx != 0 && rdx!=dx)
-		//	x += nx*abs(rdx); 
-
-		// block every object first!
 		x += min_tx * dx + nx * 0.4f;
 		y += min_ty * dy + ny * 0.4f;
 
-		//if (nx != 0) vx = 0;
 		if (ny != 0) vy = 0;
-		//
-		// Collision logic with other objects
-		//
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
@@ -119,16 +101,10 @@ void Robot::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				CBrick* brick = dynamic_cast<CBrick*>(e->obj);
 
-				// jump on top >> kill Goomba and deflect a bit 
 				if (e->ny < 0)
 				{
 					IsJump = false;
 				}
-				//if (nx != 0 && ny == 0)
-				//{
-				//	x = brick->x + brick->GetWidth();
-				//	vx = -vx;
-				//}
 				if (IsJump == false)
 				{
 					if (vx < 0 && x < brick->x) {
@@ -144,12 +120,10 @@ void Robot::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (nx != 0 && ny == 0)
 				{
 					vx = -vx;
-					//x = brick->x + brick->GetWidth();
 				}
 			}
 		}
 	}
-	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
@@ -180,11 +154,11 @@ void Robot::Render()
 Robot::Robot(LPGAMEOBJECT Target)
 {
 	//srand(time(NULL));
-	this->IsDead = false;
-	this->EnermiesHealth = ENERMIES_HEALTH;
-
 	this->time = new Timer(ROBOT_HUNTING_TIME + ROBOT_SAVE_TIME);
 	this->target = Target;
+	this->IsDead = false;
+	this->IsActive = true;
+	this->EnermiesHealth = ENERMIES_HEALTH;
 	SetState(ROBOT_STATE_UNACTIVE);
 }
 

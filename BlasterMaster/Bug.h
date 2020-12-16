@@ -23,14 +23,18 @@ class Bug :public CGameObject
 	LPGAMEOBJECT target;
 	bool IsJump;
 	bool IsActive;
+	//bool IsFinish;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
 public:
 	Bug(LPGAMEOBJECT);
-	virtual void SetState(int state);
 
+	float Get_width() { return width; }
+	float Get_height() { return height; }
 	void Set_IsDead(bool value) { this->IsDead = value; }
 	bool Get_IsDead() { return this->IsDead; }
 	void SubDamage(int damage) { EnermiesHealth += damage; }
+
+	virtual void SetState(int state);
 };

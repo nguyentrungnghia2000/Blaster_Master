@@ -4,6 +4,7 @@ CBrick::CBrick(float width, float height)
 {
 	this->width = width;
 	this->height = height;
+	//this->IsFinish = false;
 }
 
 void CBrick::Render()

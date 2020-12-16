@@ -147,23 +147,28 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h" />
+    <ClInclude Include="Arrows.h" />
     <ClInclude Include="Bee.h" />
     <ClInclude Include="BigHuman.h" />
     <ClInclude Include="BlasterMaster.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Bug.h" />
     <ClInclude Include="Bullets.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Car.h" />
     <ClInclude Include="Doom.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Grid.h" />
     <ClInclude Include="HealthBar.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="Human.h" />
     <ClInclude Include="HumanBullets.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="KeyEventHandler.h" />
+    <ClInclude Include="Ladder.h" />
+    <ClInclude Include="Lava.h" />
     <ClInclude Include="MainBullets.h" />
     <ClInclude Include="MayBug.h" />
     <ClInclude Include="PlayScence.h" />
@@ -181,21 +186,26 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp" />
+    <ClCompile Include="Arrows.cpp" />
     <ClCompile Include="Bee.cpp" />
     <ClCompile Include="BigHuman.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Bug.cpp" />
     <ClCompile Include="Bullets.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Car.cpp" />
     <ClCompile Include="Doom.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Grid.cpp" />
     <ClCompile Include="HealthBar.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="Human.cpp" />
     <ClCompile Include="HumanBullets.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="KeyEventHandler.cpp" />
+    <ClCompile Include="Ladder.cpp" />
+    <ClCompile Include="Lava.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainBullets.cpp" />
     <ClCompile Include="MayBug.cpp" />
@@ -208,6 +218,9 @@
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="Utils.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="BlasterMaster.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

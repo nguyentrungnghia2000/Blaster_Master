@@ -38,6 +38,8 @@ public:
 	DWORD bighuman_timer;
 	bool isActive, isAttack;
 
+	float Get_width() { return width; }
+	float Get_height() { return height; }
 	void Set_IsDead(bool value) { this->IsDead = value; }
 	bool Get_IsDead() { return this->IsDead; }
 	void SubDamage(int damage) { EnermiesHealth += damage; }

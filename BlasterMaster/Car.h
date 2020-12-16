@@ -2,7 +2,6 @@
 #include "GameObject.h"
 
 #define CAR_WALKING_SPEED		0.1f 
-//0.1f
 #define CAR_JUMP_SPEED_Y		0.23f
 #define CAR_JUMP_DEFLECT_SPEED 0.1f
 #define CAR_GRAVITY			0.0004f
@@ -46,7 +45,7 @@
 #define CAR_ANI_MOVE_UP_RIGHT_3	23
 #define CAR_ANI_MOVE_UP_RIGHT_4	24
 
-#define CAR_BBOX_WIDTH  30
+#define CAR_BBOX_WIDTH  28
 #define CAR_BBOX_HEIGHT 18
 #define CAR_UP_BBOX_HEIGHT 34
 #define CAR_JUMP_BBOX_HEIGHT 21
@@ -56,7 +55,7 @@
 #define CAR_SMALL_BBOX_WIDTH  13
 #define CAR_SMALL_BBOX_HEIGHT 15
 
-#define CAR_UNTOUCHABLE_TIME 3000
+#define CAR_UNTOUCHABLE_TIME 1000
 #define CAR_MOVE_SLIP_UP_TIME 400
 #define EXPLOSION_TIME 200
 
@@ -68,7 +67,7 @@ class CCar : public CGameObject
 	int health;
 	int power;
 	DWORD untouchable_start;
-
+	bool isK = false;
 	float start_x;
 	float start_y;
 public:
@@ -90,6 +89,8 @@ public:
 	virtual void Render();
 	CAnimation* curAnimation;
 
+	float Get_width() { return width; }
+	float Get_height() { return height; }
 	void Set_IsDead(bool value) { this->IsDead = value; }
 	bool Get_IsDead() { return this->IsDead; }
 	void SubDamage(int damage) { EnermiesHealth += damage; }

@@ -15,6 +15,11 @@ void MayBug::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	vector<LPGAMEOBJECT>* OnlyBrick = new vector<LPGAMEOBJECT>();
+
+	if (this->EnermiesHealth == 0) {
+		this->IsDead = true;
+	}
+
 	OnlyBrick->clear();
 	for (int i = 0; i < coObjects->size(); i++)
 	{
@@ -129,19 +134,17 @@ void MayBug::Render()
 			ani = MAYBUG_ANI_ROLLING;
 		animation_set->at(ani)->Render(x, y);
 	}
-	RenderBoundingBox();
 }
 
 MayBug::MayBug(LPGAMEOBJECT Target)
 {
-	this->IsDead = false;
-	this->EnermiesHealth = ENERMIES_HEALTH;
-
 	this->time = new Timer(MAYBUG_FLYING_TIME);
-	IsActive = false;
-	RandomUpDown = 0;
+	this->IsActive = false;
+	this->RandomUpDown = 0;
+	this->IsDead = false;
 	this->target = Target;
-	IsFlyingLeft = true;
+	this->IsFlyingLeft = true;
+	this->EnermiesHealth = ENERMIES_HEALTH;
 	SetState(MAYBUG_STATE_UNACTIVE);
 }
 

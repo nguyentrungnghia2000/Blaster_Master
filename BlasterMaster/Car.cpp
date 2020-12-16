@@ -15,6 +15,9 @@
 #include "Doom.h"
 #include "Spider.h"
 #include "Portal.h"
+#include "Ladder.h"
+#include "Lava.h"
+#include "Arrows.h"
 
 CCar::CCar(float x, float y) : CGameObject()
 {
@@ -34,7 +37,7 @@ CCar::CCar(float x, float y) : CGameObject()
 void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	if (isActive == true) {
-		CGameObject::Update(dt);
+		CGameObject::Update(dt); //nhìn cái cách mà t debug này. call đi t nói ch
 
 		if (GetTickCount() - timer < EXPLOSION_TIME && health_up == true) {
 			this->IsDead = true;
@@ -88,7 +91,13 @@ void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (GetTickCount() - untouchable_start > CAR_UNTOUCHABLE_TIME) {
 			untouchable_start = 0;
 			untouchable = 0;
+			isK = false;
 		}
+		else
+		{
+			isK = true;
+		}
+
 		if (IsJumping) {
 			state = CAR_STATE_JUMP;
 		}
@@ -106,7 +115,7 @@ void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (dynamic_cast<CBrick*>(e->obj)) {
 					x += min_tx * dx + nx * 0.4f;
-					y += min_ty * dy + ny * 0.4f;
+					y += min_ty * dy + ny * 0.04f;
 
 					if (e->nx != 0) vx = 0;
 					if (e->ny != 0) {
@@ -117,36 +126,43 @@ void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						}
 					}
 				}
-				else if (dynamic_cast<CPortal*>(e->obj)) {
-					CPortal* p = dynamic_cast<CPortal*>(e->obj);
-					CGame::GetInstance()->SwitchScene(p->GetSceneId());
+				else if (dynamic_cast<Arrows*>(e->obj)) {
+					if (e->nx != 0) vx = 0;
 				}
-				else if (dynamic_cast<Robot*>(e->obj)) {
+				else if (dynamic_cast<Ladder*>(e->obj)) {
+					if (e->nx != 0) x += dx;
+					//if (e->ny != 0) y += dy;
+				}
+				else if (dynamic_cast<CPortal*>(e->obj)) {
+					if (e->nx < 0) {
+						CPortal* p = dynamic_cast<CPortal*>(e->obj);
+						CGame::GetInstance()->SwitchScene(p->GetSceneId());
+					}
+				}
+				else if (dynamic_cast<Item*>(e->obj)) {
+					if (e->nx != 0) x += dx;
+					if (e->ny != 0) y += dy;
+					if (health < 8)
+						health++;
+					else
+						continue;
+					e->obj->Set_IsDead(true);
+				}
+				else {
+					if (e->nx != 0) x += dx;
+					if (e->ny != 0) y += dy;
 					if (untouchable == 0) {
 						health--;
 					}
 					StartUntouchable();
 				}
-				else if (dynamic_cast<Bug*>(e->obj)) {
-					health--;
-				}
-				else if (dynamic_cast<MayBug*>(e->obj)) {
-					health--;
-				}
-				else if (dynamic_cast<Spider*>(e->obj)) {
-					health--;
-				}
-				else if (dynamic_cast<Doom*>(e->obj)) {
-					health--;
-				}
-				else if (dynamic_cast<Bee*>(e->obj)) {
-					health--;
-				}
 			}
 		}
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-#pragma endregion
 	}
+#pragma endregion
+	/*DebugOut(L"x : %f\n", this->x);
+	DebugOut(L"y : %f\n", this->y);*/
 }
 
 void CCar::Render()
@@ -154,8 +170,11 @@ void CCar::Render()
 	if (isOverWorld == false) {
 
 		int alpha = 255;
-		if (untouchable) alpha = 128;
-
+		
+		if (isK) {
+			alpha = 0 + rand() % (255 + 1 - 0);
+		}
+		
 		RenderBoundingBox();
 		if (health == 0) {
 			health_up = true;
@@ -187,7 +206,7 @@ void CCar::Render()
 					animation_set->at(CAR_ANI_WALKING_UP_LEFT)->Render(x, y, alpha);
 					return;
 				}
-
+				
 			}
 			else if (vx == 0) {
 				if (nx < 0) {
@@ -262,7 +281,7 @@ void CCar::Render()
 					current_frame = animation_set->at(ani)->GetCurrentFrame();
 				}
 
-				animation_set->at(ani)->RenderCarUp(x, y, alpha);
+				animation_set->at(ani)->RenderCarUp( x, y, alpha);
 			}
 			return;
 		}

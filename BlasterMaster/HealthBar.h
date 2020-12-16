@@ -9,7 +9,7 @@
 #define CAR_POWER_UNIT	3
 
 #define ANIMATION_SET_CAR_HEALTH_BAR	30
-#define UNIT_SPACE	6.5
+#define UNIT_SPACE	7
 
 #define BBOX_HEALTH_BAR_WIDTH	13
 #define BBOX_HEALTH_BAR_HEIGHT	53
@@ -36,5 +36,6 @@ public:
 	void Get_Pos(float& x, float& y) { x = this->x; y = this->y; }
 	void Set_x(float X) { this->x = X; }
 	void Set_y(float Y) { this->y = Y; }
+
 };
 

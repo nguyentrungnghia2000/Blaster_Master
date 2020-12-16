@@ -10,10 +10,11 @@
 #include "Human.h"
 #include "Car.h"
 #include "Portal.h"
+#include "Arrows.h"
 
 MainBullets::MainBullets()
 {
-	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_SMALL_JASON_BULLET));
+	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_MAIN_BULLET));
 	x = 0;
 	y = 0;
 	alpha = 0;
@@ -64,18 +65,11 @@ void MainBullets::Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 	vector<LPGAMEOBJECT>* OnlyEnermies_Brick = new vector<LPGAMEOBJECT>();
 	coEvents.clear();
 	OnlyBrick->clear();
-	for (int i = 0; i < colliable_objects->size(); i++)
-	{
+	for (int i = 0; i < colliable_objects->size(); i++) {
 		if (dynamic_cast<Item*>(colliable_objects->at(i))) {
 			OnlyItem->push_back(colliable_objects->at(i));
 		}
 		else if (dynamic_cast<CPortal*>(colliable_objects->at(i))) {
-			OnlyItem->push_back(colliable_objects->at(i));
-		}
-		else if (dynamic_cast<Human*>(colliable_objects->at(i))) {
-			OnlyItem->push_back(colliable_objects->at(i));
-		}
-		else if (dynamic_cast<CCar*>(colliable_objects->at(i))) {
 			OnlyItem->push_back(colliable_objects->at(i));
 		}
 		else {
@@ -99,18 +93,18 @@ void MainBullets::Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 
 #pragma region return the object type which have been hit by bullets
-		for (UINT i = 0; i < coEventsResult.size(); i++) {
+		for (UINT i = 0; i < coEventsResult.size(); i++){
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
 			if (dynamic_cast<CBrick*>(e->obj)) {
-				if (e->nx != 0) {
+				if (e->nx != 0){
 					IsCollisionBrick = 1;
 					x += min_tx * dx + nx * 0.4f;
 					y += min_ty * dy + ny * 0.4f;
 					vx = 0;
 					vy = 0;
 				}
-				if (e->ny != 0) {
+				if (e->ny != 0){
 					IsCollisionBrick = 1;
 					x += min_tx * dx + nx * 0.4f;
 					y += min_ty * dy + ny * 0.4f;
@@ -119,12 +113,10 @@ void MainBullets::Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 				}
 			}
 
-			else if (dynamic_cast<Robot*>(e->obj)) {
-				Robot* rob = dynamic_cast<Robot*>(e->obj);
+			else if (dynamic_cast<Arrows*>(e->obj)) {
+				Arrows* bug = dynamic_cast<Arrows*>(e->obj);
 				if (e->nx != 0) {
-					rob->SubDamage(-BULLETS_DAMAGE);
-					temp = rob->Get_health();
-					DebugOut(L"temp : %d\n", temp);
+					bug->SubDamage(-BULLETS_DAMAGE);
 					IsCollisionEnermies = 1;
 					x += min_tx * dx + nx * 0.4f;
 					y += min_ty * dy + ny * 0.4f;
@@ -132,6 +124,28 @@ void MainBullets::Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 					vy = 0;
 				}
 				if (e->ny != 0) {
+					bug->SubDamage(-BULLETS_DAMAGE);
+					IsCollisionEnermies = 1;
+					x += min_tx * dx + nx * 0.4f;
+					y += min_ty * dy + ny * 0.4f;
+					vx = 0;
+					vy = 0;
+				}
+			}
+
+			else if(dynamic_cast<Robot*>(e->obj)){
+				Robot* rob = dynamic_cast<Robot*>(e->obj);
+				if (e->nx != 0) {
+					rob->SubDamage(-BULLETS_DAMAGE);
+					temp = rob->Get_health();
+					//DebugOut(L"temp : %d\n", temp);
+					IsCollisionEnermies = 1;
+					x += min_tx * dx + nx * 0.4f;
+					y += min_ty * dy + ny * 0.4f;
+					vx = 0;
+					vy = 0;
+				}
+				if (e->ny != 0){
 					rob->SubDamage(-BULLETS_DAMAGE);
 					IsCollisionEnermies = 1;
 					x += min_tx * dx + nx * 0.4f;
@@ -220,6 +234,26 @@ void MainBullets::Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 					vy = 0;
 				}
 			}
+
+			else if (dynamic_cast<Bee*>(e->obj)) {
+			Bee* spider = dynamic_cast<Bee*>(e->obj);
+			if (e->nx != 0) {
+				spider->SubDamage(-BULLETS_DAMAGE);
+				IsCollisionEnermies = 1;
+				x += min_tx * dx + nx * 0.4f;
+				y += min_ty * dy + ny * 0.4f;
+				vx = 0;
+				vy = 0;
+			}
+			if (e->ny != 0) {
+				spider->SubDamage(-BULLETS_DAMAGE);
+				IsCollisionEnermies = 1;
+				x += min_tx * dx + nx * 0.4f;
+				y += min_ty * dy + ny * 0.4f;
+				vx = 0;
+				vy = 0;
+			}
+			}
 		}
 #pragma endregion
 	}
@@ -232,17 +266,17 @@ void MainBullets::Render()
 {
 	//RenderBoundingBox();
 	int ani;
-	if (TimeDelay >= TimeDelayMax) {
+	if (TimeDelay >= TimeDelayMax){
 		IsDone = true;
 		TimeDelay = 0;
 	}
-	else {
-		if (IsCollisionBrick == 0 && IsCollisionEnermies == 0) {
-			if (IsTargetTop == true) {
+	else{
+		if (IsCollisionBrick == 0 && IsCollisionEnermies == 0){
+			if (IsTargetTop == true){
 				ani = CAR_BULLET_ANI_TOP;
 				animation_set->at(ani)->Render(x, y, alpha);
 			}
-			else {
+			else{
 				if (BulletDirection > 0)
 					ani = CAR_BULLET_ANI_RIGHT;
 				else
@@ -250,17 +284,17 @@ void MainBullets::Render()
 				animation_set->at(ani)->Render(x, y, alpha);
 			}
 		}
-		else {
+		else{
 			//if (IsCollisionBrick != 0 || IsCollisionEnermies != 0) {
-
-			flag = true;
-			ani = CAR_BULLET_EXPLOTION_ANI;
-			animation_set->at(ani)->Render(x, y - DISTANCE_TO_BANG, alpha);
-			if (animation_set->at(ani)->GetFrame() == 2) {
-				IsDone = true;
-				TimeDelay = 0;
-			}
-			timer = GetTickCount();
+				
+				flag = true;
+				ani = CAR_BULLET_EXPLOTION_ANI;
+				animation_set->at(ani)->Render(x, y - DISTANCE_TO_BANG, alpha);
+				if (animation_set->at(ani)->GetFrame() == 2) {
+					IsDone = true;
+					TimeDelay = 0;
+				}
+				timer = GetTickCount();
 			//}
 		}
 	}

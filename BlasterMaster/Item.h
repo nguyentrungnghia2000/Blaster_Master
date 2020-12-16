@@ -1,7 +1,7 @@
 #include "GameObject.h"
 
-#define ITEM_BBOX_WIDTH		16
-#define ITEM_BBOX_HEIGHT	16
+#define ITEM_BBOX_WIDTH		20
+#define ITEM_BBOX_HEIGHT	20
 
 #define ITEM_STATE_ACTIVE	100
 #define	ITEM_STATE_TIMEUP	200
@@ -23,16 +23,18 @@
 class Item :public CGameObject
 {
 	int ID;
-	//bool IsActive;
 	Timer* Time_Active;
-	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-	virtual void Render();
+	
 public:
 	Item();
-	virtual void SetState(int state);
+	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	virtual void Render();
 
-	// these funtion are useless
+	float Get_width() { return width; }
+	float Get_height() { return height; }
 	void Set_IsDead(bool value) { this->IsDead = value; }
 	bool Get_IsDead() { return this->IsDead; }
 	void SubDamage(int damage) { EnermiesHealth += damage; }
+
+	virtual void SetState(int state);
 };

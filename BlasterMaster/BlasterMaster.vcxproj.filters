@@ -60,9 +60,6 @@
     <ClInclude Include="Textures.h">
       <Filter>Source Files\Framework</Filter>
     </ClInclude>
-    <ClInclude Include="Utils.h">
-      <Filter>Source Files\Framework</Filter>
-    </ClInclude>
     <ClInclude Include="KeyEventHandler.h">
       <Filter>Source Files\Scence</Filter>
     </ClInclude>
@@ -128,6 +125,24 @@
     </ClInclude>
     <ClInclude Include="BigHuman.h">
       <Filter>Source Files\Objects\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Lava.h">
+      <Filter>Source Files\Objects\Enermies</Filter>
+    </ClInclude>
+    <ClInclude Include="Ladder.h">
+      <Filter>Source Files\Objects\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Grid.h">
+      <Filter>Source Files\Scence</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Source Files\Scence</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Source Files\Objects\Enermies</Filter>
+    </ClInclude>
+    <ClInclude Include="Arrows.h">
+      <Filter>Source Files\Objects\Enermies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -215,5 +230,25 @@
     <ClCompile Include="BigHuman.cpp">
       <Filter>Source Files\Objects\Materials</Filter>
     </ClCompile>
+    <ClCompile Include="Lava.cpp">
+      <Filter>Source Files\Objects\Enermies</Filter>
+    </ClCompile>
+    <ClCompile Include="Ladder.cpp">
+      <Filter>Source Files\Objects\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Grid.cpp">
+      <Filter>Source Files\Scence</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\Scence</Filter>
+    </ClCompile>
+    <ClCompile Include="Arrows.cpp">
+      <Filter>Source Files\Objects\Enermies</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="BlasterMaster.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

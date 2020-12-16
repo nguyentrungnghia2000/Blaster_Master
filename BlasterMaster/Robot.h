@@ -39,10 +39,13 @@ class Robot : public CGameObject
 	virtual void Render();
 public:
 	Robot(LPGAMEOBJECT);
-	virtual void SetState(int state);
 	int Get_health() { return EnermiesHealth; }
 
+	float Get_width() { return width; }
+	float Get_height() { return height; }
 	void Set_IsDead(bool value) { this->IsDead = value; }
 	bool Get_IsDead() { return this->IsDead; }
+	virtual void SetState(int state);
+
 	void SubDamage(int damage) { EnermiesHealth += damage; }
 };

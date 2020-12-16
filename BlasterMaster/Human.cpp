@@ -14,6 +14,7 @@
 #include "Doom.h"
 #include "Spider.h"
 #include "Portal.h"
+#include "Ladder.h"
 
 Human::Human(float x, float y)
 {
@@ -25,6 +26,8 @@ Human::Human(float x, float y)
 	this->isOverWorld = false;
 	this->PressDown = false;
 	this->PressUp = false;
+	this->isLadder = false;
+	this->isMovingonLadder = false;
 	start_x = x;
 	start_y = y;
 	this->x = x;
@@ -34,7 +37,8 @@ Human::Human(float x, float y)
 void Human::Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 {
 	CGameObject::Update(dt, colliable_objects);
-	vy += HUMAN_GRAVITY * dt;
+	if (state != HUMAN_STATE_MOVE_UP_LADDER && state != HUMAN_STATE_MOVE_DOWN_LADDER)
+		vy += HUMAN_GRAVITY * dt;
 
 	if (IsJumping == true) {
 		state = HUMAN_STATE_JUMP;
@@ -43,6 +47,8 @@ void Human::Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 		isLying = true;
 	if (isActive == false)
 		isCollisionWithCar = false;
+	//if (isLadder == false)
+		//state = HUMAN_STATE_IDLE;
 
 #pragma region Xử lý va chạm (collision)
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -53,16 +59,21 @@ void Human::Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 	coEvents.clear();
 	lsEnermies_Items_Bricks->clear();
 	for (int i = 0; i < colliable_objects->size(); i++) {
-		if (dynamic_cast<Item*>(colliable_objects->at(i))) {
-			lsEnermies_Items_Bricks->push_back(colliable_objects->at(i));
+		lsEnermies_Items_Bricks->push_back(colliable_objects->at(i));
+	}
+	for (UINT i = 0; i < lsEnermies_Items_Bricks->size(); i++)
+	{
+		if (dynamic_cast<Ladder*>(lsEnermies_Items_Bricks->at(i)))
+		{
+			if (this->IsColidingAABB(lsEnermies_Items_Bricks->at(i)))
+			{
+				isLadder = true;
+			}
+			else {
+				isLadder = false;
+				isMovingonLadder = false;
+			}
 		}
-		else if (dynamic_cast<CCar*>(colliable_objects->at(i))) {
-			lsEnermies_Items_Bricks->push_back(colliable_objects->at(i));
-		}
-		else {
-			lsEnermies_Items_Bricks->push_back(colliable_objects->at(i));
-		}
-		//lsEnermies_Items_Bricks->push_back(colliable_objects->at(i));
 	}
 	CalcPotentialCollisions(lsEnermies_Items_Bricks, coEvents);
 
@@ -84,28 +95,39 @@ void Human::Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 
 			if (dynamic_cast<CBrick*>(e->obj)) {
 				x += min_tx * dx + nx * 0.4f;
-				y += min_ty * dy + ny * 0.4f;
-
-				if (e->nx != 0) vx = 0;
-				if (e->ny != 0) {
-					vy = 0;
-					if (e->ny < 0) {
-						IsJumping = false;
-						PressJump = false;
+				y += min_ty * dy + ny * 0.04f;
+				if (isMovingonLadder == true) {
+					if (e->nx != 0) x += dx;
+					if (e->ny != 0) y += dy;
+				}
+				else {
+					if (e->nx != 0) vx = 0;
+					if (e->ny != 0) {
+						vy = 0;
+						if (e->ny < 0) {
+							IsJumping = false;
+							PressJump = false;
+						}
 					}
 				}
 			}
 			else if (dynamic_cast<CCar*>(e->obj)) {
 				isCollisionWithCar = true;
-				if (e->nx != 0) vx += dx;
-				if (e->ny != 0) vy = 0;
+				if (e->nx != 0) x += dx;
+				if (e->ny != 0) y += dy;
 			}
-			else if (dynamic_cast<CPortal*>(e->obj))
-			{
+			else if (dynamic_cast<CPortal*>(e->obj)) {
 				CPortal* p = dynamic_cast<CPortal*>(e->obj);
 				CGame::GetInstance()->SwitchScene(p->GetSceneId());
 			}
+			else if (dynamic_cast<Ladder*>(e->obj)) {
+				//isLadder = true;
+				if (e->nx != 0) x += dx;
+				if (e->ny != 0) y += dy;
+			}
 			else if (dynamic_cast<Robot*>(e->obj)) {
+				if (e->nx != 0) x += dx;
+				if (e->ny != 0) y += dy;
 				health--;
 			}
 		}
@@ -143,19 +165,28 @@ void Human::Render()
 						ani = HUMAN_ANI_JUMP_LEFT;
 				}
 				else {
-					if (state == HUMAN_STATE_WALKING_RIGHT)
-						ani = HUMAN_ANI_WALK_RIGHT;
-					else if (state == HUMAN_STATE_WALKING_LEFT)
-						ani = HUMAN_ANI_WALK_LEFT;
-					else if (state == HUMAN_STATE_IDLE) {
-						if (nx > 0)
-							ani = HUMAN_ANI_IDLE_RIGHT;
-						else
-							ani = HUMAN_ANI_IDLE_LEFT;
-					}
+					//if (isLadder == true) {
+						
+					//}
+					//else {
+						if (state == HUMAN_STATE_WALKING_RIGHT)
+							ani = HUMAN_ANI_WALK_RIGHT;
+						else if (state == HUMAN_STATE_WALKING_LEFT)
+							ani = HUMAN_ANI_WALK_LEFT;
+						else if (state == HUMAN_STATE_IDLE) {
+							if (nx > 0)
+								ani = HUMAN_ANI_IDLE_RIGHT;
+							else
+								ani = HUMAN_ANI_IDLE_LEFT;
+						}
+
+						else if (state == HUMAN_STATE_MOVE_UP_LADDER)
+							ani = HUMAN_ANI_MOVE_ON_LADDER;
+						else ani = HUMAN_ANI_MOVE_ON_LADDER;
+					//}
 				}
 			}
-
+			
 
 			animation_set->at(ani)->Render(x, y, alpha);
 		}
@@ -209,6 +240,14 @@ void Human::SetState(int state)
 	case HUMAN_STATE_LIE_MOVE_LEFT:
 		vx = -HUMAN_LYING_SPEED;
 		nx = -1;
+		break;
+	case HUMAN_STATE_MOVE_UP_LADDER:
+		vy = -HUMAN_MOVE_ON_LADDER_SPEED;
+		ny = 1;
+		break;
+	case HUMAN_STATE_MOVE_DOWN_LADDER:
+		vy = HUMAN_MOVE_ON_LADDER_SPEED;
+		ny = -1;
 		break;
 	}
 }

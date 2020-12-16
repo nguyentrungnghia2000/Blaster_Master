@@ -62,6 +62,8 @@ public:
 	LPSCENE GetCurrentScene() { return scenes[current_scene]; }
 	void SwitchScene(int scene_id);
 
+	bool AABB(float ml, float mt, float mr, float mb, float sl, float st, float sr, float sb);
+
 	int GetScreenWidth() { return screen_width; }
 	int GetScreenHeight() { return screen_height; }
 
@@ -85,6 +87,8 @@ public:
 	LPD3DXSPRITE GetSpriteHandler() { return this->spriteHandler; }
 
 	void SetCamPos(float x, float y) { cam_x = x; cam_y = y; }
+	float GetCamx() { return cam_x; }
+	float GetCamy() { return cam_y; }
 
 	static CGame* GetInstance();
 

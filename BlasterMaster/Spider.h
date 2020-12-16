@@ -30,6 +30,8 @@ public:
 	virtual void SetState(int state);
 	bool GetAttack() { return IsAttack; }
 
+	float Get_width() { return width; }
+	float Get_height() { return height; }
 	bool Get_IsDead() { return this->IsDead; }
 	void Set_IsDead(bool value) { this->IsDead = value; }
 	void SubDamage(int damage) { EnermiesHealth += damage; };

@@ -18,7 +18,7 @@
 
 #define BULLETS_DAMAGE 1
 
-#define ANIMATION_SET_SMALL_JASON_BULLET		20
+#define ANIMATION_SET_MAIN_BULLET		20
 #define SMALL_JASON_BULLET_DELAY				860
 
 class MainBullets : public Bullets

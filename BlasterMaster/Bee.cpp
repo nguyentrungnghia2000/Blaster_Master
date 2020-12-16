@@ -1,4 +1,5 @@
 #include "Bee.h"
+#include "Utils.h"
 
 void Bee::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -15,6 +16,11 @@ void Bee::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	vector<LPGAMEOBJECT>* OnlyBrick = new vector<LPGAMEOBJECT>();
+
+	if (this->EnermiesHealth == 0) {
+		this->IsDead = true;
+	}
+
 	OnlyBrick->clear();
 	for (int i = 0; i < coObjects->size(); i++)
 	{
@@ -67,38 +73,22 @@ void Bee::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		float rdx = 0;
 		float rdy = 0;
 
-		// TODO: This is a very ugly designed function!!!!
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-		// how to push back Mario if collides with a moving objects, what if Mario is pushed this way into another object?
-		//if (rdx != 0 && rdx!=dx)
-		//	x += nx*abs(rdx); 
-
-		// block every object first!
 		x += min_tx * dx + nx * 0.4f;
 		y += min_ty * dy + ny * 0.4f;
 
-		//if (nx != 0) vx = 0;
 		if (ny != 0) vy = 0;
-		//
-		// Collision logic with other objects
-		//
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
-			if (dynamic_cast<CBrick*>(e->obj)) // if e->obj is Goomba 
+			if (dynamic_cast<CBrick*>(e->obj)) 
 			{
 				CBrick* brick = dynamic_cast<CBrick*>(e->obj);
-
-				// jump on top >> kill Goomba and deflect a bit 
 				if (ny < 0)
 				{
-					//if(IsFlyingDown)
 					IsFlyingDown = false;
 					IsBrickTop = false;
-					//else 
-					//	vy += BEE_GRAVITY * dt;
 				}
 				if (ny > 0)
 				{
@@ -107,13 +97,13 @@ void Bee::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (nx != 0 && ny == 0)
 				{
 					vx = -vx;
-					//vy = -vy;
 				}
 			}
 		}
 	}
-	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+
+	DebugOut(L"abcd\n");
 }
 
 void Bee::Render()
@@ -127,20 +117,17 @@ void Bee::Render()
 			ani = BEE_ANI_FLYING_LEFT;
 
 		animation_set->at(ani)->Render(x, y);
-
 	}
-	RenderBoundingBox();
 }
 
 Bee::Bee(LPGAMEOBJECT Target)
 {
-	this->IsDead = false;
-	this->EnermiesHealth = ENERMIES_HEALTH;
-
 	this->target = Target;
 	this->time = new Timer(BEE_FLYING_TIME + BEE_SURFING_TIME);
 	IsBrickTop = false;
-	IsActive = false;
+	IsActive = true;
+	this->IsDead = false;
+	this->EnermiesHealth = ENERMIES_HEALTH;
 	SetState(BEE_STATE_UNACTIVE);
 }
 

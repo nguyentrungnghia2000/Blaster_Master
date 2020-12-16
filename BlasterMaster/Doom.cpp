@@ -1,10 +1,9 @@
 #include "Doom.h"
 Doom::Doom(LPGAMEOBJECT target, int state, int brick)
 {
-	this->IsDead = false;
-	this->EnermiesHealth = ENERMIES_HEALTH;
-
 	Target = target;
+	this->EnermiesHealth = ENERMIES_HEALTH;
+	this->IsDead = false;
 	if (brick == 1)
 		IsBrick = true;
 	else
@@ -60,6 +59,11 @@ void Doom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	vector<LPGAMEOBJECT>* OnlyBrick = new vector<LPGAMEOBJECT>();
+
+	if (this->EnermiesHealth == 0) {
+		this->IsDead = true;
+	}
+
 	OnlyBrick->clear();
 	for (int i = 0; i < coObjects->size(); i++)
 	{
@@ -259,7 +263,7 @@ void Doom::Render()
 			ani = DOOM_ANI_WALKING_TOP;
 	}
 	animation_set->at(ani)->Render(x, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void Doom::SetState(int state)

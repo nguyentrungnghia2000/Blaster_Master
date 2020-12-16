@@ -113,7 +113,7 @@ void BigHuman::Render()
 		}
 		animation_set->at(ani)->Render(x, y, alpha);
 	}
-
+	
 }
 
 void BigHuman::GetBoundingBox(float& left, float& top, float& right, float& bottom)

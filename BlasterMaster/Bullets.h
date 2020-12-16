@@ -48,10 +48,16 @@ public:
 	void ResetDelay() { TimeDelay = 0; }
 	bool GetIsDone() { return IsDone; }
 	void SetIsDone(bool isdone) { IsDone = isdone; }
-	virtual bool Get_IsDead() { return isFinish; }
-	virtual void Set_IsDead(bool isfinish) { isFinish = isfinish; };
-	int GetDamage() { return damage; }
+
+	float Get_width() { return width; }
+	float Get_height() { return height; }
+	bool Get_IsDead() { return isFinish; }
+	void Set_IsDead(bool isfinish) { isFinish = isfinish; };
 	bool Get_IsCollision();
+
+	virtual bool Get_IsFinish() { return isFinish; }
+	virtual void Set_IsFinish(bool isfinish) { isFinish = isfinish; };
+	int GetDamage() { return damage; }
 
 };
 

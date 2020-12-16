@@ -7,16 +7,17 @@
 class CBrick : public CGameObject
 {
 	float width, height;
+	bool IsFinish;
 public:
 	CBrick(float width, float height);
+	void Set_IsDead(bool value) { this->IsFinish = value; }
+	bool Get_IsDead() { return this->IsFinish; }
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	int GetHeight() { return height; }
 	int GetWidth() { return width; }
 
-
-	// these funtion are useless
-	void Set_IsDead(bool value) { this->IsDead = value; }
-	bool Get_IsDead() { return this->IsDead; }
+	float Get_width() { return width; }
+	float Get_height() { return height; }
 	void SubDamage(int damage) { EnermiesHealth += damage; }
 };

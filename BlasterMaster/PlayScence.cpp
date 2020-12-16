@@ -16,6 +16,11 @@
 #include "Spider.h"
 #include "Item.h"
 #include "Human.h"
+#include "HumanBullets.h"
+#include "Arrows.h"
+#include "Ladder.h"
+#include "Lava.h"
+#include "Camera.h"
 
 using namespace std;
 
@@ -45,10 +50,10 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_MAYBUG	10
 #define OBJECT_TYPE_DOOM	11
 #define OBJECT_TYPE_SPIDER	12
-
-
+#define OBJECT_TYPE_LADDER	23
+#define OBJECT_TYPE_LAVA	24
+#define OBJECT_TYPE_ARROWS	25
 #define OBJECT_TYPE_ITEM	100
-
 #define OBJECT_TYPE_PORTAL	50
 
 #define MAX_SCENE_LINE 1024
@@ -82,6 +87,10 @@ void CPlayScene::_ParseSection_SPRITES(string line)
 	int b = atoi(tokens[4].c_str());
 	int texID = atoi(tokens[5].c_str());
 
+	if (ID == 123456) {
+		mapW = r;
+		mapH = b;
+	}
 	LPDIRECT3DTEXTURE9 tex = CTextures::GetInstance()->Get(texID);
 	if (tex == NULL)
 	{
@@ -117,7 +126,7 @@ void CPlayScene::_ParseSection_ANIMATION_SETS(string line)
 {
 	vector<string> tokens = split(line);
 
-	if (tokens.size() < 2) return;
+	if (tokens.size() < 2) return; 
 
 	int ani_set_id = atoi(tokens[0].c_str());
 
@@ -153,9 +162,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 
 	CGameObject* obj = NULL;
+	CGameObject* players = NULL;
 
-	switch (object_type) {
+	switch (object_type){
 	case OBJECT_TYPE_CAR:
+	{
 		if (player != NULL) {
 			DebugOut(L"[ERROR] CAR object was created before!\n");
 			return;
@@ -164,8 +175,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		player = (CCar*)obj;
 
 		DebugOut(L"[INFO] Player CAR created!\n");
+		obj->SetPosition(x, y);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+		obj->SetAnimationSet(ani_set);
+		lsPlayers.push_back(obj);
 		break;
+	}
 	case OBJECT_TYPE_HUMAN:
+	{
 		if (player2 != NULL) {
 			DebugOut(L"[ERROR] HUMAN object was created before!\n");
 			return;
@@ -173,8 +190,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new Human(x, y);
 		player2 = (Human*)obj;
 		DebugOut(L"[INFO] Player HUMAN created!\n");
+		obj->SetPosition(x, y);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+		obj->SetAnimationSet(ani_set);
+		lsPlayers.push_back(obj);
 		break;
+	}
 	case OBJECT_TYPE_BIGHUMAN:
+	{
 		if (player3 != NULL) {
 			DebugOut(L"[ERROR] BIGHUMAN object was created before!\n");
 			return;
@@ -182,53 +205,141 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new BigHuman(x, y);
 		player3 = (BigHuman*)obj;
 		DebugOut(L"[INFO] Player BIGHUMAN created!\n");
+		obj->SetPosition(x, y);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+		obj->SetAnimationSet(ani_set);
+		lsPlayers.push_back(obj);
 		break;
+	}
 	case OBJECT_TYPE_BRICK:
+	{
 		w = atof(tokens[4].c_str());
 		h = atof(tokens[5].c_str());
 		obj = new CBrick(w, h);
+		obj->SetPosition(x, y);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+		obj->SetAnimationSet(ani_set);
+		lsObjects.push_back(obj);
 		break;
-	case OBJECT_TYPE_BUG: obj = new Bug(player); break;
-	case OBJECT_TYPE_ROBOT: obj = new Robot(player); break;
-	case OBJECT_TYPE_BEE: obj = new Bee(player); break;
-	case OBJECT_TYPE_MAYBUG: obj = new MayBug(player); break;
+	}
+	case OBJECT_TYPE_LADDER:
+	{
+		w = atof(tokens[4].c_str());
+		h = atof(tokens[5].c_str());
+		obj = new Ladder(w, h);
+		obj->SetPosition(x, y);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+		obj->SetAnimationSet(ani_set);
+		lsObjects.push_back(obj);
+		break;
+	}
+	case OBJECT_TYPE_LAVA:
+	{
+		w = atof(tokens[4].c_str());
+		h = atof(tokens[5].c_str());
+		obj = new Lava(w, h);
+		obj->SetPosition(x, y);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+		obj->SetAnimationSet(ani_set);
+		lsEnermies.push_back(obj);
+		break;
+	}
+	case OBJECT_TYPE_ARROWS:
+	{
+		w = atof(tokens[4].c_str());
+		h = atof(tokens[5].c_str());
+		obj = new Arrows(w, h);
+		break;
+	}
+	case OBJECT_TYPE_BUG: 
+	{
+		obj = new Bug(player);
+		obj->SetPosition(x, y);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+		obj->SetAnimationSet(ani_set);
+		lsEnermies.push_back(obj);
+		break;
+	}
+	case OBJECT_TYPE_ROBOT: 
+	{
+		obj = new Robot(player);
+		obj->SetPosition(x, y);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+		obj->SetAnimationSet(ani_set);
+		lsEnermies.push_back(obj);
+		break;
+	}
+	case OBJECT_TYPE_BEE: 
+	{
+		obj = new Bee(player);
+		obj->SetPosition(x, y);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+		obj->SetAnimationSet(ani_set);
+		lsEnermies.push_back(obj);
+		break;
+	}
+	case OBJECT_TYPE_MAYBUG: 
+	{
+		obj = new MayBug(player);
+		obj->SetPosition(x, y);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+		obj->SetAnimationSet(ani_set);
+		lsEnermies.push_back(obj);
+		break;
+	}
 	case OBJECT_TYPE_DOOM:
+	{
 		IsBrick = atof(tokens[5].c_str());
 		IsState = atof(tokens[4].c_str());
 		obj = new Doom(player, IsState, IsBrick);
+		obj->SetPosition(x, y);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+		obj->SetAnimationSet(ani_set);
+		lsEnermies.push_back(obj);
 		break;
-	case OBJECT_TYPE_SPIDER: obj = new Spider(player); break;
-	case OBJECT_TYPE_ITEM: obj = new Item(); break;
+	}
+	case OBJECT_TYPE_SPIDER: 
+	{
+		obj = new Spider(player);
+		obj->SetPosition(x, y);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+		obj->SetAnimationSet(ani_set);
+		lsEnermies.push_back(obj);
+		break;
+	}
+	case OBJECT_TYPE_ITEM:
+	{
+		obj = new Item(); 
+		obj->SetPosition(x, y);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+		obj->SetAnimationSet(ani_set);
+		lsObjects.push_back(obj);
+		break;
+	}
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = atof(tokens[4].c_str());
 		float b = atof(tokens[5].c_str());
 		int scene_id = atoi(tokens[6].c_str());
 		obj = new CPortal(x, y, r, b, scene_id);
+		obj->SetPosition(x, y);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+		obj->SetAnimationSet(ani_set);
+		lsObjects.push_back(obj);
+		break;
 	}
-	break;
 	default:
-		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
+		//DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
 	}
 
-	//set id of the map
-	maptextures = CTextures::GetInstance()->Get(40);
-
-	// General object setup
-	obj->SetPosition(x, y);
-
-	LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
-
-	obj->SetAnimationSet(ani_set);
-	objects.push_back(obj);
+	//DebugOut(L"list size %d \n", lsEnermies.size());
+	
 }
 
 void CPlayScene::_ParseSection_SCENE(string line)
 {
 	vector<string> tokens = split(line);
-
-
 }
 
 void CPlayScene::_ParseSection_SWITCHSCENE(string line)
@@ -250,7 +361,6 @@ void CPlayScene::_ParseSection_MAP(string line)
 
 	LPDIRECT3DTEXTURE9 tex = CTextures::GetInstance()->Get(id_texture);
 	//spriteMap = CSprites::GetInstance()->Get(id_map);
-
 	spriteMap = new CSprite(id_map, l, t, r, b, tex);
 }
 
@@ -316,32 +426,32 @@ void CPlayScene::Load()
 
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 
-
+	LoadObjects();
+	
 	//Load map
 	spriteMap = CSprites::GetInstance()->Get(123456);
-
-
-	LoadObjects();
+	
 }
 
 void CPlayScene::LoadObjects()
 {
-	/*if (player == NULL) {
-		player = new CCar(50, 95);
-	}
-	if (player2 == NULL) {
-		player2 = new Human(50, 95);
-	}*/
 	if (playerHUD == NULL) {
 		playerHUD = new HUD(PLAYER_HEALTH, PLAYER_HEALTH);
 	}
+	if (grid == NULL) {
+		grid = new Grid(mapW, mapH);
+	}
+	else
+		grid->Reset(mapW, mapH);
+
+	grid->PushObjectIntoGrid(lsEnermies);
 }
 
 void CPlayScene::Update(DWORD dt)
 {
 #pragma region CAMERA
 	float cx, cy;
-	CGame* GameCamera = CGame::GetInstance();
+	
 	if (player->isActive == true) {
 		player->GetPosition(cx, cy);
 		if (player->x + SCREEN_WIDTH / 2 >= spriteMap->GetWidth())
@@ -465,8 +575,14 @@ void CPlayScene::Update(DWORD dt)
 #pragma region objects and bullets
 
 	vector<LPGAMEOBJECT> coObjects;
-	for (size_t i = 0; i < objects.size(); i++) {
-		coObjects.push_back(objects[i]);
+	for (size_t i = 0; i < lsObjects.size(); i++) {
+		coObjects.push_back(lsObjects[i]);
+	}
+	for (size_t i = 0; i < coEnermies.size(); i++) {
+		coObjects.push_back(coEnermies[i]);
+	}
+	for (size_t i = 0; i < lsPlayers.size(); i++) {
+		coObjects.push_back(lsPlayers[i]);
 	}
 	if (player->isAttack)
 	{
@@ -500,20 +616,36 @@ void CPlayScene::Update(DWORD dt)
 #pragma endregion
 
 #pragma region update objects
-	for (size_t i = 0; i < objects.size(); i++) {
-		objects[i]->Update(dt, &coObjects);
-	}
-	/*player->Update(dt, &coObjects);
-	player2->Update(dt, &coObjects);*/
-	for (int i = 0; i < lsBullets.size(); i++) {
-		lsBullets[i]->Update(dt, &coObjects);
-	}
-	for (size_t i = 0; i < objects.size(); i++) {
-		if (objects[i]->Get_IsDead() == true) {
-			objects.erase(objects.begin() + i);
+	for (size_t i = 0; i < lsObjects.size(); i++) {
+		lsObjects[i]->Update(dt, &coObjects);
+
+		if (lsObjects[i]->Get_IsDead() == true) {
+			lsObjects.erase(lsObjects.begin() + i);
 		}
 	}
+	for (size_t i = 0; i < lsPlayers.size(); i++) {
+		lsPlayers[i]->Update(dt, &coObjects);
+		
+		/*if (lsPlayers[i]->Get_IsDead() == true) {
+			lsPlayers.erase(lsPlayers.begin() + i);
+		}*/
+	}
+	for (size_t i = 0; i < lsPlayers.size(); i++) {
+		if (lsPlayers[i]->Get_IsDead() == true) {
+			lsPlayers.erase(lsPlayers.begin() + i);
+		}
+	}
+	for (int i = 0; i < coEnermies.size(); i++) {
+		coEnermies[i]->Update(dt, &coObjects);
+
+		if (coEnermies[i]->Get_IsDead() == true) {
+			coEnermies.erase(coEnermies.begin() + i);
+		}
+	}
+		
 	for (int i = 0; i < lsBullets.size(); i++) {
+		lsBullets[i]->Update(dt, &coObjects);
+
 		if (lsBullets[i]->Get_IsFinish() == true)
 			lsBullets.erase(lsBullets.begin() + i);
 	}
@@ -533,6 +665,7 @@ void CPlayScene::Update(DWORD dt)
 		}
 	}
 #pragma endregion
+	GetObjectFromGrid(GameCamera->GetCamx(), GameCamera->GetCamy());
 
 	if (player == NULL) return;
 	if (player2 == NULL) return;
@@ -540,12 +673,13 @@ void CPlayScene::Update(DWORD dt)
 
 void CPlayScene::Render()
 {
-	spriteMap->Draw(0, 0);
-	for (int i = 0; i < objects.size(); i++)
-		objects[i]->Render();
-
-	/*player->Render();
-	player2->Render();*/
+	spriteMap->Draw(0,0);
+	for (int i = 0; i < lsObjects.size(); i++)
+		lsObjects[i]->Render();
+	for (int i = 0; i < lsPlayers.size(); i++)
+		lsPlayers[i]->Render();
+	for (int i = 0; i < coEnermies.size(); i++)
+		coEnermies[i]->Render();
 
 	for (int i = 0; i < lsBullets.size(); i++) {
 		lsBullets[i]->Render();
@@ -560,18 +694,41 @@ void CPlayScene::Render()
 
 void CPlayScene::Unload()
 {
-	for (int i = 0; i < objects.size(); i++)
-		delete objects[i];
-
-	objects.clear();
+	for (int i = 0; i < lsObjects.size(); i++)
+		delete lsObjects[i];
+	lsObjects.clear();
+	for (int i = 0; i < lsPlayers.size(); i++)
+		delete lsPlayers[i];
+	lsPlayers.clear();
+	for (int i = 0; i < lsEnermies.size(); i++)
+		delete lsEnermies[i];
+	lsEnermies.clear();
+	/*for (int i = 0; i < coEnermies.size(); i++)
+		delete coEnermies[i];*/
+	coEnermies.clear();
+	/*for (int i = 0; i < lsEnermiesGrid.size(); i++)
+		delete lsEnermiesGrid[i];*/
+	lsEnermiesGrid.clear();
+	
+	lsBullets.clear();
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
 
-void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
+void CPlayScene::GetObjectFromGrid(float x, float y)
 {
+	lsEnermiesGrid.clear();
+	coEnermies.clear();
+	grid->GetListObject(x, y, lsEnermiesGrid);
+	for (UINT i = 0; i < lsEnermiesGrid.size(); i++) {
+		coEnermies.push_back(lsEnermiesGrid[i]);
+		//DebugOut(L"list size %d \n", coEnermies.size());
+	}
+}
+
+void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
+{	
 	CGame* game = CGame::GetInstance();
-	//CGameObject* controlplayer = ((CPlayScene*)scence)->Get_Player();
 	CCar* car = ((CPlayScene*)scence)->GetPlayer();
 	Human* human = ((CPlayScene*)scence)->GetPlayer1();
 	BigHuman* bhuman = ((CPlayScene*)scence)->GetPlayer2();
@@ -580,7 +737,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	int direction;
 	bool IsTargetTop;
 	car->Get_CarStateForBullet(direction, IsTargetTop, Carx, Cary);
-
+	
 	switch (KeyCode)
 	{
 	case DIK_O:
@@ -605,21 +762,17 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 			if (car->isActive == true && human->isActive == false) {
 				car->isActive = false;
 				human->isActive = true;
-			}
-			else if (car->isActive == false && human->isActive == true) {
-				if (human->isCollisionWithCar == true) {
-					car->isActive = true;
-					human->isActive = false;
-				}
-				else
-					return;
-			}
-			if (human->isActive == false) {
 				car->Get_CarDirection(human->nx);
 				if (human->nx > 0)
 					human->SetPosition(car->x + HUMAN_APPEAR_DISTANCE_WIDTH_RIGHT, car->y + HUMAN_APPEAR_DISTANCE_HEIGHT);
 				else
 					human->SetPosition(car->x + HUMAN_APPEAR_DISTANCE_WIDTH_LEFT, car->y + HUMAN_APPEAR_DISTANCE_HEIGHT);
+			}
+			else if (car->isActive == false && human->isActive == true) {
+				if ((car->x < (human->x + HUMAN_BBOX_WIDTH) && car->y < human->y && human->isCollisionWithCar == true)) {
+					car->isActive = true;
+					human->isActive = false;
+				}
 			}
 		}
 		break;
@@ -676,7 +829,12 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		}
 		if (human != NULL) {
 			if (human->isActive == true) {
-				human->PressDown = true;
+				if (human->isLadder == true) {
+					human->SetState(HUMAN_STATE_MOVE_DOWN_LADDER);
+					human->isMovingonLadder = true;
+				}
+				else
+					human->PressDown = true;
 			}
 		}
 		break;
@@ -690,10 +848,16 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_UP:
 		if (human != NULL) {
 			if (human->isActive == true) {
-				if (human->PressDown == true) {
-					human->PressDown = false;
-					human->isLying = false;
-					human->SetPosition(human->x, human->y - (HUMAN_BBOX_HEIGHT - HUMAN_LIE_BBOX_HEIGHT));
+				if (human->isLadder == true) {
+					human->SetState(HUMAN_STATE_MOVE_UP_LADDER);
+					human->isMovingonLadder = true;
+				}
+				else {
+					if (human->PressDown == true) {
+						human->PressDown = false;
+						human->isLying = false;
+						human->SetPosition(human->x, human->y - (HUMAN_BBOX_HEIGHT - HUMAN_LIE_BBOX_HEIGHT));
+					}
 				}
 			}
 		}

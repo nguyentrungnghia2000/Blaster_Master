@@ -26,6 +26,7 @@ class MayBug :public CGameObject
 	Timer* time;
 	bool IsFlyingLeft;
 	bool IsActive;
+	//bool IsFinish;
 	int RandomUpDown;
 	LPGAMEOBJECT target;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
@@ -33,10 +34,13 @@ class MayBug :public CGameObject
 	virtual void Render();
 public:
 	MayBug(LPGAMEOBJECT);
-	virtual void SetState(int state);
 
+	float Get_width() { return width; }
+	float Get_height() { return height; }
 	void Set_IsDead(bool value) { this->IsDead = value; }
 	bool Get_IsDead() { return this->IsDead; }
 	void SubDamage(int damage) { EnermiesHealth += damage; }
+
+	virtual void SetState(int state);
 };
 

@@ -143,3 +143,16 @@ CGameObject::~CGameObject()
 {
 
 }
+
+bool CGameObject::IsColidingAABB(CGameObject* obj)
+{
+	float l, t, r, b;
+	float l1, t1, r1, b1;
+	this->GetBoundingBox(l, t, r, b);
+	obj->GetBoundingBox(l1, t1, r1, b1);
+
+	if (CGame::GetInstance()->AABB(l, t, r, b, l1, t1, r1, b1))
+		return true;
+
+	return false;
+}
