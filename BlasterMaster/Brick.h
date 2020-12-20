@@ -17,6 +17,7 @@ public:
 	int GetHeight() { return height; }
 	int GetWidth() { return width; }
 
+	int Get_ID() { return ID; }
 	float Get_width() { return width; }
 	float Get_height() { return height; }
 	void SubDamage(int damage) { EnermiesHealth += damage; }

@@ -1,11 +1,13 @@
 ﻿#include <iostream>
 #include <fstream>
 
+#include "Intro.h"
 #include "PlayScence.h"
 #include "Utils.h"
 #include "Textures.h"
 #include "Sprites.h"
 #include "Portal.h"
+#include "Portal1.h"
 #include "Brick.h"
 #include "Car.h"
 #include "Bug.h"
@@ -43,6 +45,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_HUMAN	0
 #define OBJECT_TYPE_BRICK	1
 #define OBJECT_TYPE_BIGHUMAN	2
+#define OBJECT_TYPE_INTRO	3
 #define OBJECT_TYPE_CAR		5
 #define OBJECT_TYPE_BUG		7
 #define OBJECT_TYPE_ROBOT	8
@@ -55,6 +58,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_ARROWS	25
 #define OBJECT_TYPE_ITEM	100
 #define OBJECT_TYPE_PORTAL	50
+#define OBJECT_TYPE_PORTAL1	51
 
 #define MAX_SCENE_LINE 1024
 
@@ -165,6 +169,15 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	CGameObject* players = NULL;
 
 	switch (object_type){
+	case OBJECT_TYPE_INTRO:
+	{
+		obj = new Intro();
+		obj->SetPosition(x, y);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+		obj->SetAnimationSet(ani_set);
+		lsObjects.push_back(obj);
+		break;
+	}
 	case OBJECT_TYPE_CAR:
 	{
 		if (player != NULL) {
@@ -255,6 +268,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 		obj = new Bug(player);
 		obj->SetPosition(x, y);
+		DebugOut(L"[INFO] BUG created!\n");
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 		obj->SetAnimationSet(ani_set);
 		lsEnermies.push_back(obj);
@@ -264,6 +278,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 		obj = new Robot(player);
 		obj->SetPosition(x, y);
+		DebugOut(L"[INFO] ROBOT created!\n");
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 		obj->SetAnimationSet(ani_set);
 		lsEnermies.push_back(obj);
@@ -273,6 +288,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 		obj = new Bee(player);
 		obj->SetPosition(x, y);
+		DebugOut(L"[INFO] BEE created!\n");
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 		obj->SetAnimationSet(ani_set);
 		lsEnermies.push_back(obj);
@@ -282,6 +298,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 		obj = new MayBug(player);
 		obj->SetPosition(x, y);
+		DebugOut(L"[INFO] MAYBUG created!\n");
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 		obj->SetAnimationSet(ani_set);
 		lsEnermies.push_back(obj);
@@ -293,6 +310,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		IsState = atof(tokens[4].c_str());
 		obj = new Doom(player, IsState, IsBrick);
 		obj->SetPosition(x, y);
+		DebugOut(L"[INFO] DOOM created!\n");
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 		obj->SetAnimationSet(ani_set);
 		lsEnermies.push_back(obj);
@@ -302,18 +320,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 		obj = new Spider(player);
 		obj->SetPosition(x, y);
+		DebugOut(L"[INFO] SPIDER created!\n");
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 		obj->SetAnimationSet(ani_set);
 		lsEnermies.push_back(obj);
-		break;
-	}
-	case OBJECT_TYPE_ITEM:
-	{
-		obj = new Item(); 
-		obj->SetPosition(x, y);
-		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
-		obj->SetAnimationSet(ani_set);
-		lsObjects.push_back(obj);
 		break;
 	}
 	case OBJECT_TYPE_PORTAL:
@@ -323,17 +333,29 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int scene_id = atoi(tokens[6].c_str());
 		obj = new CPortal(x, y, r, b, scene_id);
 		obj->SetPosition(x, y);
+		DebugOut(L"[INFO] PORTAL created!\n");
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+		obj->SetAnimationSet(ani_set);
+		lsObjects.push_back(obj);
+		break;
+	}
+	case OBJECT_TYPE_PORTAL1:
+	{
+		float r = atof(tokens[4].c_str());
+		float b = atof(tokens[5].c_str());
+		int scene_id = atoi(tokens[6].c_str());
+		obj = new CPortal1(x, y, r, b, scene_id);
+		obj->SetPosition(x, y);
+		DebugOut(L"[INFO] PORTAL1 created!\n");
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 		obj->SetAnimationSet(ani_set);
 		lsObjects.push_back(obj);
 		break;
 	}
 	default:
-		//DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
+		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
 	}
-
-	//DebugOut(L"list size %d \n", lsEnermies.size());
 	
 }
 
@@ -451,86 +473,89 @@ void CPlayScene::Update(DWORD dt)
 {
 #pragma region CAMERA
 	float cx, cy;
-	
-	if (player->isActive == true) {
-		player->GetPosition(cx, cy);
-		if (player->x + SCREEN_WIDTH / 2 >= spriteMap->GetWidth())
-			cx = spriteMap->GetWidth() - SCREEN_WIDTH;
-		else
-		{
-			if (player->x < SCREEN_WIDTH / 2)
-				cx = 0;
-			else
-				cx -= SCREEN_WIDTH / 2;
-		}
-
-		if (player->y > spriteMap->GetHeight() - SCREEN_HEIGHT / 2)
-		{
-			if (spriteMap->GetHeight() < SCREEN_HEIGHT)
-				cy = 0;
+	if (player != NULL) {
+		if (player->isActive == true) {
+			player->GetPosition(cx, cy);
+			if (player->x + SCREEN_WIDTH / 2 >= spriteMap->GetWidth())
+				cx = spriteMap->GetWidth() - SCREEN_WIDTH;
 			else
 			{
-				if (player->y + SCREEN_HEIGHT / 2 > spriteMap->GetHeight())
-					cy = spriteMap->GetHeight() - SCREEN_HEIGHT;
+				if (player->x < SCREEN_WIDTH / 2)
+					cx = 0;
 				else
-				{
-					cy -= SCREEN_HEIGHT / 2;
-				}
+					cx -= SCREEN_WIDTH / 2;
 			}
-		}
-		else if (player->y < spriteMap->GetHeight() - SCREEN_HEIGHT / 2)
-		{
-			if (spriteMap->GetHeight() < SCREEN_HEIGHT)
-				cy = 0;
-			else
+
+			if (player->y > spriteMap->GetHeight() - SCREEN_HEIGHT / 2)
 			{
-				if (player->y < SCREEN_HEIGHT / 2)
+				if (spriteMap->GetHeight() < SCREEN_HEIGHT)
 					cy = 0;
 				else
-					cy -= SCREEN_HEIGHT / 2;
+				{
+					if (player->y + SCREEN_HEIGHT / 2 > spriteMap->GetHeight())
+						cy = spriteMap->GetHeight() - SCREEN_HEIGHT;
+					else
+					{
+						cy -= SCREEN_HEIGHT / 2;
+					}
+				}
 			}
+			else if (player->y < spriteMap->GetHeight() - SCREEN_HEIGHT / 2)
+			{
+				if (spriteMap->GetHeight() < SCREEN_HEIGHT)
+					cy = 0;
+				else
+				{
+					if (player->y < SCREEN_HEIGHT / 2)
+						cy = 0;
+					else
+						cy -= SCREEN_HEIGHT / 2;
+				}
+			}
+			GameCamera->SetCamPos(cx, cy);
 		}
-		GameCamera->SetCamPos(cx, cy);
 	}
-	else if (player2->isActive == true) {
-		player2->GetPosition(cx, cy);
-		if (player2->x + SCREEN_WIDTH / 2 >= spriteMap->GetWidth())
-			cx = spriteMap->GetWidth() - SCREEN_WIDTH;
-		else
-		{
-			if (player2->x < SCREEN_WIDTH / 2)
-				cx = 0;
-			else
-				cx -= SCREEN_WIDTH / 2;
-		}
-
-		if (player2->y > spriteMap->GetHeight() - SCREEN_HEIGHT / 2)
-		{
-			if (spriteMap->GetHeight() < SCREEN_HEIGHT)
-				cy = 0;
+	if (player2 != NULL) {
+		if (player2->isActive == true) {
+			player2->GetPosition(cx, cy);
+			if (player2->x + SCREEN_WIDTH / 2 >= spriteMap->GetWidth())
+				cx = spriteMap->GetWidth() - SCREEN_WIDTH;
 			else
 			{
-				if (player2->y + SCREEN_HEIGHT / 2 > spriteMap->GetHeight())
-					cy = spriteMap->GetHeight() - SCREEN_HEIGHT;
+				if (player2->x < SCREEN_WIDTH / 2)
+					cx = 0;
 				else
-				{
-					cy -= SCREEN_HEIGHT / 2;
-				}
+					cx -= SCREEN_WIDTH / 2;
 			}
-		}
-		else if (player2->y < spriteMap->GetHeight() - SCREEN_HEIGHT / 2)
-		{
-			if (spriteMap->GetHeight() < SCREEN_HEIGHT)
-				cy = 0;
-			else
+
+			if (player2->y > spriteMap->GetHeight() - SCREEN_HEIGHT / 2)
 			{
-				if (player2->y < SCREEN_HEIGHT / 2)
+				if (spriteMap->GetHeight() < SCREEN_HEIGHT)
 					cy = 0;
 				else
-					cy -= SCREEN_HEIGHT / 2;
+				{
+					if (player2->y + SCREEN_HEIGHT / 2 > spriteMap->GetHeight())
+						cy = spriteMap->GetHeight() - SCREEN_HEIGHT;
+					else
+					{
+						cy -= SCREEN_HEIGHT / 2;
+					}
+				}
 			}
+			else if (player2->y < spriteMap->GetHeight() - SCREEN_HEIGHT / 2)
+			{
+				if (spriteMap->GetHeight() < SCREEN_HEIGHT)
+					cy = 0;
+				else
+				{
+					if (player2->y < SCREEN_HEIGHT / 2)
+						cy = 0;
+					else
+						cy -= SCREEN_HEIGHT / 2;
+				}
+			}
+			GameCamera->SetCamPos(cx, cy);
 		}
-		GameCamera->SetCamPos(cx, cy);
 	}
 	if (player3 != NULL) {
 		if (player3->isActive == true) {
@@ -567,8 +592,9 @@ void CPlayScene::Update(DWORD dt)
 						cy -= SCREEN_HEIGHT / 2;
 				}
 			}
+			GameCamera->SetCamPos(cx, cy);
 		}
-		GameCamera->SetCamPos(cx, cy);
+		
 	}
 #pragma endregion
 
@@ -578,57 +604,70 @@ void CPlayScene::Update(DWORD dt)
 	for (size_t i = 0; i < lsObjects.size(); i++) {
 		coObjects.push_back(lsObjects[i]);
 	}
+	for (size_t i = 0; i < lsItems.size(); i++) {
+		coObjects.push_back(lsItems[i]);
+	}
 	for (size_t i = 0; i < coEnermies.size(); i++) {
 		coObjects.push_back(coEnermies[i]);
 	}
 	for (size_t i = 0; i < lsPlayers.size(); i++) {
 		coObjects.push_back(lsPlayers[i]);
 	}
-	if (player->isAttack)
-	{
-		MainBullets* bullet = new MainBullets();
-		player->Get_CarDirection(bullet->BulletDirection);
-		player->Get_CarFlipUp(bullet->IsTargetTop);
-		if (bullet->IsTargetTop == true) {
-			bullet->SetPosition(player->x + DISTANCE_TO_CAR_FLIP_UP_WIDTH, player->y + DISTANCE_TO_CAR_FLIP_UP_HEIGHT);
+	if (player != NULL) {
+		if (player->isAttack)
+		{
+			MainBullets* bullet = new MainBullets();
+			player->Get_CarDirection(bullet->BulletDirection);
+			player->Get_CarFlipUp(bullet->IsTargetTop);
+			if (bullet->IsTargetTop == true) {
+				bullet->SetPosition(player->x + DISTANCE_TO_CAR_FLIP_UP_WIDTH, player->y + DISTANCE_TO_CAR_FLIP_UP_HEIGHT);
+			}
+			else {
+				if (bullet->BulletDirection > 0)
+					bullet->SetPosition(player->x + DISTANCE_TO_CAR_WIDTH_RIGHT, player->y + DISTANCE_TO_CAR_HEIGTH);
+				else
+					bullet->SetPosition(player->x + DISTANCE_TO_CAR_WIDTH_LEFT, player->y + DISTANCE_TO_CAR_HEIGTH);
+			}
+			lsBullets.push_back(bullet);
+			player->isAttack = false;
 		}
-		else {
-			if (bullet->BulletDirection > 0)
-				bullet->SetPosition(player->x + DISTANCE_TO_CAR_WIDTH_RIGHT, player->y + DISTANCE_TO_CAR_HEIGTH);
-			else
-				bullet->SetPosition(player->x + DISTANCE_TO_CAR_WIDTH_LEFT, player->y + DISTANCE_TO_CAR_HEIGTH);
-		}
-		lsBullets.push_back(bullet);
-		player->isAttack = false;
 	}
-	if (player2->isAttack)
-	{
-		MainBullets* bullet = new MainBullets();
-		player2->Get_HumanDirection(bullet->BulletDirection);
+	if (player2 != NULL) {
+		if (player2->isAttack)
+		{
+			HumanBullets* bullet = new HumanBullets();
+			player2->Get_HumanDirection(bullet->BulletDirection);
 
-		if (bullet->BulletDirection > 0)
-			bullet->SetPosition(player2->x + DISTANCE_TO_HUMAN_WIDTH_RIGHT, player2->y + DISTANCE_TO_HUMAN_HEIGTH);
-		else
-			bullet->SetPosition(player2->x + DISTANCE_TO_HUMAN_WIDTH_LEFT, player2->y + DISTANCE_TO_HUMAN_HEIGTH);
-		lsBullets.push_back(bullet);
-		player2->isAttack = false;
+			if (bullet->BulletDirection > 0)
+				bullet->SetPosition(player2->x + DISTANCE_TO_HUMAN_WIDTH_RIGHT, player2->y + DISTANCE_TO_HUMAN_HEIGTH);
+			else
+				bullet->SetPosition(player2->x + DISTANCE_TO_HUMAN_WIDTH_LEFT, player2->y + DISTANCE_TO_HUMAN_HEIGTH);
+			lsBullets.push_back(bullet);
+			player2->isAttack = false;
+		}
+	}
+	if (player3 != NULL) {
+		if (player3->isAttack)
+		{
+			MainBullets* bullet = new MainBullets();
+			player3->Get_BigHumanDirection(bullet->BulletDirection);
+
+			if (bullet->BulletDirection > 0)
+				bullet->SetPosition(player3->x + DISTANCE_TO_HUMAN_WIDTH_RIGHT, player3->y + DISTANCE_TO_HUMAN_HEIGTH);
+			else
+				bullet->SetPosition(player3->x + DISTANCE_TO_HUMAN_WIDTH_LEFT, player3->y + DISTANCE_TO_HUMAN_HEIGTH);
+			lsBullets.push_back(bullet);
+			player3->isAttack = false;
+		}
 	}
 #pragma endregion
 
 #pragma region update objects
 	for (size_t i = 0; i < lsObjects.size(); i++) {
 		lsObjects[i]->Update(dt, &coObjects);
-
-		if (lsObjects[i]->Get_IsDead() == true) {
-			lsObjects.erase(lsObjects.begin() + i);
-		}
 	}
 	for (size_t i = 0; i < lsPlayers.size(); i++) {
 		lsPlayers[i]->Update(dt, &coObjects);
-		
-		/*if (lsPlayers[i]->Get_IsDead() == true) {
-			lsPlayers.erase(lsPlayers.begin() + i);
-		}*/
 	}
 	for (size_t i = 0; i < lsPlayers.size(); i++) {
 		if (lsPlayers[i]->Get_IsDead() == true) {
@@ -639,7 +678,11 @@ void CPlayScene::Update(DWORD dt)
 		coEnermies[i]->Update(dt, &coObjects);
 
 		if (coEnermies[i]->Get_IsDead() == true) {
+			float ix = coEnermies[i]->x;
+			float iy = coEnermies[i]->y;
 			coEnermies.erase(coEnermies.begin() + i);
+			Item* item = new Item(ix, iy);
+			lsItems.push_back(item);
 		}
 	}
 		
@@ -649,19 +692,34 @@ void CPlayScene::Update(DWORD dt)
 		if (lsBullets[i]->Get_IsFinish() == true)
 			lsBullets.erase(lsBullets.begin() + i);
 	}
+	for (int i = 0; i < lsItems.size(); i++) {
+		if (lsItems[i]->Get_IsDead() == true)
+			lsItems.erase(lsItems.begin() + i);
+	}
 	if (player->IsDead == true) {
 		//player->y = (CAR_DIE_BBOX_HEIGTH - CAR_BBOX_HEIGHT);
 	}
 	if (playerHUD != NULL) {
-		if (player->isActive == true) {
-			player->Get_health(healthunit);
-			player->Get_power(powerunit);
-			playerHUD->Update(cx, cy, healthunit, powerunit);
+		if (player != NULL) {
+			if (player->isActive == true) {
+				player->Get_health(healthunit);
+				player->Get_power(powerunit);
+				playerHUD->Update(cx, cy, healthunit, powerunit);
+			}
 		}
-		else if (player2->isActive == true) {
-			player2->Get_health(healthunit);
-			player2->Get_power(powerunit);
-			playerHUD->Update(cx, cy, healthunit, powerunit);
+		if (player2 != NULL) {
+			if (player2->isActive == true) {
+				player2->Get_health(healthunit);
+				player2->Get_power(powerunit);
+				playerHUD->Update(cx, cy, healthunit, powerunit);
+			}
+		}
+		if (player3 != NULL) {
+			if (player3->isActive == true) {
+				player3->Get_health(healthunit);
+				player3->Get_power(powerunit);
+				playerHUD->Update(cx, cy, healthunit, powerunit);
+			}
 		}
 	}
 #pragma endregion
@@ -673,22 +731,29 @@ void CPlayScene::Update(DWORD dt)
 
 void CPlayScene::Render()
 {
-	spriteMap->Draw(0,0);
+	if (spriteMap != NULL)
+		spriteMap->Draw(0, 0);
 	for (int i = 0; i < lsObjects.size(); i++)
 		lsObjects[i]->Render();
 	for (int i = 0; i < lsPlayers.size(); i++)
 		lsPlayers[i]->Render();
 	for (int i = 0; i < coEnermies.size(); i++)
 		coEnermies[i]->Render();
+	for (int i = 0; i < lsItems.size(); i++)
+		lsItems[i]->Render();
 
 	for (int i = 0; i < lsBullets.size(); i++) {
 		lsBullets[i]->Render();
 	}
-	if (player->isActive == true) {
-		playerHUD->Render(player);
+	if (player != NULL) {
+		if (player->isActive == true) {
+			playerHUD->Render(player);
+		}
 	}
-	else if (player2->isActive == true) {
-		playerHUD->Render(player2);
+	if (player2 != NULL) {
+		if (player2->isActive == true) {
+			playerHUD->Render(player2);
+		}
 	}
 }
 
@@ -697,8 +762,8 @@ void CPlayScene::Unload()
 	for (int i = 0; i < lsObjects.size(); i++)
 		delete lsObjects[i];
 	lsObjects.clear();
-	for (int i = 0; i < lsPlayers.size(); i++)
-		delete lsPlayers[i];
+	/*for (int i = 0; i < lsPlayers.size(); i++)
+		delete lsPlayers[i];*/
 	lsPlayers.clear();
 	for (int i = 0; i < lsEnermies.size(); i++)
 		delete lsEnermies[i];
@@ -722,7 +787,6 @@ void CPlayScene::GetObjectFromGrid(float x, float y)
 	grid->GetListObject(x, y, lsEnermiesGrid);
 	for (UINT i = 0; i < lsEnermiesGrid.size(); i++) {
 		coEnermies.push_back(lsEnermiesGrid[i]);
-		//DebugOut(L"list size %d \n", coEnermies.size());
 	}
 }
 
@@ -736,7 +800,6 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	float Carx = 0, Cary = 0;
 	int direction;
 	bool IsTargetTop;
-	car->Get_CarStateForBullet(direction, IsTargetTop, Carx, Cary);
 	
 	switch (KeyCode)
 	{
@@ -799,6 +862,10 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 			if (human->isActive == true)
 				human->isAttack = true;
 		}
+		if (bhuman != NULL) {
+			if (bhuman->isActive == true)
+				bhuman->isAttack = true;
+		}
 		break;
 	case DIK_R:
 		if (car != NULL && human != NULL) {
@@ -841,7 +908,12 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_RIGHT:
 		if (bhuman != NULL) {
 			if (bhuman->isActive == true) {
-				bhuman->SetState(BIGHUMAN_STATE_MOVE_RIGHT);
+				if (bhuman->isLadder == true) {
+					bhuman->isMovingonLadder = true;
+					bhuman->SetState(BIGHUMAN_STATE_MOVE_RIGHT);
+				}
+				else
+					bhuman->SetState(BIGHUMAN_STATE_MOVE_RIGHT);
 			}
 		}
 		break;
@@ -870,7 +942,12 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_LEFT:
 		if (bhuman != NULL) {
 			if (bhuman->isActive == true) {
-				bhuman->SetState(BIGHUMAN_STATE_MOVE_LEFT);
+				if (bhuman->isLadder == true) {
+					bhuman->isMovingonLadder = true;
+					bhuman->SetState(BIGHUMAN_STATE_MOVE_LEFT);
+				}
+				else
+					bhuman->SetState(BIGHUMAN_STATE_MOVE_LEFT);
 			}
 		}
 		break;

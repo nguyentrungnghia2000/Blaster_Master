@@ -1,4 +1,5 @@
 #include "Item.h"
+#include "Utils.h"
 
 void Item::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -12,10 +13,11 @@ void Item::Render()
 {
 	if (Time_Active->IsTimeUp() == false)
 	{
+		DebugOut(L"abc : %d\n");
 		int ani;
-		if (ID <= 5)
+		if (id <= 5)
 		{
-			switch (ID)
+			switch (id)
 			{
 			case 1:
 				if (GetTickCount() - Time_Active->GetStartTime() < 8000)
@@ -48,19 +50,24 @@ void Item::Render()
 					ani = HROCKET_ANI_TIMEUP;
 				break;
 			}
+
 			animation_set->at(ani)->Render(x, y);
 		}
-		//RenderBoundingBox();
+		RenderBoundingBox();
 	}
 }
 
-Item::Item()
+Item::Item(float x, float y)
 {
+	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ITEM_STATE_ACTIVE));
 	this->IsDead = false;
 	srand(time(NULL));
-	ID = 1 + rand() % 6;
+	id = 1 + rand() % 6;
+	DebugOut(L"id : %d\n", id);
 	this->Time_Active = new Timer(ITEM_TIME_ACTIVE);
 	SetState(ITEM_STATE_ACTIVE);
+	this->x = x;
+	this->y = y;
 }
 
 void Item::SetState(int state)

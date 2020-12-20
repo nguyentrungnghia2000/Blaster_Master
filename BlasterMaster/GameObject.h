@@ -50,7 +50,7 @@ class CGameObject
 {
 public:
 
-	int id;
+	int ID;
 	int tag;
 	float x;
 	float y;
@@ -107,6 +107,7 @@ public:
 	virtual void SetState(int state) { this->state = state; }
 	virtual float GetDistance(LPGAMEOBJECT);
 
+	virtual int Get_ID() = 0;
 	virtual bool Get_IsDead() = 0;
 	virtual void Set_IsDead(bool value) = 0;
 	virtual void SubDamage(int damage) = 0;

@@ -12,6 +12,7 @@ public:
 	float Get_width() { return W; }
 	float Get_height() { return H; }
 
+	int Get_ID() { return ID; }
 	void Set_IsDead(bool value) { this->IsFinish = value; }
 	bool Get_IsDead() { return this->IsFinish; }
 	void SubDamage(int damage) { EnermiesHealth += damage; }

@@ -24,6 +24,8 @@
 #define BIGHUMAN_BBOX_X_WIDTH	24
 #define BIGHUMAN_BBOX_X_HEIGHT	31
 
+#define GATE_TIMER	500
+
 class BigHuman : public CGameObject
 {
 	int level;
@@ -35,9 +37,11 @@ class BigHuman : public CGameObject
 	float start_y;
 public:
 	int ani = -1;
-	DWORD bighuman_timer;
+	DWORD bighuman_timer, gate_timer;
 	bool isActive, isAttack;
+	bool isLadder, isMovingonLadder;
 
+	int Get_ID() { return ID; }
 	float Get_width() { return width; }
 	float Get_height() { return height; }
 	void Set_IsDead(bool value) { this->IsDead = value; }

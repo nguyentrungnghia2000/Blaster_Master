@@ -31,6 +31,12 @@
     <Filter Include="Source Files\Objects\Materials">
       <UniqueIdentifier>{725b3fac-27ac-4563-918f-5b0355340727}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Objects\Gates">
+      <UniqueIdentifier>{8f600325-869a-4f68-94c0-7002a1713141}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Players">
+      <UniqueIdentifier>{b5977ca2-09d3-44eb-9d95-7478babf8b51}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -84,9 +90,6 @@
     <ClInclude Include="Bullets.h">
       <Filter>Source Files\Objects\FBullets</Filter>
     </ClInclude>
-    <ClInclude Include="Car.h">
-      <Filter>Source Files\Objects\Materials</Filter>
-    </ClInclude>
     <ClInclude Include="Doom.h">
       <Filter>Source Files\Objects\Enermies</Filter>
     </ClInclude>
@@ -114,17 +117,8 @@
     <ClInclude Include="HealthBar.h">
       <Filter>Source Files\Objects\Materials</Filter>
     </ClInclude>
-    <ClInclude Include="Portal.h">
-      <Filter>Source Files\Objects\Materials</Filter>
-    </ClInclude>
     <ClInclude Include="HumanBullets.h">
       <Filter>Source Files\Objects\FBullets</Filter>
-    </ClInclude>
-    <ClInclude Include="Human.h">
-      <Filter>Source Files\Objects\Materials</Filter>
-    </ClInclude>
-    <ClInclude Include="BigHuman.h">
-      <Filter>Source Files\Objects\Materials</Filter>
     </ClInclude>
     <ClInclude Include="Lava.h">
       <Filter>Source Files\Objects\Enermies</Filter>
@@ -143,6 +137,24 @@
     </ClInclude>
     <ClInclude Include="Arrows.h">
       <Filter>Source Files\Objects\Enermies</Filter>
+    </ClInclude>
+    <ClInclude Include="Portal1.h">
+      <Filter>Source Files\Objects\Gates</Filter>
+    </ClInclude>
+    <ClInclude Include="Portal.h">
+      <Filter>Source Files\Objects\Gates</Filter>
+    </ClInclude>
+    <ClInclude Include="BigHuman.h">
+      <Filter>Source Files\Objects\Players</Filter>
+    </ClInclude>
+    <ClInclude Include="Car.h">
+      <Filter>Source Files\Objects\Players</Filter>
+    </ClInclude>
+    <ClInclude Include="Human.h">
+      <Filter>Source Files\Objects\Players</Filter>
+    </ClInclude>
+    <ClInclude Include="Intro.h">
+      <Filter>Source Files\Scence</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -188,9 +200,6 @@
     <ClCompile Include="Bullets.cpp">
       <Filter>Source Files\Objects\FBullets</Filter>
     </ClCompile>
-    <ClCompile Include="Car.cpp">
-      <Filter>Source Files\Objects\Materials</Filter>
-    </ClCompile>
     <ClCompile Include="Doom.cpp">
       <Filter>Source Files\Objects\Enermies</Filter>
     </ClCompile>
@@ -218,17 +227,8 @@
     <ClCompile Include="HUD.cpp">
       <Filter>Source Files\Objects\Materials</Filter>
     </ClCompile>
-    <ClCompile Include="Portal.cpp">
-      <Filter>Source Files\Objects\Materials</Filter>
-    </ClCompile>
-    <ClCompile Include="Human.cpp">
-      <Filter>Source Files\Objects\Materials</Filter>
-    </ClCompile>
     <ClCompile Include="HumanBullets.cpp">
       <Filter>Source Files\Objects\FBullets</Filter>
-    </ClCompile>
-    <ClCompile Include="BigHuman.cpp">
-      <Filter>Source Files\Objects\Materials</Filter>
     </ClCompile>
     <ClCompile Include="Lava.cpp">
       <Filter>Source Files\Objects\Enermies</Filter>
@@ -244,6 +244,24 @@
     </ClCompile>
     <ClCompile Include="Arrows.cpp">
       <Filter>Source Files\Objects\Enermies</Filter>
+    </ClCompile>
+    <ClCompile Include="Portal1.cpp">
+      <Filter>Source Files\Objects\Gates</Filter>
+    </ClCompile>
+    <ClCompile Include="Portal.cpp">
+      <Filter>Source Files\Objects\Gates</Filter>
+    </ClCompile>
+    <ClCompile Include="Car.cpp">
+      <Filter>Source Files\Objects\Players</Filter>
+    </ClCompile>
+    <ClCompile Include="BigHuman.cpp">
+      <Filter>Source Files\Objects\Players</Filter>
+    </ClCompile>
+    <ClCompile Include="Human.cpp">
+      <Filter>Source Files\Objects\Players</Filter>
+    </ClCompile>
+    <ClCompile Include="Intro.cpp">
+      <Filter>Source Files\Scence</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -11,6 +11,7 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 
+	int Get_ID() { return ID; }
 	float Get_width() { return W; }
 	float Get_height() { return H; }
 	void Set_IsDead(bool value) { this->IsFinish = value; }

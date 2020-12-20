@@ -2,11 +2,13 @@
 start	1
 #scene list
 [SCENES]
-1	area1.txt
-2	area2.txt
-3	area3.txt
-4	area4.txt
-5	area5.txt
-6	area6.txt
-7	area7.txt
-8	area8.txt
+0	file_scene\intro.txt
+1	file_scene\area1.txt
+2	file_scene\area2.txt
+3	file_scene\area3.txt
+4	file_scene\area4.txt
+5	file_scene\area5.txt
+6	file_scene\area6.txt
+7	file_scene\area7.txt
+8	file_scene\area8.txt
+9	file_scene\Overworld.txt

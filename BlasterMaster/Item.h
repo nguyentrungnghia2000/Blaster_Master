@@ -1,7 +1,8 @@
+#pragma once
 #include "GameObject.h"
 
-#define ITEM_BBOX_WIDTH		20
-#define ITEM_BBOX_HEIGHT	20
+#define ITEM_BBOX_WIDTH		16
+#define ITEM_BBOX_HEIGHT	16
 
 #define ITEM_STATE_ACTIVE	100
 #define	ITEM_STATE_TIMEUP	200
@@ -18,15 +19,16 @@
 #define HROCKET_ANI_TIMEUP	9
 
 #define ITEM_TIME_ACTIVE	10000
-#define	ITEM_TIME_TIMEUP	8000	
+#define	ITEM_TIME_TIMEUP	8000
+
 
 class Item :public CGameObject
 {
-	int ID;
+	int id;
 	Timer* Time_Active;
 	
 public:
-	Item();
+	Item(float x, float y);
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Render();
 
@@ -35,6 +37,6 @@ public:
 	void Set_IsDead(bool value) { this->IsDead = value; }
 	bool Get_IsDead() { return this->IsDead; }
 	void SubDamage(int damage) { EnermiesHealth += damage; }
-
+	int Get_ID() { return this->id; }
 	virtual void SetState(int state);
 };

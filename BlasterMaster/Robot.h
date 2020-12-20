@@ -41,6 +41,7 @@ public:
 	Robot(LPGAMEOBJECT);
 	int Get_health() { return EnermiesHealth; }
 
+	int Get_ID() { return ID; }
 	float Get_width() { return width; }
 	float Get_height() { return height; }
 	void Set_IsDead(bool value) { this->IsDead = value; }

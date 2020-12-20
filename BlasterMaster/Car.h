@@ -70,6 +70,8 @@ class CCar : public CGameObject
 	bool isK = false;
 	float start_x;
 	float start_y;
+	D3DCOLOR color;
+	int alpha = 255;
 public:
 	int ani = -1;
 	int current_frame;
@@ -89,6 +91,7 @@ public:
 	virtual void Render();
 	CAnimation* curAnimation;
 
+	int Get_ID() { return ID; }
 	float Get_width() { return width; }
 	float Get_height() { return height; }
 	void Set_IsDead(bool value) { this->IsDead = value; }
@@ -103,7 +106,7 @@ public:
 	void Get_power(int& power) { power = this->power; }
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 	void Reset();
-	void Get_CarStateForBullet(int& direct, bool& flipup, float Px, float Py) { direct = direction; flipup = FlippingUp; Px = x; Py = y; }
+	//void Get_CarStateForBullet(int& direct, bool& flipup, float Px, float Py) { direct = direction; flipup = FlippingUp; Px = x; Py = y; }
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 };

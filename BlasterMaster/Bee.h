@@ -40,6 +40,7 @@ public:
 	bool Get_IsDead() { return this->IsDead; }
 	virtual void SetState(int state);
 
+	int Get_ID() { return ID; }
 	float Get_width() { return width; }
 	float Get_height() { return height; }
 	void SubDamage(int damage) { EnermiesHealth += damage; }

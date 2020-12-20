@@ -5,7 +5,6 @@
 #include "Car.h"
 #include "Brick.h"
 #include "Game.h"
-
 #include "Human.h"
 #include "Item.h"
 #include "Bug.h"
@@ -15,6 +14,7 @@
 #include "Doom.h"
 #include "Spider.h"
 #include "Portal.h"
+#include "Portal1.h"
 #include "Ladder.h"
 #include "Lava.h"
 #include "Arrows.h"
@@ -37,7 +37,7 @@ CCar::CCar(float x, float y) : CGameObject()
 void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	if (isActive == true) {
-		CGameObject::Update(dt); //nhìn cái cách mà t debug này. call đi t nói ch
+		CGameObject::Update(dt);
 
 		if (GetTickCount() - timer < EXPLOSION_TIME && health_up == true) {
 			this->IsDead = true;
@@ -115,7 +115,7 @@ void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (dynamic_cast<CBrick*>(e->obj)) {
 					x += min_tx * dx + nx * 0.4f;
-					y += min_ty * dy + ny * 0.04f;
+					y += min_ty * dy + ny * 0.05f;
 
 					if (e->nx != 0) vx = 0;
 					if (e->ny != 0) {
@@ -139,13 +139,29 @@ void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						CGame::GetInstance()->SwitchScene(p->GetSceneId());
 					}
 				}
+				else if (dynamic_cast<CPortal1*>(e->obj)) {
+					if (e->nx > 0) {
+						CPortal1* p = dynamic_cast<CPortal1*>(e->obj);
+						CGame::GetInstance()->SwitchScene(p->GetSceneId());
+					}
+				}
 				else if (dynamic_cast<Item*>(e->obj)) {
 					if (e->nx != 0) x += dx;
 					if (e->ny != 0) y += dy;
-					if (health < 8)
-						health++;
-					else
-						continue;
+					if (e->obj->Get_ID() == 1)
+					{
+						if (power < PLAYER_HEALTH)
+							power++;
+						else
+							continue;
+					}
+					else if (e->obj->Get_ID() == 2)
+					{
+						if (health < PLAYER_HEALTH)
+							health++;
+						else
+							continue;
+					}
 					e->obj->Set_IsDead(true);
 				}
 				else {
@@ -170,11 +186,11 @@ void CCar::Render()
 	if (isOverWorld == false) {
 
 		int alpha = 255;
-		
+
 		if (isK) {
 			alpha = 0 + rand() % (255 + 1 - 0);
 		}
-		
+
 		RenderBoundingBox();
 		if (health == 0) {
 			health_up = true;
@@ -206,7 +222,7 @@ void CCar::Render()
 					animation_set->at(CAR_ANI_WALKING_UP_LEFT)->Render(x, y, alpha);
 					return;
 				}
-				
+
 			}
 			else if (vx == 0) {
 				if (nx < 0) {
@@ -281,7 +297,7 @@ void CCar::Render()
 					current_frame = animation_set->at(ani)->GetCurrentFrame();
 				}
 
-				animation_set->at(ani)->RenderCarUp( x, y, alpha);
+				animation_set->at(ani)->RenderCarUp(x, y, alpha);
 			}
 			return;
 		}

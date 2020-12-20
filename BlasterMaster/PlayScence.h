@@ -12,6 +12,7 @@
 #include "BigHuman.h"
 #include "Camera.h"
 #include "Grid.h"
+#include "Item.h"
 
 #define SCREEN_WIDTH	300
 #define SCREEN_HEIGHT	240
@@ -55,6 +56,7 @@ public:
 	vector<LPGAMEOBJECT> coEnermies;
 	vector<LPGAMEOBJECT> lsEnermiesGrid;
 	vector<Bullets*> lsBullets;
+	vector<Item*> lsItems;
 	CGame* GameCamera = CGame::GetInstance();
 
 	virtual void Load();

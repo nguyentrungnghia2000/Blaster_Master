@@ -49,6 +49,7 @@ public:
 	bool GetIsDone() { return IsDone; }
 	void SetIsDone(bool isdone) { IsDone = isdone; }
 
+	int Get_ID() { return ID; }
 	float Get_width() { return width; }
 	float Get_height() { return height; }
 	bool Get_IsDead() { return isFinish; }

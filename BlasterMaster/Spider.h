@@ -30,6 +30,7 @@ public:
 	virtual void SetState(int state);
 	bool GetAttack() { return IsAttack; }
 
+	int Get_ID() { return ID; }
 	float Get_width() { return width; }
 	float Get_height() { return height; }
 	bool Get_IsDead() { return this->IsDead; }
