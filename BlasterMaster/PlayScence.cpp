@@ -23,6 +23,7 @@
 #include "Ladder.h"
 #include "Lava.h"
 #include "Camera.h"
+#include "EndGame.h"
 
 using namespace std;
 
@@ -46,6 +47,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_BRICK	1
 #define OBJECT_TYPE_BIGHUMAN	2
 #define OBJECT_TYPE_INTRO	3
+#define OBJECT_TYPE_ENDGAME	4
 #define OBJECT_TYPE_CAR		5
 #define OBJECT_TYPE_BUG		7
 #define OBJECT_TYPE_ROBOT	8
@@ -172,6 +174,15 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_INTRO:
 	{
 		obj = new Intro();
+		obj->SetPosition(x, y);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+		obj->SetAnimationSet(ani_set);
+		lsObjects.push_back(obj);
+		break;
+	}
+	case OBJECT_TYPE_ENDGAME:
+	{
+		obj = new EndGame();
 		obj->SetPosition(x, y);
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 		obj->SetAnimationSet(ani_set);
@@ -762,8 +773,8 @@ void CPlayScene::Unload()
 	for (int i = 0; i < lsObjects.size(); i++)
 		delete lsObjects[i];
 	lsObjects.clear();
-	/*for (int i = 0; i < lsPlayers.size(); i++)
-		delete lsPlayers[i];*/
+	for (int i = 0; i < lsPlayers.size(); i++)
+		delete lsPlayers[i];
 	lsPlayers.clear();
 	for (int i = 0; i < lsEnermies.size(); i++)
 		delete lsEnermies[i];

@@ -156,6 +156,9 @@
     <ClInclude Include="Intro.h">
       <Filter>Source Files\Scence</Filter>
     </ClInclude>
+    <ClInclude Include="EndGame.h">
+      <Filter>Source Files\Scence</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -261,6 +264,9 @@
       <Filter>Source Files\Objects\Players</Filter>
     </ClCompile>
     <ClCompile Include="Intro.cpp">
+      <Filter>Source Files\Scence</Filter>
+    </ClCompile>
+    <ClCompile Include="EndGame.cpp">
       <Filter>Source Files\Scence</Filter>
     </ClCompile>
   </ItemGroup>

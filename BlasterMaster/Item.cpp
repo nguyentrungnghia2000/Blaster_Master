@@ -13,7 +13,6 @@ void Item::Render()
 {
 	if (Time_Active->IsTimeUp() == false)
 	{
-		DebugOut(L"abc : %d\n");
 		int ani;
 		if (id <= 5)
 		{
@@ -63,7 +62,6 @@ Item::Item(float x, float y)
 	this->IsDead = false;
 	srand(time(NULL));
 	id = 1 + rand() % 6;
-	DebugOut(L"id : %d\n", id);
 	this->Time_Active = new Timer(ITEM_TIME_ACTIVE);
 	SetState(ITEM_STATE_ACTIVE);
 	this->x = x;

@@ -1,14 +1,4 @@
-﻿  Car.cpp
+﻿  Item.cpp
 D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Timer.h(17,54): warning C4018: '>=': signed/unsigned mismatch
-D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Brick.h(17,27): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
-D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Brick.h(18,26): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
-D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Bee.h(22,1): warning C4005: 'DISTANCE': macro redefinition
-D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Robot.h(25): message : see previous definition of 'DISTANCE'
-D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\SpiderBullets.h(12,1): warning C4005: 'SPIDER_BULLET_ANI': macro redefinition
-D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\SpiderBullets.h(7): message : see previous definition of 'SPIDER_BULLET_ANI'
-D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Portal.h(21,29): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
-D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Portal.h(22,30): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
-D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Portal1.h(18,29): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
-D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Portal1.h(19,30): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
-D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Car.cpp(78,21): warning C4018: '<': signed/unsigned mismatch
+D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\BlasterMaster\Item.cpp(63,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   BlasterMaster.vcxproj -> D:\UIT\SE102 - Nhập Môn GAME\PROJECT\Blaster_Master\Debug\BlasterMaster.exe

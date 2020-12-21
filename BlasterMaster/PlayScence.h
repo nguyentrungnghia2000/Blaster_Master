@@ -48,6 +48,7 @@ protected:
 public:
 	float posX, posY;
 	int healthunit, powerunit;
+	//int playeroldhealth, playeroldpower;
 	int mapW, mapH;
 	CPlayScene(int id, LPCWSTR filePath);
 
