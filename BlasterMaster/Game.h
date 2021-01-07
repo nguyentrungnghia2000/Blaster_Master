@@ -90,6 +90,7 @@ public:
 	float GetCamx() { return cam_x; }
 	float GetCamy() { return cam_y; }
 
+
 	static CGame* GetInstance();
 
 	~CGame();

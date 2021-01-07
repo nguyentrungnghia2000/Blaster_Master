@@ -159,6 +159,36 @@
     <ClInclude Include="EndGame.h">
       <Filter>Source Files\Scence</Filter>
     </ClInclude>
+    <ClInclude Include="Skeleton.h">
+      <Filter>Source Files\Objects\Enermies</Filter>
+    </ClInclude>
+    <ClInclude Include="SkeletonBullet.h">
+      <Filter>Source Files\Objects\FBullets</Filter>
+    </ClInclude>
+    <ClInclude Include="Gunner.h">
+      <Filter>Source Files\Objects\Enermies</Filter>
+    </ClInclude>
+    <ClInclude Include="GunnerBullets.h">
+      <Filter>Source Files\Objects\FBullets</Filter>
+    </ClInclude>
+    <ClInclude Include="MayBug2.h">
+      <Filter>Source Files\Objects\Enermies</Filter>
+    </ClInclude>
+    <ClInclude Include="Mine.h">
+      <Filter>Source Files\Objects\Enermies</Filter>
+    </ClInclude>
+    <ClInclude Include="MineBullets.h">
+      <Filter>Source Files\Objects\FBullets</Filter>
+    </ClInclude>
+    <ClInclude Include="Eyeball.h">
+      <Filter>Source Files\Objects\Enermies</Filter>
+    </ClInclude>
+    <ClInclude Include="EyeballBullets.h">
+      <Filter>Source Files\Objects\FBullets</Filter>
+    </ClInclude>
+    <ClInclude Include="Tele.h">
+      <Filter>Source Files\Objects\Enermies</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -268,6 +298,36 @@
     </ClCompile>
     <ClCompile Include="EndGame.cpp">
       <Filter>Source Files\Scence</Filter>
+    </ClCompile>
+    <ClCompile Include="Skeleton.cpp">
+      <Filter>Source Files\Objects\Enermies</Filter>
+    </ClCompile>
+    <ClCompile Include="SkeletonBullet.cpp">
+      <Filter>Source Files\Objects\FBullets</Filter>
+    </ClCompile>
+    <ClCompile Include="Gunner.cpp">
+      <Filter>Source Files\Objects\Enermies</Filter>
+    </ClCompile>
+    <ClCompile Include="GunnerBullets.cpp">
+      <Filter>Source Files\Objects\FBullets</Filter>
+    </ClCompile>
+    <ClCompile Include="MayBug2.cpp">
+      <Filter>Source Files\Objects\Enermies</Filter>
+    </ClCompile>
+    <ClCompile Include="Mine.cpp">
+      <Filter>Source Files\Objects\Enermies</Filter>
+    </ClCompile>
+    <ClCompile Include="MineBullets.cpp">
+      <Filter>Source Files\Objects\FBullets</Filter>
+    </ClCompile>
+    <ClCompile Include="Eyeball.cpp">
+      <Filter>Source Files\Objects\Enermies</Filter>
+    </ClCompile>
+    <ClCompile Include="EyeballBullets.cpp">
+      <Filter>Source Files\Objects\FBullets</Filter>
+    </ClCompile>
+    <ClCompile Include="Tele.cpp">
+      <Filter>Source Files\Objects\Enermies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

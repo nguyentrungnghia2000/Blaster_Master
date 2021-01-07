@@ -1,5 +1,5 @@
 [SETTINGS]
-start	2
+start	9
 #scene list
 [SCENES]
 0	file_scene\intro.txt

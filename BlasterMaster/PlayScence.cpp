@@ -24,6 +24,12 @@
 #include "Lava.h"
 #include "Camera.h"
 #include "EndGame.h"
+#include "Skeleton.h"
+#include "Gunner.h"
+#include "MayBug2.h"
+#include "Mine.h"
+#include "Eyeball.h"
+#include "Tele.h"
 
 using namespace std;
 
@@ -55,6 +61,12 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_MAYBUG	10
 #define OBJECT_TYPE_DOOM	11
 #define OBJECT_TYPE_SPIDER	12
+#define OBJECT_TYPE_SKELETON 13
+#define OBJECT_TYPE_GUNNER	14
+#define OBJECT_TYPE_MAYBUG2	15
+#define OBJECT_TYPE_MINE	16
+#define OBJECT_TYPE_EYEBALL	17
+#define OBJECT_TYPE_TELE	18
 #define OBJECT_TYPE_LADDER	23
 #define OBJECT_TYPE_LAVA	24
 #define OBJECT_TYPE_ARROWS	25
@@ -330,6 +342,70 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_SPIDER: 
 	{
 		obj = new Spider(player);
+		obj->SetPosition(x, y);
+		DebugOut(L"[INFO] SPIDER created!\n");
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+		obj->SetAnimationSet(ani_set);
+		lsEnermies.push_back(obj);
+		break;
+	}
+	case OBJECT_TYPE_SKELETON:
+	{
+		obj = new Skeleton(player);
+		obj->SetPosition(x, y);
+		DebugOut(L"[INFO] SPIDER created!\n");
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+		obj->SetAnimationSet(ani_set);
+		lsEnermies.push_back(obj);
+		break;
+	}
+	case OBJECT_TYPE_GUNNER:
+	{
+		obj = new Gunner();
+		obj->SetPosition(x, y);
+		DebugOut(L"[INFO] SPIDER created!\n");
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+		obj->SetAnimationSet(ani_set);
+		lsEnermies.push_back(obj);
+		break;
+	}
+	case OBJECT_TYPE_MAYBUG2:
+	{
+		int x = atof(tokens[1].c_str());
+		int y = atof(tokens[2].c_str());
+		obj = new MayBug2(player,x,y);
+		obj->SetPosition(x, y);
+		DebugOut(L"[INFO] SPIDER created!\n");
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+		obj->SetAnimationSet(ani_set);
+		lsEnermies.push_back(obj);
+		break;
+	}
+	case OBJECT_TYPE_MINE:
+	{
+		obj = new Mine();
+		obj->SetPosition(x, y);
+		DebugOut(L"[INFO] SPIDER created!\n");
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+		obj->SetAnimationSet(ani_set);
+		lsEnermies.push_back(obj);
+		break;
+	}
+	case OBJECT_TYPE_EYEBALL:
+	{
+		int x = atof(tokens[1].c_str());
+		int y = atof(tokens[2].c_str());
+		obj = new Eyeball(player, x, y);
+		obj->SetPosition(x, y);
+		DebugOut(L"[INFO] SPIDER created!\n");
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+		obj->SetAnimationSet(ani_set);
+		lsEnermies.push_back(obj);
+		break;
+	}
+	case OBJECT_TYPE_TELE:
+	{
+		obj = new Tele(player);
 		obj->SetPosition(x, y);
 		DebugOut(L"[INFO] SPIDER created!\n");
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
