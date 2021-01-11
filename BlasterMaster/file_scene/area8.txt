@@ -18,7 +18,7 @@
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
-123456	0	0	1024	240	40
+123456	0	0	511	265	40
 #=====INTRO=====
 #intro 1
 300	0	0	256	240	81

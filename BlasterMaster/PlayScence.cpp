@@ -395,7 +395,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 		int x = atof(tokens[1].c_str());
 		int y = atof(tokens[2].c_str());
-		obj = new Eyeball(player, x, y);
+		obj = new Eyeball(player3, x, y);
 		obj->SetPosition(x, y);
 		DebugOut(L"[INFO] SPIDER created!\n");
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
@@ -405,7 +405,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	case OBJECT_TYPE_TELE:
 	{
-		obj = new Tele(player);
+		obj = new Tele(player3);
 		obj->SetPosition(x, y);
 		DebugOut(L"[INFO] SPIDER created!\n");
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
