@@ -1,5 +1,6 @@
 #include "Item.h"
 #include "Utils.h"
+#include <random>
 
 void Item::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -60,6 +61,22 @@ Item::Item(float x, float y)
 {
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ITEM_STATE_ACTIVE));
 	this->IsDead = false;
+	random_device rm;
+	mt19937 t(rm());
+	uniform_int_distribution<int>	randi(1,10);
+	int random = randi(t);
+	if (random > 5)
+	{
+		id = 1;
+	}
+	else if (random !=1)
+	{
+		id = random;
+	}
+	else if (id == 1)
+	{
+		id = 6;
+	}
 	srand(time(NULL));
 	id = 1 + rand() % 6;
 	this->Time_Active = new Timer(ITEM_TIME_ACTIVE);

@@ -56,20 +56,19 @@ void Mine::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			if (dynamic_cast<CBrick*>(e->obj))
 			{
-				if (IsBoom == false)
-				{
-					IsBoom = true;
-					random_device rm;
-					mt19937 t(rm());
-					uniform_int_distribution<int>	randi(2, 3);
-					int random = randi(t);
-					for (int i = 1; i <= random; i++)
-					{
-						this->Bullet.push_back(new MineBullets(this->x + MINE_BBOX_WIDTH / 2, this->y));
-					}
-				}
 				//DebugOut(L"true");
 			}
+		}
+	}
+	if (IsDead == true)
+	{
+		random_device rm;
+		mt19937 t(rm());
+		uniform_int_distribution<int>	randi(2, 3);
+		int random = randi(t);
+		for (int i = 1; i <= random; i++)
+		{
+			this->Bullet.push_back(new MineBullets(this->x + MINE_BBOX_WIDTH / 2, this->y));
 		}
 	}
 	for (int i = 0; i < Bullet.size(); i++)

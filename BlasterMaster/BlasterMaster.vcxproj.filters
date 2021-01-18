@@ -189,6 +189,18 @@
     <ClInclude Include="Tele.h">
       <Filter>Source Files\Objects\Enermies</Filter>
     </ClInclude>
+    <ClInclude Include="Boss.h">
+      <Filter>Source Files\Objects\Enermies</Filter>
+    </ClInclude>
+    <ClInclude Include="BossHand.h">
+      <Filter>Source Files\Objects\Enermies</Filter>
+    </ClInclude>
+    <ClInclude Include="FlangeHand.h">
+      <Filter>Source Files\Objects\Enermies</Filter>
+    </ClInclude>
+    <ClInclude Include="BossBullets.h">
+      <Filter>Source Files\Objects\FBullets</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -328,6 +340,18 @@
     </ClCompile>
     <ClCompile Include="Tele.cpp">
       <Filter>Source Files\Objects\Enermies</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>Source Files\Objects\Enermies</Filter>
+    </ClCompile>
+    <ClCompile Include="BossHand.cpp">
+      <Filter>Source Files\Objects\Enermies</Filter>
+    </ClCompile>
+    <ClCompile Include="FlangeHand.cpp">
+      <Filter>Source Files\Objects\Enermies</Filter>
+    </ClCompile>
+    <ClCompile Include="BossBullets.cpp">
+      <Filter>Source Files\Objects\FBullets</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

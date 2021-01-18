@@ -59,11 +59,13 @@ void MayBug2::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					vx = 0;
 					vy = 0;
+					IsDead = true;
 				}
 				if (e->ny != 0)
 				{
 					vx = 0;
 					vy = 0;
+					IsDead = true;
 				}
 			}
 		}
@@ -74,7 +76,10 @@ void MayBug2::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void MayBug2::Render()
 {
 	int ani = MAYBUG_ANI_ROLLING;
-	animation_set->at(ani)->Render(x, y);
+	if (IsDead == false)
+	{
+		animation_set->at(ani)->Render(x, y);
+	}
 }
 
 MayBug2::MayBug2(LPGAMEOBJECT target, int x, int y)

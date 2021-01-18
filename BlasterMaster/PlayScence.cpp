@@ -30,6 +30,8 @@
 #include "Mine.h"
 #include "Eyeball.h"
 #include "Tele.h"
+#include "Boss.h"
+#include "BossHand.h"
 
 using namespace std;
 
@@ -67,6 +69,8 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_MINE	16
 #define OBJECT_TYPE_EYEBALL	17
 #define OBJECT_TYPE_TELE	18
+#define OBJECT_TYPE_BOSS	60
+#define OBJECT_TYPE_BOSSHAND 61
 #define OBJECT_TYPE_LADDER	23
 #define OBJECT_TYPE_LAVA	24
 #define OBJECT_TYPE_ARROWS	25
@@ -406,6 +410,31 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_TELE:
 	{
 		obj = new Tele(player3);
+		obj->SetPosition(x, y);
+		DebugOut(L"[INFO] SPIDER created!\n");
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+		obj->SetAnimationSet(ani_set);
+		lsEnermies.push_back(obj);
+		break;
+	}
+	case OBJECT_TYPE_BOSS:
+	{
+		int x = atof(tokens[1].c_str());
+		int y = atof(tokens[2].c_str());
+		obj = new Boss(player3, x, y);
+		obj->SetPosition(x, y);
+		DebugOut(L"[INFO] SPIDER created!\n");
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+		obj->SetAnimationSet(ani_set);
+		lsEnermies.push_back(obj);
+		break;
+	}
+	case OBJECT_TYPE_BOSSHAND:
+	{
+		int type = atof(tokens[4].c_str());
+		int x = atof(tokens[1].c_str());
+		int y = atof(tokens[2].c_str());
+		obj = new BossHand(x,y,type);
 		obj->SetPosition(x, y);
 		DebugOut(L"[INFO] SPIDER created!\n");
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
@@ -961,7 +990,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		}
 		break;
 	case DIK_P:
-		if (CGame::GetInstance()->GetIDCurrentScene() == 8)
+		if (CGame::GetInstance()->GetIDCurrentScene() == 9)
 			CGame::GetInstance()->SwitchScene(1);
 		else
 			CGame::GetInstance()->SwitchScene(1 + CGame::GetInstance()->GetIDCurrentScene());

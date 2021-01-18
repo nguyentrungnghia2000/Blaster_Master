@@ -1,5 +1,5 @@
 [SETTINGS]
-start	1
+start	9
 #scene list
 [SCENES]
 0	file_scene\intro.txt
@@ -12,4 +12,5 @@ start	1
 7	file_scene\area7.txt
 8	file_scene\area8.txt
 9	file_scene\Overworld.txt
+#10	file_scene\Boss_map.txt
 10	file_scene\endgame.txt

@@ -151,6 +151,9 @@
     <ClInclude Include="Bee.h" />
     <ClInclude Include="BigHuman.h" />
     <ClInclude Include="BlasterMaster.h" />
+    <ClInclude Include="Boss.h" />
+    <ClInclude Include="BossBullets.h" />
+    <ClInclude Include="BossHand.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Bug.h" />
     <ClInclude Include="Bullets.h" />
@@ -160,6 +163,7 @@
     <ClInclude Include="EndGame.h" />
     <ClInclude Include="Eyeball.h" />
     <ClInclude Include="EyeballBullets.h" />
+    <ClInclude Include="FlangeHand.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
@@ -202,6 +206,9 @@
     <ClCompile Include="Arrows.cpp" />
     <ClCompile Include="Bee.cpp" />
     <ClCompile Include="BigHuman.cpp" />
+    <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="BossBullets.cpp" />
+    <ClCompile Include="BossHand.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Bug.cpp" />
     <ClCompile Include="Bullets.cpp" />
@@ -211,6 +218,7 @@
     <ClCompile Include="EndGame.cpp" />
     <ClCompile Include="Eyeball.cpp" />
     <ClCompile Include="EyeballBullets.cpp" />
+    <ClCompile Include="FlangeHand.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Grid.cpp" />
