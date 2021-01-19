@@ -15,6 +15,7 @@
 using namespace std;
 #define PLAYER_HEALTH	8
 #define ENERMIES_HEALTH	3
+#define BOSS_HEALTH	8
 #define ID_TEX_BBOX -100		// special texture to draw object bounding box
 
 class CGameObject;
@@ -69,6 +70,7 @@ public:
 	int EnermiesHealth;
 	bool IsDead = false;
 	bool isEnabled;
+	bool IsBossDead = false;
 	float width, height;
 	DWORD dt;
 	LPANIMATION_SET animation_set;

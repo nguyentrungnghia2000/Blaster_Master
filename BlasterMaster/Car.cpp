@@ -23,7 +23,13 @@ CCar::CCar(float x, float y) : CGameObject()
 {
 	untouchable = 0;
 	SetState(CAR_STATE_IDLE);
-	health = power = PLAYER_HEALTH;
+	if (playeroldhealth != 0 && playeroldhealth != 8) {
+		health = playeroldhealth;
+	}
+	else {
+		health = PLAYER_HEALTH;
+	}
+	power = PLAYER_HEALTH;
 	this->IsDead = false;
 	this->health_up = false;
 	this->isActive = true;
@@ -36,6 +42,7 @@ CCar::CCar(float x, float y) : CGameObject()
 
 void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	//DebugOut(L"health : %d\n", playeroldhealth);
 	if (isActive == true) {
 		CGameObject::Update(dt);
 
@@ -135,14 +142,17 @@ void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 				else if (dynamic_cast<CPortal*>(e->obj)) {
 					if (e->nx < 0) {
-						CPortal* p = dynamic_cast<CPortal*>(e->obj);
+						/*CPortal* p = dynamic_cast<CPortal*>(e->obj);
 						CGame::GetInstance()->SwitchScene(p->GetSceneId());
+						CGame::GetInstance()->SwitchScene(CGame::GetInstance()->GetIDCurrentScene() + 1);*/
+						IsChangeScene = true;
 					}
 				}
 				else if (dynamic_cast<CPortal1*>(e->obj)) {
 					if (e->nx > 0) {
-						CPortal1* p = dynamic_cast<CPortal1*>(e->obj);
-						CGame::GetInstance()->SwitchScene(p->GetSceneId());
+						/*CPortal1* p = dynamic_cast<CPortal1*>(e->obj);
+						CGame::GetInstance()->SwitchScene(p->GetSceneId());*/
+						CGame::GetInstance()->SwitchScene(CGame::GetInstance()->GetIDCurrentScene() - 1);
 					}
 				}
 				else if (dynamic_cast<Item*>(e->obj)) {
@@ -152,25 +162,24 @@ void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					{
 						if (power < PLAYER_HEALTH)
 							power++;
-						else
-							continue;
 					}
 					else if (e->obj->Get_ID() == 2)
 					{
-						if (health < PLAYER_HEALTH)
+						if (health < PLAYER_HEALTH) {
 							health++;
-						else
-							continue;
+							//playeroldhealth = health;
+						}
 					}
-					e->obj->Set_IsDead(true);
+					e->obj->IsDead = true;
 				}
 				else {
 					if (e->nx != 0) x += dx;
 					if (e->ny != 0) y += dy;
 					if (untouchable == 0) {
-						health--;
+						//health--;
+						//playeroldhealth = health;
 					}
-					StartUntouchable();
+					//StartUntouchable();
 				}
 			}
 		}
@@ -186,11 +195,11 @@ void CCar::Render()
 	if (isOverWorld == false) {
 
 		int alpha = 255;
-
+		
 		if (isK) {
 			alpha = 0 + rand() % (255 + 1 - 0);
 		}
-
+		
 		RenderBoundingBox();
 		if (health == 0) {
 			health_up = true;
@@ -222,7 +231,7 @@ void CCar::Render()
 					animation_set->at(CAR_ANI_WALKING_UP_LEFT)->Render(x, y, alpha);
 					return;
 				}
-
+				
 			}
 			else if (vx == 0) {
 				if (nx < 0) {
@@ -297,7 +306,7 @@ void CCar::Render()
 					current_frame = animation_set->at(ani)->GetCurrentFrame();
 				}
 
-				animation_set->at(ani)->RenderCarUp(x, y, alpha);
+				animation_set->at(ani)->RenderCarUp( x, y, alpha);
 			}
 			return;
 		}
@@ -366,9 +375,6 @@ void CCar::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 	}
 }
 
-/*
-	Reset Mario status to the beginning state of a scene
-*/
 void CCar::Reset()
 {
 	SetState(CAR_STATE_IDLE);

@@ -12,6 +12,9 @@ void Eyeball::GetBoundingBox(float& left, float& top, float& right, float& botto
 
 void Eyeball::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (this->EnermiesHealth == 0) {
+		this->IsDead = true;
+	}
 	if (type == 1)
 	{
 		Update_Type_1(dt, coObjects);
@@ -24,9 +27,6 @@ void Eyeball::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		Update_Type_3(dt, coObjects);
 	}
-	//CGame* GameCamera = CGame::GetInstance();
-	//DebugOut(L" %d", GameCamera->GetX());
-	//GameCamera->GetX();
 }
 
 void Eyeball::Render()
@@ -40,6 +40,7 @@ void Eyeball::Render()
 Eyeball::Eyeball(LPGAMEOBJECT target, int x, int y)
 {
 	this->Target = target;
+	this->EnermiesHealth = ENERMIES_HEALTH;
 	this->x = x;
 	this->y = y;
 	random_device rm;

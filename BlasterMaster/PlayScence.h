@@ -17,6 +17,7 @@
 
 #define SCREEN_WIDTH	300
 #define SCREEN_HEIGHT	240
+#define TIMETOCHANGESCENE 500
 
 class CPlayScene : public CScene
 {
@@ -35,6 +36,7 @@ protected:
 	vector<LPGAMEOBJECT> lsPlayers;
 	vector< LPGAMEOBJECT> lsEnermies;
 	vector<LPCWSTR> ListSceneFilePath;
+	vector<LPGAMEOBJECT> lsBoss;
 
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);
@@ -52,6 +54,8 @@ public:
 	int healthunit, powerunit;
 	//int playeroldhealth, playeroldpower;
 	int mapW, mapH;
+	bool BossIsDead;
+	DWORD TimeToChangeScene;
 	CPlayScene(int id, LPCWSTR filePath);
 
 	vector<LPGAMEOBJECT> coObjects;
@@ -68,6 +72,7 @@ public:
 	virtual void Render();
 	virtual void Unload();
 	void GetObjectFromGrid(float x, float y);
+	void ChangeScene();
 
 	CCar* GetPlayer() { return player; }
 	CGameObject* Get_Player() { return controlplayer; }

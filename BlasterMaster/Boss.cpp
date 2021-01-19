@@ -14,6 +14,9 @@ void Boss::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 void Boss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGame* GameCamera = CGame::GetInstance();
+	if (this->EnermiesHealth == 0) {
+		this->IsDead = true;
+	}
 	if (this->Time_move->GetStartTime() == 0)
 	{
 		Time_move->Start();
@@ -76,6 +79,7 @@ Boss::Boss(LPGAMEOBJECT target,int posX,int posY)
 {
 	this->x = posX;
 	this->y = posY;
+	this->EnermiesHealth = BOSS_HEALTH;
 	this->Time_delay_attack = new Timer(TIME_DELAY_ATTACK);
 	RightHand = new BossHand(this->x + BOSS_BBOX_WIDTH - BOSSHAND_BBOX_WIDTH / 2, this->y + FLANGEHAND_BBOX_HEIGHT, 1);
 	LeftHand = new BossHand(this->x - BOSSHAND_BBOX_WIDTH/2, this->y + FLANGEHAND_BBOX_HEIGHT, 2);

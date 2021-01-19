@@ -3,7 +3,7 @@
 #include "Utils.h"
 #include <vector>
 
-#define CAR_HEALTH_BAR	0
+#define PLAYER_HEALTH_BAR	0
 #define CAR_HEALTH_UNIT	1
 #define CAR_POWER_BAR	2
 #define CAR_POWER_UNIT	3

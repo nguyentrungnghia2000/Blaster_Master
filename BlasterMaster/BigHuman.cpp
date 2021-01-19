@@ -21,6 +21,7 @@ BigHuman::BigHuman(float x, float y)
 	this->isActive = true;
 	this->isLadder = false;
 	this->isMovingonLadder = false;
+	this->directionY = false;
 	start_x = x;
 	start_y = y;
 	this->x = x;
@@ -29,8 +30,6 @@ BigHuman::BigHuman(float x, float y)
 
 void BigHuman::Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 {
-	DebugOut(L"%f\nDia chi x con to nek:",this->x);
-	DebugOut(L"%f\nDia chi y con to nek:",this->y);
 	CGameObject::Update(dt, colliable_objects);
 #pragma region Xử lý va chạm (collision)
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -105,16 +104,43 @@ void BigHuman::Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 				}
 			}
 			else if (dynamic_cast<Ladder*>(e->obj)) {
-					if (e->nx != 0) x += dx;
-					if (e->ny != 0) y += dy;
+				if (e->nx != 0) {
+					x += dx;
+				}
+				if (e->ny != 0) {
+					y += dy;
+				}
 			}
 			else if (dynamic_cast<CPortal*>(e->obj))
 			{
 				CPortal* p = dynamic_cast<CPortal*>(e->obj);
 				CGame::GetInstance()->SwitchScene(p->GetSceneId());
 			}
+			else if (dynamic_cast<Item*>(e->obj)) {
+				if (e->nx != 0) x += dx;
+				if (e->ny != 0) y += dy;
+				if (e->obj->Get_ID() == 1)
+				{
+					if (power < PLAYER_HEALTH)
+						power++;
+				}
+				else if (e->obj->Get_ID() == 2)
+				{
+					if (health < PLAYER_HEALTH) {
+						health++;
+						//playeroldhealth = health;
+					}
+				}
+				e->obj->Set_IsDead(true);
+			}
 			else {
-				health--;
+				if (e->nx != 0) x += dx;
+				if (e->ny != 0) y += dy;
+				if (untouchable == 0) {
+					health--;
+					//playeroldhealth = health;
+				}
+				StartUntouchable();
 			}
 			
 		}
@@ -123,8 +149,8 @@ void BigHuman::Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 #pragma endregion
 	/*DebugOut(L"moving on ladder : %d\n", isMovingonLadder);
 	DebugOut(L"ladder : %d\n", isLadder);*/
-	//DebugOut(L"x : %f\n", x);
-	//DebugOut(L"y : %f\n", y);
+	/*DebugOut(L"x : %f\n", x);
+	DebugOut(L"y : %f\n", y);*/
 }
 
 void BigHuman::Render()

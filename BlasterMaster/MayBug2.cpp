@@ -17,6 +17,9 @@ void MayBug2::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	vector<LPGAMEOBJECT>* OnlyBrick = new vector<LPGAMEOBJECT>();
 	OnlyBrick->clear();
+	if (this->EnermiesHealth == 0) {
+		this->IsDead = true;
+	}
 	for (int i = 0; i < coObjects->size(); i++)
 	{
 		if (dynamic_cast<CBrick*>(coObjects->at(i)))
@@ -85,9 +88,9 @@ void MayBug2::Render()
 MayBug2::MayBug2(LPGAMEOBJECT target, int x, int y)
 {
 	this->Target = target;
+	this->EnermiesHealth = ENERMIES_HEALTH;
 	vy = MAYBUG_SPEED_Y;
 	vx = CountVx(target, x, y);
-	DebugOut(L"%d", x);
 }
 
 void MayBug2::SetState(int state)
