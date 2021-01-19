@@ -70,11 +70,9 @@ class CCar : public CGameObject
 	bool isK = false;
 	float start_x;
 	float start_y;
-	D3DCOLOR color;
-	int alpha = 255;
 public:
 	int ani = -1;
-	int current_frame;
+	int current_frame, playeroldhealth, playeroldpower;
 	DWORD timer, time_moving_up;
 	bool flag = true;
 	bool health_up;
@@ -85,6 +83,7 @@ public:
 	bool isAttack = false;
 	bool isDead;
 	bool isActive, isOverWorld;
+	bool IsChangeScene;
 	//bool IsFinish;
 	CCar(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);

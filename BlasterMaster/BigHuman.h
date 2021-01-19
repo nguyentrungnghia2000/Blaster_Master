@@ -36,10 +36,13 @@ class BigHuman : public CGameObject
 	float start_x;
 	float start_y;
 public:
+	bool directionY;
 	int ani = -1;
 	DWORD bighuman_timer, gate_timer;
 	bool isActive, isAttack;
 	bool isLadder, isMovingonLadder;
+	bool IsChangeScene;
+	DWORD count;
 
 	int Get_ID() { return ID; }
 	float Get_width() { return width; }
@@ -60,5 +63,7 @@ public:
 	void Get_health(int& health) { health = this->health; }
 	void Get_power(int& power) { power = this->power; }
 	void Get_BigHumanDirection(int& direction) { direction = nx; }
+	void Get_BigHumanDirectionY(int& directionY) { directionY = ny; }
+	void Get_DirectionY(bool& isTargetTop) { isTargetTop = directionY; }
 };
 

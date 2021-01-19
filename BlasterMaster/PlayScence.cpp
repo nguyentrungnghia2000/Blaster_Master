@@ -594,6 +594,9 @@ void CPlayScene::LoadObjects()
 
 void CPlayScene::Update(DWORD dt)
 {
+	if (GetTickCount() - TimeToChangeScene < TIMETOCHANGESCENE) {
+		BossIsDead = true;
+	}
 #pragma region CAMERA
 	float cx, cy;
 	if (player != NULL) {
@@ -773,12 +776,21 @@ void CPlayScene::Update(DWORD dt)
 		if (player3->isAttack)
 		{
 			MainBullets* bullet = new MainBullets();
-			player3->Get_BigHumanDirection(bullet->BulletDirection);
-
-			if (bullet->BulletDirection > 0)
-				bullet->SetPosition(player3->x + DISTANCE_TO_HUMAN_WIDTH_RIGHT, player3->y + DISTANCE_TO_HUMAN_HEIGTH);
-			else
-				bullet->SetPosition(player3->x + DISTANCE_TO_HUMAN_WIDTH_LEFT, player3->y + DISTANCE_TO_HUMAN_HEIGTH);
+			player3->Get_DirectionY(bullet->IsTargetTop);
+			if (bullet->IsTargetTop == true) {
+				player3->Get_BigHumanDirectionY(bullet->BulletDirection);
+				if (bullet->BulletDirection > 0)
+					bullet->SetPosition(player3->x + 10, player3->y);
+				else
+					bullet->SetPosition(player3->x + DISTANCE_TO_HUMAN_WIDTH_LEFT, player3->y + 24);
+			}
+			else {
+				player3->Get_BigHumanDirection(bullet->BulletDirection);
+				if (bullet->BulletDirection > 0)
+					bullet->SetPosition(player3->x + DISTANCE_TO_BHUMAN_WIDTH_RIGHT, player3->y + DISTANCE_TO_BHUMAN_HEIGTH);
+				else
+					bullet->SetPosition(player3->x + DISTANCE_TO_BHUMAN_WIDTH_LEFT, player3->y + DISTANCE_TO_BHUMAN_HEIGTH);
+			}
 			lsBullets.push_back(bullet);
 			player3->isAttack = false;
 		}
@@ -800,12 +812,20 @@ void CPlayScene::Update(DWORD dt)
 	for (int i = 0; i < coEnermies.size(); i++) {
 		coEnermies[i]->Update(dt, &coObjects);
 
-		if (coEnermies[i]->Get_IsDead() == true) {
-			float ix = coEnermies[i]->x;
-			float iy = coEnermies[i]->y;
-			coEnermies.erase(coEnermies.begin() + i);
-			Item* item = new Item(ix, iy);
-			lsItems.push_back(item);
+		if (dynamic_cast<Boss*>(coEnermies[i])) {
+			Boss* bos = dynamic_cast<Boss*>(coEnermies[i]);
+			if (bos->Get_IsDead() == true) {
+				TimeToChangeScene = GetTickCount();
+			}
+		}
+		else {
+			if (coEnermies[i]->Get_IsDead() == true) {
+				float ix = coEnermies[i]->x;
+				float iy = coEnermies[i]->y;
+				coEnermies.erase(coEnermies.begin() + i);
+				Item* item = new Item(ix, iy);
+				lsItems.push_back(item);
+			}
 		}
 	}
 		
@@ -846,6 +866,7 @@ void CPlayScene::Update(DWORD dt)
 		}
 	}
 #pragma endregion
+	ChangeScene();
 	GetObjectFromGrid(GameCamera->GetCamx(), GameCamera->GetCamy());
 
 	if (player == NULL) return;
@@ -910,6 +931,25 @@ void CPlayScene::GetObjectFromGrid(float x, float y)
 	grid->GetListObject(x, y, lsEnermiesGrid);
 	for (UINT i = 0; i < lsEnermiesGrid.size(); i++) {
 		coEnermies.push_back(lsEnermiesGrid[i]);
+	}
+}
+
+void CPlayScene::ChangeScene()
+{
+	if (player != NULL) {
+		if (player->IsChangeScene == true) {
+			CGame::GetInstance()->SwitchScene(CGame::GetInstance()->GetIDCurrentScene() + 1);
+			player->IsChangeScene = false;
+		}
+	}
+	if (player2 != NULL) {
+		if (player2->IsChangeScene == true) {
+			CGame::GetInstance()->SwitchScene(CGame::GetInstance()->GetIDCurrentScene() + 1);
+			player2->IsChangeScene = false;
+		}
+	}
+	if (BossIsDead == true) {
+		CGame::GetInstance()->SwitchScene(CGame::GetInstance()->GetIDCurrentScene() + 1);
 	}
 }
 
@@ -1014,6 +1054,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_DOWN:
 		if (bhuman != NULL) {
 			if (bhuman->isActive == true) {
+				bhuman->directionY = true;
 				bhuman->SetState(BIGHUMAN_STATE_MOVE_DOWN);
 			}
 		}
@@ -1031,6 +1072,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_RIGHT:
 		if (bhuman != NULL) {
 			if (bhuman->isActive == true) {
+				bhuman->directionY = false;
 				if (bhuman->isLadder == true) {
 					bhuman->isMovingonLadder = true;
 					bhuman->SetState(BIGHUMAN_STATE_MOVE_RIGHT);
@@ -1058,6 +1100,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		}
 		if (bhuman != NULL) {
 			if (bhuman->isActive == true) {
+				bhuman->directionY = true;
 				bhuman->SetState(BIGHUMAN_STATE_MOVE_UP);
 			}
 		}
@@ -1065,6 +1108,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_LEFT:
 		if (bhuman != NULL) {
 			if (bhuman->isActive == true) {
+				bhuman->directionY = false;
 				if (bhuman->isLadder == true) {
 					bhuman->isMovingonLadder = true;
 					bhuman->SetState(BIGHUMAN_STATE_MOVE_LEFT);

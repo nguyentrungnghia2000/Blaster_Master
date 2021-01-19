@@ -10,11 +10,13 @@ void Gunner::GetBoundingBox(float& left, float& top, float& right, float& bottom
 
 void Gunner::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (this->EnermiesHealth == 0) {
+		this->IsDead = true;
+	}
 	if (type == 3)
 	{
 		type = 1;
 	}
-	DebugOut(L"\nLoai dan:%d", type);
 	if (Time_Delay->GetStartTime() == 0)
 	{
 		Time_Delay->Start();
@@ -77,6 +79,7 @@ Gunner::Gunner()
 {
 	type = 1;
 	SetState(GUNNER_STATE_NOLMAL);
+	this->EnermiesHealth = ENERMIES_HEALTH;
 	this->Time_Delay = new Timer(DELAY_TIME);
 	this->time_dis = new Timer(GUNNER_BULLET_DIS);
 	Time_Delay->Start();

@@ -61,6 +61,7 @@ public:
 	bool isOverWorld;
 	bool PressDown, PressUp;
 	bool isLadder, isMovingonLadder;
+	bool IsChangeScene;
 
 	int Get_ID() { return ID; }
 	float Get_width() { return width; }

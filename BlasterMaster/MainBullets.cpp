@@ -11,6 +11,15 @@
 #include "Car.h"
 #include "Portal.h"
 #include "Arrows.h"
+#include "Portal1.h"
+#include "Skeleton.h"
+#include "Gunner.h"
+#include "MayBug2.h"
+#include "Mine.h"
+#include "Eyeball.h"
+#include "Tele.h"
+#include "Boss.h"
+#include "BossHand.h"
 
 MainBullets::MainBullets()
 {
@@ -51,9 +60,9 @@ void MainBullets::Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 		vx = BULLET_SPEED * BulletDirection;
 	}
 	else {
-		vy = -BULLET_SPEED;
+		vy = -BULLET_SPEED * BulletDirection;
 	}
-	if (GetTickCount() - timer < EXPLOTION_TIME && flag == true) {
+	if (timer - GetTickCount() > EXPLOTION_TIME && flag == true) {
 		isFinish = true;
 		flag = false;
 	}
@@ -70,6 +79,12 @@ void MainBullets::Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 			OnlyItem->push_back(colliable_objects->at(i));
 		}
 		else if (dynamic_cast<CPortal*>(colliable_objects->at(i))) {
+			OnlyItem->push_back(colliable_objects->at(i));
+		}
+		else if (dynamic_cast<CPortal1*>(colliable_objects->at(i))) {
+			OnlyItem->push_back(colliable_objects->at(i));
+		}
+		else if (dynamic_cast<Human*>(colliable_objects->at(i))) {
 			OnlyItem->push_back(colliable_objects->at(i));
 		}
 		else {
@@ -93,18 +108,18 @@ void MainBullets::Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 
 #pragma region return the object type which have been hit by bullets
-		for (UINT i = 0; i < coEventsResult.size(); i++){
+		for (UINT i = 0; i < coEventsResult.size(); i++) {
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
 			if (dynamic_cast<CBrick*>(e->obj)) {
-				if (e->nx != 0){
+				if (e->nx != 0) {
 					IsCollisionBrick = 1;
 					x += min_tx * dx + nx * 0.4f;
 					y += min_ty * dy + ny * 0.4f;
 					vx = 0;
 					vy = 0;
 				}
-				if (e->ny != 0){
+				if (e->ny != 0) {
 					IsCollisionBrick = 1;
 					x += min_tx * dx + nx * 0.4f;
 					y += min_ty * dy + ny * 0.4f;
@@ -113,10 +128,130 @@ void MainBullets::Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 				}
 			}
 
-			else if (dynamic_cast<Arrows*>(e->obj)) {
-				Arrows* bug = dynamic_cast<Arrows*>(e->obj);
+			//else if (dynamic_cast<Robot*>(e->obj)) {
+			//	Robot* rob = dynamic_cast<Robot*>(e->obj);
+			//	if (e->nx != 0) {
+			//		rob->SubDamage(-BULLETS_DAMAGE);
+			//		temp = rob->Get_health();
+			//		//DebugOut(L"temp : %d\n", temp);
+			//		IsCollisionEnermies = 1;
+			//		x += min_tx * dx + nx * 0.4f;
+			//		y += min_ty * dy + ny * 0.4f;
+			//		vx = 0;
+			//		vy = 0;
+			//	}
+			//	if (e->ny != 0) {
+			//		rob->SubDamage(-BULLETS_DAMAGE);
+			//		IsCollisionEnermies = 1;
+			//		x += min_tx * dx + nx * 0.4f;
+			//		y += min_ty * dy + ny * 0.4f;
+			//		vx = 0;
+			//		vy = 0;
+			//	}
+			//}
+
+			//else if (dynamic_cast<Bug*>(e->obj)) {
+			//	Bug* bug = dynamic_cast<Bug*>(e->obj);
+			//	if (e->nx != 0) {
+			//		bug->SubDamage(-BULLETS_DAMAGE);
+			//		IsCollisionEnermies = 1;
+			//		x += min_tx * dx + nx * 0.4f;
+			//		y += min_ty * dy + ny * 0.4f;
+			//		vx = 0;
+			//		vy = 0;
+			//	}
+			//	if (e->ny != 0) {
+			//		bug->SubDamage(-BULLETS_DAMAGE);
+			//		IsCollisionEnermies = 1;
+			//		x += min_tx * dx + nx * 0.4f;
+			//		y += min_ty * dy + ny * 0.4f;
+			//		vx = 0;
+			//		vy = 0;
+			//	}
+			//}
+
+			//else if (dynamic_cast<Doom*>(e->obj)) {
+			//	Doom* doom = dynamic_cast<Doom*>(e->obj);
+			//	if (e->nx != 0) {
+			//		doom->SubDamage(-BULLETS_DAMAGE);
+			//		IsCollisionEnermies = 1;
+			//		x += min_tx * dx + nx * 0.4f;
+			//		y += min_ty * dy + ny * 0.4f;
+			//		vx = 0;
+			//		vy = 0;
+			//	}
+			//	if (e->ny != 0) {
+			//		doom->SubDamage(-BULLETS_DAMAGE);
+			//		IsCollisionEnermies = 1;
+			//		x += min_tx * dx + nx * 0.4f;
+			//		y += min_ty * dy + ny * 0.4f;
+			//		vx = 0;
+			//		vy = 0;
+			//	}
+			//}
+
+			//else if (dynamic_cast<MayBug*>(e->obj)) {
+			//	MayBug* maybug = dynamic_cast<MayBug*>(e->obj);
+			//	if (e->nx != 0) {
+			//		maybug->SubDamage(-BULLETS_DAMAGE);
+			//		IsCollisionEnermies = 1;
+			//		x += min_tx * dx + nx * 0.4f;
+			//		y += min_ty * dy + ny * 0.4f;
+			//		vx = 0;
+			//		vy = 0;
+			//	}
+			//	if (e->ny != 0) {
+			//		maybug->SubDamage(-BULLETS_DAMAGE);
+			//		IsCollisionEnermies = 1;
+			//		x += min_tx * dx + nx * 0.4f;
+			//		y += min_ty * dy + ny * 0.4f;
+			//		vx = 0;
+			//		vy = 0;
+			//	}
+			//}
+
+			//else if (dynamic_cast<Spider*>(e->obj)) {
+			//	Spider* spider = dynamic_cast<Spider*>(e->obj);
+			//	if (e->nx != 0) {
+			//		spider->SubDamage(-BULLETS_DAMAGE);
+			//		IsCollisionEnermies = 1;
+			//		x += min_tx * dx + nx * 0.4f;
+			//		y += min_ty * dy + ny * 0.4f;
+			//		vx = 0;
+			//		vy = 0;
+			//	}
+			//	if (e->ny != 0) {
+			//		spider->SubDamage(-BULLETS_DAMAGE);
+			//		IsCollisionEnermies = 1;
+			//		x += min_tx * dx + nx * 0.4f;
+			//		y += min_ty * dy + ny * 0.4f;
+			//		vx = 0;
+			//		vy = 0;
+			//	}
+			//}
+
+			//else if (dynamic_cast<Bee*>(e->obj)) {
+			//	Bee* spider = dynamic_cast<Bee*>(e->obj);
+			//	if (e->nx != 0) {
+			//		spider->SubDamage(-BULLETS_DAMAGE);
+			//		IsCollisionEnermies = 1;
+			//		x += min_tx * dx + nx * 0.4f;
+			//		y += min_ty * dy + ny * 0.4f;
+			//		vx = 0;
+			//		vy = 0;
+			//	}
+			//	if (e->ny != 0) {
+			//		spider->SubDamage(-BULLETS_DAMAGE);
+			//		IsCollisionEnermies = 1;
+			//		x += min_tx * dx + nx * 0.4f;
+			//		y += min_ty * dy + ny * 0.4f;
+			//		vx = 0;
+			//		vy = 0;
+			//	}
+			//}
+			else {
 				if (e->nx != 0) {
-					bug->SubDamage(-BULLETS_DAMAGE);
+					e->obj->SubDamage(-BULLETS_DAMAGE);
 					IsCollisionEnermies = 1;
 					x += min_tx * dx + nx * 0.4f;
 					y += min_ty * dy + ny * 0.4f;
@@ -124,142 +259,19 @@ void MainBullets::Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 					vy = 0;
 				}
 				if (e->ny != 0) {
-					bug->SubDamage(-BULLETS_DAMAGE);
+					e->obj->SubDamage(-BULLETS_DAMAGE);
 					IsCollisionEnermies = 1;
 					x += min_tx * dx + nx * 0.4f;
 					y += min_ty * dy + ny * 0.4f;
 					vx = 0;
 					vy = 0;
 				}
-			}
-
-			else if(dynamic_cast<Robot*>(e->obj)){
-				Robot* rob = dynamic_cast<Robot*>(e->obj);
-				if (e->nx != 0) {
-					rob->SubDamage(-BULLETS_DAMAGE);
-					temp = rob->Get_health();
-					//DebugOut(L"temp : %d\n", temp);
-					IsCollisionEnermies = 1;
-					x += min_tx * dx + nx * 0.4f;
-					y += min_ty * dy + ny * 0.4f;
-					vx = 0;
-					vy = 0;
-				}
-				if (e->ny != 0){
-					rob->SubDamage(-BULLETS_DAMAGE);
-					IsCollisionEnermies = 1;
-					x += min_tx * dx + nx * 0.4f;
-					y += min_ty * dy + ny * 0.4f;
-					vx = 0;
-					vy = 0;
-				}
-			}
-
-			else if (dynamic_cast<Bug*>(e->obj)) {
-				Bug* bug = dynamic_cast<Bug*>(e->obj);
-				if (e->nx != 0) {
-					bug->SubDamage(-BULLETS_DAMAGE);
-					IsCollisionEnermies = 1;
-					x += min_tx * dx + nx * 0.4f;
-					y += min_ty * dy + ny * 0.4f;
-					vx = 0;
-					vy = 0;
-				}
-				if (e->ny != 0) {
-					bug->SubDamage(-BULLETS_DAMAGE);
-					IsCollisionEnermies = 1;
-					x += min_tx * dx + nx * 0.4f;
-					y += min_ty * dy + ny * 0.4f;
-					vx = 0;
-					vy = 0;
-				}
-			}
-
-			else if (dynamic_cast<Doom*>(e->obj)) {
-				Doom* doom = dynamic_cast<Doom*>(e->obj);
-				if (e->nx != 0) {
-					doom->SubDamage(-BULLETS_DAMAGE);
-					IsCollisionEnermies = 1;
-					x += min_tx * dx + nx * 0.4f;
-					y += min_ty * dy + ny * 0.4f;
-					vx = 0;
-					vy = 0;
-				}
-				if (e->ny != 0) {
-					doom->SubDamage(-BULLETS_DAMAGE);
-					IsCollisionEnermies = 1;
-					x += min_tx * dx + nx * 0.4f;
-					y += min_ty * dy + ny * 0.4f;
-					vx = 0;
-					vy = 0;
-				}
-			}
-
-			else if (dynamic_cast<MayBug*>(e->obj)) {
-				MayBug* maybug = dynamic_cast<MayBug*>(e->obj);
-				if (e->nx != 0) {
-					maybug->SubDamage(-BULLETS_DAMAGE);
-					IsCollisionEnermies = 1;
-					x += min_tx * dx + nx * 0.4f;
-					y += min_ty * dy + ny * 0.4f;
-					vx = 0;
-					vy = 0;
-				}
-				if (e->ny != 0) {
-					maybug->SubDamage(-BULLETS_DAMAGE);
-					IsCollisionEnermies = 1;
-					x += min_tx * dx + nx * 0.4f;
-					y += min_ty * dy + ny * 0.4f;
-					vx = 0;
-					vy = 0;
-				}
-			}
-
-			else if (dynamic_cast<Spider*>(e->obj)) {
-				Spider* spider = dynamic_cast<Spider*>(e->obj);
-				if (e->nx != 0) {
-					spider->SubDamage(-BULLETS_DAMAGE);
-					IsCollisionEnermies = 1;
-					x += min_tx * dx + nx * 0.4f;
-					y += min_ty * dy + ny * 0.4f;
-					vx = 0;
-					vy = 0;
-				}
-				if (e->ny != 0) {
-					spider->SubDamage(-BULLETS_DAMAGE);
-					IsCollisionEnermies = 1;
-					x += min_tx * dx + nx * 0.4f;
-					y += min_ty * dy + ny * 0.4f;
-					vx = 0;
-					vy = 0;
-				}
-			}
-
-			else if (dynamic_cast<Bee*>(e->obj)) {
-			Bee* spider = dynamic_cast<Bee*>(e->obj);
-			if (e->nx != 0) {
-				spider->SubDamage(-BULLETS_DAMAGE);
-				IsCollisionEnermies = 1;
-				x += min_tx * dx + nx * 0.4f;
-				y += min_ty * dy + ny * 0.4f;
-				vx = 0;
-				vy = 0;
-			}
-			if (e->ny != 0) {
-				spider->SubDamage(-BULLETS_DAMAGE);
-				IsCollisionEnermies = 1;
-				x += min_tx * dx + nx * 0.4f;
-				y += min_ty * dy + ny * 0.4f;
-				vx = 0;
-				vy = 0;
-			}
 			}
 		}
 #pragma endregion
 	}
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 #pragma endregion
-	//}
 }
 
 void MainBullets::Render()

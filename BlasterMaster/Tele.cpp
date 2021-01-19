@@ -13,6 +13,9 @@ void Tele::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 void Tele::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGame* GameCamera = CGame::GetInstance();
+	if (this->EnermiesHealth == 0) {
+		this->IsDead = true;
+	}
 	if (Time_undead->GetStartTime() == 0)
 	{
 		Time_undead->Start();
@@ -75,6 +78,7 @@ Tele::Tele(LPGAMEOBJECT target,int minx,int miny)
 	Time_undead = new Timer(TIME_UNDEAD);
 	Time_dis = new Timer(TELE_TIME_DIS);
 	Delay_time = new Timer(TELE_DELAY_ATTACK);
+	this->EnermiesHealth = ENERMIES_HEALTH;
 	this->Target = target;
 	MinX = minx;
 	MinY = miny;

@@ -95,7 +95,7 @@ void Human::Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 
 			if (dynamic_cast<CBrick*>(e->obj)) {
 				x += min_tx * dx + nx * 0.4f;
-				y += min_ty * dy + ny * 0.04f;
+				y += min_ty * dy + ny * 0.05f;
 				if (isMovingonLadder == true) {
 					if (e->nx != 0) x += dx;
 					if (e->ny != 0) y += dy;
@@ -111,24 +111,44 @@ void Human::Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 					}
 				}
 			}
+			else if (dynamic_cast<Item*>(e->obj)) {
+				if (e->nx != 0) x += dx;
+				if (e->ny != 0) y += dy;
+				if (e->obj->Get_ID() == 1)
+				{
+					if (power < PLAYER_HEALTH)
+						power++;
+				}
+				else if (e->obj->Get_ID() == 2)
+				{
+					if (health < PLAYER_HEALTH) {
+						health++;
+						//playeroldhealth = health;
+					}
+				}
+				e->obj->Set_IsDead(true);
+			}
 			else if (dynamic_cast<CCar*>(e->obj)) {
 				isCollisionWithCar = true;
 				if (e->nx != 0) x += dx;
 				if (e->ny != 0) y += dy;
 			}
 			else if (dynamic_cast<CPortal*>(e->obj)) {
-				CPortal* p = dynamic_cast<CPortal*>(e->obj);
-				CGame::GetInstance()->SwitchScene(p->GetSceneId());
+				IsChangeScene = true;
 			}
 			else if (dynamic_cast<Ladder*>(e->obj)) {
 				//isLadder = true;
 				if (e->nx != 0) x += dx;
 				if (e->ny != 0) y += dy;
 			}
-			else if (dynamic_cast<Robot*>(e->obj)) {
+			else {
 				if (e->nx != 0) x += dx;
 				if (e->ny != 0) y += dy;
-				health--;
+				if (untouchable == 0) {
+					health--;
+					//playeroldhealth = health;
+				}
+				StartUntouchable();
 			}
 		}
 	}
@@ -165,10 +185,6 @@ void Human::Render()
 						ani = HUMAN_ANI_JUMP_LEFT;
 				}
 				else {
-					//if (isLadder == true) {
-						
-					//}
-					//else {
 						if (state == HUMAN_STATE_WALKING_RIGHT)
 							ani = HUMAN_ANI_WALK_RIGHT;
 						else if (state == HUMAN_STATE_WALKING_LEFT)
@@ -183,7 +199,6 @@ void Human::Render()
 						else if (state == HUMAN_STATE_MOVE_UP_LADDER)
 							ani = HUMAN_ANI_MOVE_ON_LADDER;
 						else ani = HUMAN_ANI_MOVE_ON_LADDER;
-					//}
 				}
 			}
 			

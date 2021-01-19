@@ -7,14 +7,14 @@ using namespace std;
 
 
 #define ARTICULAR_POWER_HEALTHBAR_Y				5
-#define ARTICULAR_CAR_HEALTHBAR_Y				65
+#define ARTICULAR_PLAYER_HEALTHBAR_Y				65
 
 class HUD
 {
 	float x, y;
 	LPANIMATION_SET UIanimationSet;
 
-	HealthBar* CarHB;
+	HealthBar* PlayerHB;
 	HealthBar* PowerHB;
 
 public:

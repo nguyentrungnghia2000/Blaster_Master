@@ -25,6 +25,9 @@ void Mine::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	vector<LPGAMEOBJECT>* OnlyBrick = new vector<LPGAMEOBJECT>();
 	OnlyBrick->clear();
+	if (this->EnermiesHealth == 0) {
+		this->IsDead = true;
+	}
 	for (int i = 0; i < coObjects->size(); i++)
 	{
 		if (dynamic_cast<CBrick*>(coObjects->at(i)))
@@ -114,6 +117,7 @@ Mine::Mine()
 	IsBoom = false;
 	this->SetState(MINE_STATE_NORMAL);
 	this->time_dis = new Timer(TIME_DIS);
+	this->EnermiesHealth = ENERMIES_HEALTH;
 }
 
 void Mine::SetState(int state)

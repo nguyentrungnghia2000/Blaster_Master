@@ -16,6 +16,10 @@ void Skeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	vector<LPGAMEOBJECT>* OnlyBrick = new vector<LPGAMEOBJECT>();
 	OnlyBrick->clear();
+
+	if (this->EnermiesHealth == 0) {
+		this->IsDead = true;
+	}
 	for (int i = 0; i < coObjects->size(); i++)
 	{
 		if (dynamic_cast<CBrick*>(coObjects->at(i)))
@@ -140,6 +144,7 @@ Skeleton::Skeleton(LPGAMEOBJECT target)
 	time_attack = new Timer(SKELETON_ATTACK_TIME);
 	time_dis = new Timer(SKELETON_BULLET_DIS);
 	Target = target;
+	this->EnermiesHealth = ENERMIES_HEALTH;
 	this->SetState(SKELETON_STATE_WALKING);
 }
 
