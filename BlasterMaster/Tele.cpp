@@ -40,8 +40,8 @@ void Tele::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				random_device m;
 				mt19937 t(m());
-				uniform_real_distribution<float> randomX(GameCamera->GetCamx() + TELE_BBOX_WIDTH, GameCamera->GetCamx() + SCREEN_WIDTH - TELE_BBOX_WIDTH);
-				uniform_real_distribution<float> randomY(GameCamera->GetCamy() + TELE_BBOX_HEIGHT, GameCamera->GetCamy() + SCREEN_HEIGHT - TELE_BBOX_HEIGHT);
+				uniform_real_distribution<float> randomX(MinX, MinX+TELE_WIDTH - TELE_BBOX_WIDTH);
+				uniform_real_distribution<float> randomY(MinY, MinY + TELE_HEIGHT - TELE_BBOX_HEIGHT);
 				this->x = randomX(t);
 				this->y = randomY(t);
 				Time_delay_tele->Reset();
@@ -67,7 +67,7 @@ void Tele::Render()
 		Bullet.at(i)->Render();
 }
 
-Tele::Tele(LPGAMEOBJECT target)
+Tele::Tele(LPGAMEOBJECT target,int minx,int miny)
 {
 	this->SetState(TELE_STATE_TELE);
 	Time_delay_tele = new Timer(TIME_DELAY_TELE);
@@ -76,6 +76,8 @@ Tele::Tele(LPGAMEOBJECT target)
 	Time_dis = new Timer(TELE_TIME_DIS);
 	Delay_time = new Timer(TELE_DELAY_ATTACK);
 	this->Target = target;
+	MinX = minx;
+	MinY = miny;
 }
 
 void Tele::SetState(int state)

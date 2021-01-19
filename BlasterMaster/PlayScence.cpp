@@ -251,6 +251,23 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		lsPlayers.push_back(obj);
 		break;
 	}
+	case OBJECT_TYPE_BOSS:
+	{
+		int x = atof(tokens[1].c_str());
+		int y = atof(tokens[2].c_str());
+		if (BigBoss != NULL)
+		{
+			DebugOut(L"[ERROR] BOSS object was created before!\n");
+		}
+		//obj = new Boss(player3, x, y);
+		obj = new Boss(player3,x,y);
+		BigBoss = (Boss*)obj;
+		obj->SetPosition(x, y);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+		obj->SetAnimationSet(ani_set);
+		lsEnermies.push_back(obj);
+		break;
+	}
 	case OBJECT_TYPE_BRICK:
 	{
 		w = atof(tokens[4].c_str());
@@ -409,19 +426,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	case OBJECT_TYPE_TELE:
 	{
-		obj = new Tele(player3);
-		obj->SetPosition(x, y);
-		DebugOut(L"[INFO] SPIDER created!\n");
-		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
-		obj->SetAnimationSet(ani_set);
-		lsEnermies.push_back(obj);
-		break;
-	}
-	case OBJECT_TYPE_BOSS:
-	{
-		int x = atof(tokens[1].c_str());
-		int y = atof(tokens[2].c_str());
-		obj = new Boss(player3, x, y);
+		int x = atof(tokens[4].c_str());
+		int y = atof(tokens[5].c_str());
+		obj = new Tele(player3,x,y);
 		obj->SetPosition(x, y);
 		DebugOut(L"[INFO] SPIDER created!\n");
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
@@ -990,7 +997,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		}
 		break;
 	case DIK_P:
-		if (CGame::GetInstance()->GetIDCurrentScene() == 9)
+		if (CGame::GetInstance()->GetIDCurrentScene() == 10)
 			CGame::GetInstance()->SwitchScene(1);
 		else
 			CGame::GetInstance()->SwitchScene(1 + CGame::GetInstance()->GetIDCurrentScene());

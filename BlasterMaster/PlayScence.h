@@ -13,6 +13,7 @@
 #include "Camera.h"
 #include "Grid.h"
 #include "Item.h"
+#include "Boss.h"
 
 #define SCREEN_WIDTH	300
 #define SCREEN_HEIGHT	240
@@ -27,6 +28,7 @@ protected:
 	BigHuman* player3;
 	HUD* playerHUD;
 	Camera* cam;
+	Boss* BigBoss;
 	LPDIRECT3DTEXTURE9 maptextures;
 	int mapWidth = 1024, mapHeight = 240;
 	vector<LPGAMEOBJECT> lsObjects;

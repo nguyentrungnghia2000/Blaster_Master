@@ -29,6 +29,8 @@ BigHuman::BigHuman(float x, float y)
 
 void BigHuman::Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 {
+	DebugOut(L"%f\nDia chi x con to nek:",this->x);
+	DebugOut(L"%f\nDia chi y con to nek:",this->y);
 	CGameObject::Update(dt, colliable_objects);
 #pragma region Xử lý va chạm (collision)
 	vector<LPCOLLISIONEVENT> coEvents;

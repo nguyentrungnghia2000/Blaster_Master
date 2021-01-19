@@ -20,8 +20,9 @@
 #define TIME_DELAY_TELE	700
 #define TIME_UNDEAD	3000
 
-#define SCREEN_WIDTH	300
-#define SCREEN_HEIGHT	240
+#define TELE_WIDTH	180
+#define TELE_HEIGHT	160
+
 
 class Tele :public CGameObject
 {
@@ -31,12 +32,13 @@ class Tele :public CGameObject
 	vector<EyeballBullets*> Bullet;
 	Timer* Delay_time;
 	Timer* Time_dis;
+	int MinX, MinY;
 	LPGAMEOBJECT Target;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
 public:
-	Tele(LPGAMEOBJECT);
+	Tele(LPGAMEOBJECT, int, int);
 	virtual void SetState(int state);
 	void Attack(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 
