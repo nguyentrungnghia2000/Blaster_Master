@@ -42,7 +42,6 @@ CCar::CCar(float x, float y) : CGameObject()
 
 void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	//DebugOut(L"health : %d\n", playeroldhealth);
 	if (isActive == true) {
 		CGameObject::Update(dt);
 
@@ -141,10 +140,11 @@ void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					//if (e->ny != 0) y += dy;
 				}
 				else if (dynamic_cast<CPortal*>(e->obj)) {
-					if (e->nx < 0) {
+					if (e->nx != 0) {
 						/*CPortal* p = dynamic_cast<CPortal*>(e->obj);
 						CGame::GetInstance()->SwitchScene(p->GetSceneId());
 						CGame::GetInstance()->SwitchScene(CGame::GetInstance()->GetIDCurrentScene() + 1);*/
+						DebugOut(L"qua tuong true");
 						IsChangeScene = true;
 					}
 				}
@@ -152,7 +152,8 @@ void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (e->nx > 0) {
 						/*CPortal1* p = dynamic_cast<CPortal1*>(e->obj);
 						CGame::GetInstance()->SwitchScene(p->GetSceneId());*/
-						CGame::GetInstance()->SwitchScene(CGame::GetInstance()->GetIDCurrentScene() - 1);
+						//CGame::GetInstance()->SwitchScene(CGame::GetInstance()->GetIDCurrentScene() - 1);
+						IsChangeScene = true;
 					}
 				}
 				else if (dynamic_cast<Item*>(e->obj)) {
@@ -176,7 +177,7 @@ void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (e->nx != 0) x += dx;
 					if (e->ny != 0) y += dy;
 					if (untouchable == 0) {
-						//health--;
+						health--;
 						//playeroldhealth = health;
 					}
 					//StartUntouchable();
@@ -186,8 +187,6 @@ void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 	}
 #pragma endregion
-	/*DebugOut(L"x : %f\n", this->x);
-	DebugOut(L"y : %f\n", this->y);*/
 }
 
 void CCar::Render()
@@ -200,7 +199,7 @@ void CCar::Render()
 			alpha = 0 + rand() % (255 + 1 - 0);
 		}
 		
-		RenderBoundingBox();
+		//RenderBoundingBox();
 		if (health == 0) {
 			health_up = true;
 			ani = CAR_ANI_DIE;

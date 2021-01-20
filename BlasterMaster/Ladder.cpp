@@ -8,7 +8,7 @@ Ladder::Ladder(float w, float h)
 
 void Ladder::Render()
 {
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void Ladder::GetBoundingBox(float& l, float& t, float& r, float& b)

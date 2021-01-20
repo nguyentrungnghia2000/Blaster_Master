@@ -51,6 +51,7 @@ protected:
 
 public:
 	float posX, posY;
+	int count = 0;
 	int healthunit, powerunit;
 	//int playeroldhealth, playeroldpower;
 	int mapW, mapH;

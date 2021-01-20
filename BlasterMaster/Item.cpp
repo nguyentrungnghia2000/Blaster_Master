@@ -15,7 +15,7 @@ void Item::Render()
 	if (Time_Active->IsTimeUp() == false)
 	{
 		int ani;
-		if (id <= 5)
+		if (id <= 5 && id!=0)
 		{
 			switch (id)
 			{
@@ -50,10 +50,13 @@ void Item::Render()
 					ani = HROCKET_ANI_TIMEUP;
 				break;
 			}
-
 			animation_set->at(ani)->Render(x, y);
 		}
-		RenderBoundingBox();
+		//RenderBoundingBox();
+	}
+	else
+	{
+		this->IsDead = true;
 	}
 }
 
@@ -63,22 +66,20 @@ Item::Item(float x, float y)
 	this->IsDead = false;
 	random_device rm;
 	mt19937 t(rm());
-	uniform_int_distribution<int>	randi(1,10);
+	uniform_int_distribution<int>	randi(1,15);
 	int random = randi(t);
-	if (random > 5)
+	if (random > 5&&random<8)
 	{
 		id = 1;
 	}
-	else if (random !=1)
+	else if (random >=2&&random<=5)
 	{
 		id = random;
 	}
-	else if (id == 1)
+	else if (random == 1||random>=8)
 	{
 		id = 6;
 	}
-	srand(time(NULL));
-	id = 1 + rand() % 6;
 	this->Time_Active = new Timer(ITEM_TIME_ACTIVE);
 	SetState(ITEM_STATE_ACTIVE);
 	this->x = x;

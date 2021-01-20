@@ -48,11 +48,11 @@ void Boss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		Flange.at(i)->Update_Right(dt,coObjects);
 		Flange2.at(i)->Update_Left(dt, coObjects);
 	}
-	if ((this->x < GameCamera->GetCamx())|| (this->x + BOSS_BBOX_WIDTH > GameCamera->GetCamx() + SCREEN_WIDTH))
+	if (this->x< OVER_X||this->x+BOSS_BBOX_WIDTH>OVER_X+ OVER_WIDTH)
 	{
 		vx = -vx;
 	}
-	if ((this->y + BOSS_BBOX_HEIGHT > GameCamera->GetCamy() + SCREEN_HEIGHT / 2) || (this->y < GameCamera->GetCamy()))
+	if (this->y<OVER_Y||this->y+BOSS_BBOX_HEIGHT>OVER_Y+OVER_HEIGHT/2)
 	{
 		vy = -vy;
 	}
@@ -82,18 +82,18 @@ Boss::Boss(LPGAMEOBJECT target,int posX,int posY)
 	this->EnermiesHealth = BOSS_HEALTH;
 	this->Time_delay_attack = new Timer(TIME_DELAY_ATTACK);
 	RightHand = new BossHand(this->x + BOSS_BBOX_WIDTH - BOSSHAND_BBOX_WIDTH / 2, this->y + FLANGEHAND_BBOX_HEIGHT, 1);
-	LeftHand = new BossHand(this->x - BOSSHAND_BBOX_WIDTH/2, this->y + FLANGEHAND_BBOX_HEIGHT, 2);
+	LeftHand = new BossHand(this->x - BOSSHAND_BBOX_WIDTH / 2, this->y + FLANGEHAND_BBOX_HEIGHT, 2);
 	for (int i = 0; i < 4; i++)
 	{
 		if (i == 0)
 		{
-			Flange.push_back(new FlangeHand(RightHand, this->x + BOSS_BBOX_WIDTH , this->y+FLANGEHAND_BBOX_HEIGHT, i + 1));
-			Flange2.push_back(new FlangeHand(LeftHand, this->x - BOSSHAND_BBOX_WIDTH/2, this->y + FLANGEHAND_BBOX_HEIGHT, i + 1));
+			Flange.push_back(new FlangeHand(RightHand, this->x + BOSS_BBOX_WIDTH, this->y + FLANGEHAND_BBOX_HEIGHT, i + 1));
+			Flange2.push_back(new FlangeHand(LeftHand, this->x - BOSSHAND_BBOX_WIDTH / 2, this->y + FLANGEHAND_BBOX_HEIGHT, i + 1));
 		}
 		else
 		{
 			Flange.push_back(new FlangeHand(Flange.at(i - 1), this->x + BOSS_BBOX_WIDTH, this->y + FLANGEHAND_BBOX_HEIGHT, i + 1));
-			Flange2.push_back(new FlangeHand(Flange2.at(i - 1), this->x - BOSSHAND_BBOX_WIDTH/2, this->y + FLANGEHAND_BBOX_HEIGHT, i + 1));
+			Flange2.push_back(new FlangeHand(Flange2.at(i - 1), this->x - BOSSHAND_BBOX_WIDTH / 2, this->y + FLANGEHAND_BBOX_HEIGHT, i + 1));
 		}
 	}
 	this->Time_move = new Timer(BOSS_TIME_MOVE);

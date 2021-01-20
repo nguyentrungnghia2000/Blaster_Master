@@ -99,7 +99,7 @@ void SkeletonBullet::Render()
 		ani->Render(x, y);
 	else
 		ani_ex->Render(x, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 bool SkeletonBullet::TimeUp()

@@ -8,7 +8,7 @@ Lava::Lava(float w, float h)
 
 void Lava::Render()
 {
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void Lava::GetBoundingBox(float& l, float& t, float& r, float& b)

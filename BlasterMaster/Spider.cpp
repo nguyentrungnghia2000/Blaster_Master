@@ -14,6 +14,10 @@ void Spider::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	srand(time(NULL));
 	//DebugOut(L"%d",randomX);
 	CGameObject::Update(dt, coObjects);
+	if (this->EnermiesHealth == 0) 
+	{
+		this->IsDead = true;
+	}
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	vector<LPGAMEOBJECT>* OnlyBrick = new vector<LPGAMEOBJECT>();
@@ -110,7 +114,7 @@ void Spider::Render()
 	else
 		ani = SPIDER_ANI_WALKING_LEFT;
 	animation_set->at(ani)->Render(x, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 	for (int i = 0; i < Bullet.size(); i++)
 		Bullet.at(i)->Render();
 }
@@ -118,6 +122,7 @@ void Spider::Render()
 Spider::Spider(LPGAMEOBJECT target)
 {
 	this->Target = target;
+	this->EnermiesHealth = ENERMIES_HEALTH;
 	this->time_attack = new Timer(SPIDER_ATTACK_TIME);
 	this->time_dis = new Timer(SPIDER_BULLET_DIS);
 	IsAttack = true;

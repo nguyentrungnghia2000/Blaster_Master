@@ -43,7 +43,7 @@ void BossHand::Render()
 	//animation_set->at(ani)->Render(x, y);
 	ani->Render(x, y);
 	//DebugOut(L"%d \ntoa do: ", this->x);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 BossHand::BossHand(int X, int Y, int type)

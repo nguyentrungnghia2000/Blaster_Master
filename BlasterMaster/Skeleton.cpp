@@ -134,7 +134,7 @@ void Skeleton::Render()
 	}
 	//DebugOut(L"%d\n", state);
 	animation_set->at(ani)->Render(x, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 	for (int i = 0; i < Bullet.size(); i++)
 		Bullet.at(i)->Render();
 }

@@ -15,7 +15,7 @@
 using namespace std;
 #define PLAYER_HEALTH	8
 #define ENERMIES_HEALTH	3
-#define BOSS_HEALTH	8
+#define BOSS_HEALTH	15
 #define ID_TEX_BBOX -100		// special texture to draw object bounding box
 
 class CGameObject;

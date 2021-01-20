@@ -147,7 +147,7 @@ void Robot::Render()
 				ani = ROBOT_ANI_WALKING_LEFT;
 		}
 		animation_set->at(ani)->Render(x, y);
-		RenderBoundingBox();
+		//RenderBoundingBox();
 	}
 }
 

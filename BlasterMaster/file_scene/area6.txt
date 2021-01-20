@@ -718,4 +718,4 @@ Attack_l_r
 
 # --- SCENE PORTAL ----
 # type	l	t	ani_set_id	r	b	scene_id
-#50	115	98	0	148	150	7
+50	450	140	1	460	170	7

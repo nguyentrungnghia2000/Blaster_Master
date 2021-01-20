@@ -149,13 +149,13 @@ void BigHuman::Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 #pragma endregion
 	/*DebugOut(L"moving on ladder : %d\n", isMovingonLadder);
 	DebugOut(L"ladder : %d\n", isLadder);*/
-	/*DebugOut(L"x : %f\n", x);
-	DebugOut(L"y : %f\n", y);*/
+	DebugOut(L"x : %f\n", x);
+	DebugOut(L"y : %f\n", y);
 }
 
 void BigHuman::Render()
 {
-	RenderBoundingBox();
+	//RenderBoundingBox();
 	if (isLadder == false) {
 		if (isActive == true) {
 			if (state == BIGHUMAN_STATE_MOVE_UP)

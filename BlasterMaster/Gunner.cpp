@@ -72,7 +72,7 @@ void Gunner::Render()
 	animation_set->at(ani)->Render(x, y);
 	for (int i = 0; i < Bullet.size(); i++)
 		Bullet.at(i)->Render();
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 Gunner::Gunner()

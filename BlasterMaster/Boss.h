@@ -18,8 +18,11 @@
 #define TIME_DELAY_ATTACK	2000
 #define TIME_ONESHOT	500
 
-#define SCREEN_WIDTH	300
-#define SCREEN_HEIGHT	240
+#define OVER_X	800
+#define OVER_Y	540
+
+#define OVER_WIDTH	180
+#define OVER_HEIGHT	160
 class Boss:public CGameObject
 {
 	BossHand* RightHand;

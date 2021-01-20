@@ -718,7 +718,7 @@ Attack_l_r
 # type	x	y	ani_set_id	extra_settings per object type
 
 #BIG HUMAN
-2	110	1887	2
+2	100	1880	2
 
 #BRICK
 1	0	0	22	32	2040
@@ -751,7 +751,7 @@ Attack_l_r
 14	940	824	14
 
 #BOSS
-60	110	1800	60
+60	800	540	60
 #61	150	1850	61	1
 #61	50	1887	61	2
 

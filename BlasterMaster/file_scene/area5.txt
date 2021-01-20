@@ -692,10 +692,11 @@ Attack_l_r
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
 # CAR
-5	65	100	5
+5	415	1130	5
+#5	174	290	5
 
 #HUMAN
-0	65	100	0
+0	70	1700	0
 
 # BRICK
 23	50	120	23	12	186
@@ -765,11 +766,11 @@ Attack_l_r
 8	310	280	8
 
 #BEE
-9	374	816	9
-9	252	816	9
-9	254	900	9
-8	48	700	9
-9	364	305	9
+9	374	806	9
+9	252	806	9
+9	254	890	9
+9	48	690	9
+9	364	295	9
 
 #MAYBUG
 10	193	365	10
@@ -788,4 +789,4 @@ Attack_l_r
 
 # --- SCENE PORTAL ----
 # type	l	t	ani_set_id	r	b	scene_id
-#50	115	98	0	148	150	6
+50	450	100	1	460	130	6

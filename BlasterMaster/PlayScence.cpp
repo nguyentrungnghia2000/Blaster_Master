@@ -734,8 +734,14 @@ void CPlayScene::Update(DWORD dt)
 		coObjects.push_back(lsItems[i]);
 	}
 	for (size_t i = 0; i < coEnermies.size(); i++) {
-		coObjects.push_back(coEnermies[i]);
+		if(coEnermies[i]->IsDead==false)
+			coObjects.push_back(coEnermies[i]);
+		else
+		{
+			coEnermies.erase(coEnermies.begin() + i);
+		}
 	}
+	DebugOut(L"\nCount:%d", count);
 	for (size_t i = 0; i < lsPlayers.size(); i++) {
 		coObjects.push_back(lsPlayers[i]);
 	}
@@ -825,10 +831,11 @@ void CPlayScene::Update(DWORD dt)
 				coEnermies.erase(coEnermies.begin() + i);
 				Item* item = new Item(ix, iy);
 				lsItems.push_back(item);
+				//DebugOut(L"\nsize item:%d", lsItems.size());
+				//break;
 			}
 		}
 	}
-		
 	for (int i = 0; i < lsBullets.size(); i++) {
 		lsBullets[i]->Update(dt, &coObjects);
 
@@ -839,6 +846,7 @@ void CPlayScene::Update(DWORD dt)
 		if (lsItems[i]->Get_IsDead() == true)
 			lsItems.erase(lsItems.begin() + i);
 	}
+	//DebugOut(L"\nsize item:%d", lsItems.size());
 	if (player->IsDead == true) {
 		//player->y = (CAR_DIE_BBOX_HEIGTH - CAR_BBOX_HEIGHT);
 	}
@@ -897,6 +905,11 @@ void CPlayScene::Render()
 	if (player2 != NULL) {
 		if (player2->isActive == true) {
 			playerHUD->Render(player2);
+		}
+	}
+	if (player3 != NULL) {
+		if (player3->isActive == true) {
+			playerHUD->Render(player3);
 		}
 	}
 }
@@ -1036,7 +1049,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 			human->Reset();
 		}
 		break;
-	case DIK_P:
+	case DIK_Q:
 		if (CGame::GetInstance()->GetIDCurrentScene() == 10)
 			CGame::GetInstance()->SwitchScene(1);
 		else

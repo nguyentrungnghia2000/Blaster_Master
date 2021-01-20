@@ -20,6 +20,9 @@ void Mine::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 void Mine::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
+	if (this->EnermiesHealth == 0) {
+		this->IsDead = true;
+	}
 	vy += BEE_GRAVITY * dt;
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -109,11 +112,12 @@ void Mine::Render()
 	animation_set->at(ani)->Render(x, y);
 	for (int i = 0; i < Bullet.size(); i++)
 		Bullet.at(i)->Render();
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 Mine::Mine()
 {
+	this->EnermiesHealth = ENERMIES_HEALTH;
 	IsBoom = false;
 	this->SetState(MINE_STATE_NORMAL);
 	this->time_dis = new Timer(TIME_DIS);

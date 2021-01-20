@@ -6,8 +6,8 @@
 using namespace std;
 
 
-#define ARTICULAR_POWER_HEALTHBAR_Y				5
-#define ARTICULAR_PLAYER_HEALTHBAR_Y				65
+#define ARTICULAR_POWER_HEALTHBAR_Y				40
+#define ARTICULAR_PLAYER_HEALTHBAR_Y			119
 
 class HUD
 {
